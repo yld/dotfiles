@@ -81,8 +81,6 @@ ZLS_COLORS=$LS_COLORS
 autoload -U promptinit
 promptinit;
 
-autoload -Uz vcs_info
-
 # hosts completion
 local _myhosts
 _myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
@@ -136,7 +134,7 @@ zstyle ':vcs_info:*' branchformat '[%b-%r]'
 # prompt 
 precmd() {
   vcs_info
-  PS1=$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%} %~%{\e[0m%} %{\e[0;31m%}%0(?..%?)%{\e[0m%}%{\e[1;33m%}%1(j.\(%j\).)%{\e[0m%}%# '
+  PS1=$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %{\e[0;31m%}%0(?..%?)%{\e[0m%}%{\e[1;33m%}%1(j.\(%j\).)%{\e[0m%}%# '
   # %j = jobs
   # %? == $?
   RPS1=$'${vcs_info_msg_0_}'
