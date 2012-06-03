@@ -1,0 +1,3 @@
+salias esu="emerge --sync"
+salias eup="emerge -pDuvN world"
+salias eu="emerge -DuvN world"

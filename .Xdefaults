@@ -1,0 +1,14 @@
+urxvt*background : black
+urxvt*foreground : white
+urxvt*font : xft:Bitstream Vera Sans Mono:pixelsize=15
+urxvt*transparent : true
+urxvt*shading : 30
+
+urxvt*saveLines: 10000
+urxvt*scrollBar: false
+
+urxvt*cursorColor: #939393
+urxvt*cursorBlink: true
+urxvt*cursorUnderline: true
+
+urxvt*termName:         rxvt-unicode

@@ -1,0 +1,4 @@
+#!/bin/sh
+mkdir -p $HOME/Src/dotfiles.git/
+git init --bare HOME/Src/dotfiles.git/
+# see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git

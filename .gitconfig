@@ -1,0 +1,15 @@
+[user]
+	name = Yves Le Douaron
+	email = yves.ledouaron@free.fr
+[color]
+	ui = true
+[help]
+	autocorrect = 1
+[core]
+	autocrlf = input
+	editor = vim
+	excludesfile = ~/.cvsignore
+[merge]
+	tool = vimdiff
+[man]
+	viewer = most

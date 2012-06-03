@@ -1,0 +1,8 @@
+alias acs='apt-cache search'
+alias acsh='apt-cache show'
+alias acp='apt-cache policy'
+salias adg="apt-get dist-upgrade"
+salias agi="apt-get install"
+salias ati="aptitude install"
+salias ag="apt-get upgrade"
+salias au="apt-get update"

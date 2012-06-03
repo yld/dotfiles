@@ -1,0 +1,5 @@
+alias emerge="sudo emerge"
+alias eupdatedb="sudo eupdatedb"
+alias etc-update="sudo etc-update"
+alias revdep-rebuild="sudo revdep-rebuild"
+alias dispatch-conf="sudo dispatch-conf"

@@ -1,0 +1,47 @@
+# vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
+
+umask 027
+limit coredumpsize 0
+
+eval `dircolors`
+
+export GREP_OPTIONS='--color=auto'
+
+test -n `command -v vim`  && EDITOR=vim || EDITOR=vi
+export EDITOR
+export CVSEDITOR=$EDITOR
+export VISUAL=$EDITOR
+
+if [[ -x '/usr/bin/most' ]] then
+  export PAGER='/usr/bin/most'
+  export MOST_SWITCHES=" -s"
+  export MOST_EDITOR="$EDITOR +%d %s" 
+elif [[ -x '/usr/bin/less' ]] then
+  export PAGER='/usr/bin/less -FirSwX'
+  #export LESSCHARSET="latin1"
+elif [[ -x '/usr/bin/more' ]] then
+  export PAGER='/usr/bin/more'
+fi
+
+export MANPAGER="$PAGER"
+
+test -d ~/bin && export PATH="$HOME/bin:$PATH"
+
+export RSYNC_RSH=ssh
+
+
+HOSTNAME=`hostname`     
+
+if [ -x  /usr/bin/keychain ] ; then
+        cd ~/.ssh/ ; 
+	CHAIN="" ;
+	for TMP in `ls -f *|grep -v -E "*pub"` ; do
+		if [ -f $TMP -a -f $TMP.pub ] ; then
+			CHAIN="${CHAIN} $TMP" ;
+			keychain  $TMP
+		fi
+	done
+	cd -
+	. ~/.keychain/${HOSTNAME}-sh
+fi
+															

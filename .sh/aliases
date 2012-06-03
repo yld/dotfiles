@@ -1,0 +1,44 @@
+
+alias rm='rm -f'
+
+alias ls='ls --color=auto'
+alias la='ls -A'
+alias ll='ls -l'
+alias lll='/bin/ls -Al --color|less -R'
+
+alias df='df -h'
+alias du='du -h'
+
+
+alias h=history
+alias hg='history | grep'
+
+alias pu=pushd
+alias po=popd
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....="cd ../../.."
+
+alias screen='screen -U'
+
+
+alias w='chmod +w'
+alias x='chmod +x'
+alias r='chmod +r'
+
+# buggy typing
+alias :q='exit'
+
+if [ -x $(which vim) ]; then
+	alias vi=vim
+fi
+
+alias homegit='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
+
+
+
+
+
+
+
