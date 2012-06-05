@@ -124,17 +124,26 @@ bindkey "^R" history-incremental-search-backward # Rechercher
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable bzr cvs git svn 
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
-zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}●%{\e[0m%}'
+zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼▲%{\e[0m%}'
 zstyle ':vcs_info:*' check-for-changes true
 #zstyle ':vcs_info:*' get-revision true
-zstyle ':vcs_info:git*' formats $'%s %r/%S [%b:%i]%m%u%c'
+zstyle ':vcs_info:git*' formats $'%s %r/%S [%b:%i]%m%c%u'
 zstyle ':vcs_info:*' branchformat '[%b-%r]'
+
+function +vi-git-stash() {
+  local -a stashes
+
+  if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
+    stashes=$(git stash list 2>/dev/null | wc -l)
+    hook_com[misc]+=" (${stashes} stashed)"
+  fi
+}
 #PROMPT=$'%h %{\e[1;34m%}%n@%m %{\e[0;35m%} %~%{\e[0m%} %# '
 
 # prompt 
 precmd() {
   vcs_info
-  PS1=$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %{\e[0;31m%}%0(?..%?)%{\e[0m%}%{\e[1;33m%}%1(j.\(%j\).)%{\e[0m%}%# '
+  PS1=$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %{\e[30;41m%}%0(?..%?)%{\e[0m%}%{\e[30;43m%}%1(j.%j.)%{\e[0m%}# '
   # %j = jobs
   # %? == $?
   RPS1=$'${vcs_info_msg_0_}'
