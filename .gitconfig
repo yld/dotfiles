@@ -13,3 +13,9 @@
 	tool = vimdiff
 [man]
 	viewer = most
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	last = log -1 HEAD
