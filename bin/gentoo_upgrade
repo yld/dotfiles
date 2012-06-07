@@ -1,0 +1,20 @@
+#!/bin/sh
+
+emerge -DuvN world || ( 
+until emerge --resume --skipfirst; 
+do
+	emerge --resume --skipfirst ;
+done ;
+echo "Initial emerge failed"
+)
+
+revdep-rebuild || (
+until emerge --resume --skipfirst; 
+do
+  emerge --resume --skipfirst ;
+done ;
+echo "Initial revdep-rebuild failed"
+)
+
+updatedb &
+
