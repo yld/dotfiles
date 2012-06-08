@@ -106,6 +106,10 @@ zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character t
 zstyle ':completion:*' max-errors 2 numeric
 zstyle ':completion:*' prompt '%e'
 zstyle ':completion:*' use-compctl true
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*' force-list always
+zstyle ':completion:*' squeeze-slashes true
+
 zstyle :compinstall filename '/home/yves/.zshrc'
 
 autoload -Uz compinit
@@ -128,11 +132,28 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
 #zstyle ':vcs_info:git*' formats "(%s) %i %c%u %b%m"
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m%c%u"
+#zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m%c%u"
+zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
-zstyle ':vcs_info:git*+set-message:*' hooks git-st git-stash
-#git-untracked
+zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
+
+function +vi-git-icons() {
+  local stashes untracked_count staged_count
+
+  if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
+    stashes=$(git stash list 2>/dev/null | wc -l)
+    hook_com[misc]+="%{$fg[green]%}▲(${stashes})%{$reset_color%}"
+  fi
+  staged_count=${$(git status -s -uno |wc -l)}
+  if [[ $staged_count != "0" ]] ; then
+    hook_com[misc]+="%{$fg[yellow]%}●($staged_count)%{$reset_color%}"
+  fi
+  untracked_count=${$(git ls-files --exclude-standard --others --directory --no-empty-directory | wc -l )}
+  if [[ $untracked_count != "0" ]] ; then
+    hook_com[misc]+="%{$fg[red]%}◼($untracked_count)%{$reset_color%}"
+  fi
+}
 
 function +vi-git-stash() {
   local -a stashes
@@ -167,28 +188,17 @@ function +vi-git-st() {
     fi
 }
 
-function +vi-git-untracked() {
-    local untracked
-
-    #check if there's at least 1 untracked file
-    untracked=${$(git ls-files --exclude-standard --others | head -n 1)}
-
-    if [[ -n ${untracked} ]] ; then
-        hook_com[unstaged]="${hook_com[unstaged]}${yellow}?${gray}"
-    fi
-}
-
-#PROMPT=$'%h %{\e[1;34m%}%n@%m %{\e[0;35m%} %~%{\e[0m%} %# '
 
 # prompt
 precmd() {
   vcs_info
   PS1=$''
   if [[ -n ${vcs_info_msg_0_} ]] then
-    PS1=$PS1$'${vcs_info_msg_0_}
-'
+    PS1=$PS1"${vcs_info_msg_0_}
+"
   fi
-  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %{\e[30;41m%}%0(?..%?)%{\e[0m%}%{\e[30;43m%}%1(j.%j.)%{\e[0m%}# '
+  #PS1=$PS1"%h %(!.%{$'\e[0;31m'%}%n@%m%{$reset_color%}.%{$fg[blue]%}%n@%m%{$reset_color%}) %{$fg[magenta]%}%~%{$reset_color%} %0(?..%{$bg[red]%}%?%{$reset_color%} )%1(j.%{$bg[yellow]%}%j%{$reset_color%} .)# "
+  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %0(?..%{\e[30;41m%}%?%{\e[0m%} )%1(j.%{\e[30;43m%}%j%{\e[0m%} .)# '
   # %j = jobs
   # %? == $?
   #RPS1=$'${vcs_info_msg_0_}'

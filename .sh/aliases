@@ -34,7 +34,7 @@ if [ -x $(which vim) ]; then
 	alias vi=vim
 fi
 
-alias homegit='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
+alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
 
 
 

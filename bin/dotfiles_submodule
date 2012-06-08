@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+if [[ $# -ne 2 ]]; then
+  echo "Usage: `basename $0` git-src destination"
+  exit 1
+fi
+
+SRC=$1
+DST=$2
+
+git clone "$SRC" "$DST"
+dotfiles submodule add "$SRC" "$DST"

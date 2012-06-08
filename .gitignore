@@ -2,6 +2,7 @@
 !bin/
 !.bash/
 !.ruby/
+!.sh/
 !.vim/
 .vim/.netrwhist
 
