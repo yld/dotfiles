@@ -1,0 +1,6 @@
+#!/bin/sh
+emerge --sync
+#layman -s
+eix-update &
+
+

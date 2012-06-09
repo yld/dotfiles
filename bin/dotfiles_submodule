@@ -10,10 +10,14 @@ fi
 SRC=$1
 DST=$2
 
+cd $HOME
 if [[ -d $DST ]]
 then
-  echo -e "\e[1;31m $DST already exists, exiting"
-  exit 2
+  echo -e "\e[1;30m $DST already exists, removing\e[0m"
+  rm -Rf $HOME/$DST
+  git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME rm  $DST
+  echo -e "\e[1;31m $DST already exists, exiting\e[0m"
+  #cd - && exit 2
 fi
 
 #DOTFILES='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
@@ -22,7 +26,6 @@ echo "Cloning ${SRC} to ${DST}...\n"
 git clone "$SRC" "$DST"
 [[ $? -eq 0 ]] || (echo -e "\e[1;31m failed !" && exit 3)
 echo -e "\n\e[1;32mSucceded !\e[0m"
-cd $HOME
 echo "\nMaking ${DST} a submodule...\n"
 git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME submodule add "$SRC" "$DST"
 [[ $? -eq 0 ]] || (echo -e "\n\e[1;31m failed !" && cd - && exit 3)

@@ -8,7 +8,7 @@ then
 #echo "result $SUBMODULE_INSTALL"
 
   cd $2
-  vim -e . "+:helpt ." "+:q"
+  vim -e . "+:helpt ." "+:q!"
   cd -
   exit 0
 else

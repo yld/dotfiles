@@ -1,24 +1,27 @@
-[submodule "/home/yves/.vim/bundle/vim-rails"]
-	path = /home/yves/.vim/bundle/vim-rails
+[submodule ".vim/bundle/vim-rails"]
+	path = .vim/bundle/vim-rails
 	url = git://github.com/tpope/vim-rails.git
-[submodule "/home/yves/.vim/bundle/nerdtree"]
-	path = /home/yves/.vim/bundle/nerdtree
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
-[submodule "/home/yves/.vim/bundle/vim-repeat"]
-	path = /home/yves/.vim/bundle/vim-repeat
+[submodule ".vim/bundle/vim-repeat"]
+	path = .vim/bundle/vim-repeat
 	url = git://github.com/tpope/vim-repeat.git
-[submodule "/home/yves/.vim/bundle/vim-surround"]
-	path = /home/yves/.vim/bundle/vim-surround
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "/home/yves/.vim/bundle/vim-commentary"]
-	path = /home/yves/.vim/bundle/vim-commentary
+[submodule ".vim/bundle/vim-commentary"]
+	path = .vim/bundle/vim-commentary
 	url = git://github.com/tpope/vim-commentary.git
-[submodule "/home/yves/.vim/bundle/tag-list-plus"]
-	path = /home/yves/.vim/bundle/tag-list-plus
+[submodule ".vim/bundle/tag-list-plus"]
+	path = .vim/bundle/tag-list-plus
 	url = git://github.com/johnbintz/vim-taglist-plus.git
-[submodule "/home/yves/.vim/bundle/vim-cucumber"]
-	path = /home/yves/.vim/bundle/vim-cucumber
+[submodule ".vim/bundle/vim-cucumber"]
+	path = .vim/bundle/vim-cucumber
 	url = git://github.com/tpope/vim-cucumber.git
-[submodule "/home/yves/.vim/bundle/vim-latex"]
-	path = /home/yves/.vim/bundle/vim-latex
+[submodule ".vim/bundle/vim-latex"]
+	path = .vim/bundle/vim-latex
 	url = git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
+[submodule ".vim/bundle/vim-commentar"]
+	path = .vim/bundle/vim-commentar
+	url = git://github.com/tpope/vim-commentary.git
