@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+~/bin/dotfiles_submodule $@
+
+if [[ $? -eq 0 ]]
+then
+
+#echo "result $SUBMODULE_INSTALL"
+
+  cd $2
+  vim -e . "+:helpt ." "+:q"
+  cd -
+  exit 0
+else
+  exit 1
+fi
+

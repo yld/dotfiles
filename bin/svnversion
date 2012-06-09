@@ -1,0 +1,2 @@
+#!/bin/sh
+svn status -v $1 | sed -n 's/^[ A-Z?\*|!]\{1,15\}//;s/ .*//p'

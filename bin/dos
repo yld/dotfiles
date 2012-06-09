@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#. findwine
+wine cmd ${PARAM:+"$PARAM"}

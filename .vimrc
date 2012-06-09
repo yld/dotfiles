@@ -1,4 +1,5 @@
 call pathogen#infect()
+call pathogen#helptags()
 filetype on                   " Enable filetype detection
 filetype indent on            " Enable filetype-specific indenting
 filetype plugin on            " Enable filetype-specific plugins
