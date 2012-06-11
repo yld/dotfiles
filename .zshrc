@@ -127,6 +127,7 @@ bindkey "^R" history-incremental-search-backward # Rechercher
 # vcs
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable bzr cvs git svn
+zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
@@ -147,7 +148,7 @@ function +vi-git-icons() {
   fi
   staged_count=${$(git status -s -uno |wc -l)}
   if [[ $staged_count != "0" ]] ; then
-    hook_com[misc]+="%{$fg[yellow]%}●($staged_count)%{$reset_color%}"
+    hook_com[misc]+="%{$fg_bold[yellow]%}●($staged_count)%{$reset_color%}"
   fi
   untracked_count=${$(git ls-files --exclude-standard --others --directory --no-empty-directory | wc -l )}
   if [[ $untracked_count != "0" ]] ; then
