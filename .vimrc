@@ -1,43 +1,96 @@
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-" Bundle: tpope/vim-pathogen
+"runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 call pathogen#infect()
 call pathogen#helptags()
+
+" > General
+set history=700
+set autoread                  " watch for file changes
+
 filetype on                   " Enable filetype detection
 filetype indent on            " Enable filetype-specific indenting
 filetype plugin on            " Enable filetype-specific plugins
-compiler ruby                 " Enable compiler support for ruby
 
-"  searching
-set incsearch                 " incremental search
+let mapleader = ","
+let g:mapleader = ","
 
-set mousehide
-
-set smartindent
-set autoindent
-
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-syntax on
-set ruler                     " show the line number on the bar
-set more                      " use more prompt
-set autoread                  " watch for file changes
-
-set encoding=utf-8
-
+" > UI
+set so=7
 " Show autocomplete menus.
 set wildmenu
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc,*.rubyc,*.zip,*.xz,*.gz,*bz2,*.bzip2
+" show the line number on the bar
+set ruler
+" use more prompt
+set more
+" Height of the command bar
+set cmdheight=2
+" A buffer becomes hidden when it is abandoned
+set hid
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" For regular expressions turn magic on
+set magic
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second to blink when matching brackets
+set mat=2
 
 " Show editing mode
 set showmode
 
 " Error bells are displayed visually.
 set visualbell
+" No annoying sound on errors
+set noerrorbells
+"set t_vb=
+"set tm=500
 
-set wildmenu
+" => Files, backups and undo
+set nobackup
 
+compiler ruby                 " Enable compiler support for ruby
+
+"  > searching
+" incremental search
+set incsearch
+" Highlight search results
+set hlsearch
+set mousehide
+
+" >
+syntax on
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+set encoding=utf-8
+
+" > Text, tab and indent related
+set tabstop=2
+set shiftwidth=2
+" Use spaces instead of tabs
+set expandtab
+" Be smart when using tabs ;)
+set smarttab
+
+set smartindent
+set autoindent
+"Wrap lines
+set wrap
+
+" > Mappings
+" Simplify help navigation
+nnoremap <buffer> <CR> <C-]>
+nnoremap <buffer> <BS> <C-T>
+nnoremap <buffer> o /'\l\{2,\}'<CR>
+nnoremap <buffer> O ?'\l\{2,\}'<CR>
+nnoremap <buffer> s /\|\zs\S\+\ze\|<CR>
+nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
+
+" > Plugins
 " Bundle: kien/ctrlp.vim
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 2
@@ -49,19 +102,25 @@ let g:ctrlp_custom_ignore = {
 " Bundle: tpope/vim-rails
 " Bundle: tpope/vim-surround
 " Bundle: tpope/vim-commentary
-" Bundle: johnbintz/vim-taglist-plus
-" Bundle: tpope/vim-cucumber
+" Bundle: majutsushi/tagbar
 " Bundle: tpope/vim-repeat
 " Bundle: scrooloose/nerdtree
 " Bundle: git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
 " Bundle: Lokaltog/vim-powerline
 " Bundle: benmills/vimux
-" Bundle: zaiste/tmux.vim
-" Bundle: tpope/vim-haml
-" Bundle: kchmck/vim-coffee-script
 " Bundle: tpope/vim-fugitive
 " Bundle: vim-scripts/greplace.vim
 " Bundle: tpope/vim-bundler
-" Bundle: vim-scripts/Puppet-Syntax-Highlighting
-" Bundle: plasticboy/vim-markdown
 " Bundle: rosenfeld/conque-term
+" Bundle: fholgado/minibufexpl.vim
+" Bundle: chrisbra/vim_faq
+
+" Syntax
+" Bundle: tpope/vim-cucumber
+" Bundle: plasticboy/vim-markdown
+" Bundle: kchmck/vim-coffee-script
+" Bundle: tpope/vim-haml
+" Bundle: zaiste/tmux.vim
+" Bundle: vim-scripts/Puppet-Syntax-Highlighting
+
+" http://amix.dk/vim/vimrc.html
