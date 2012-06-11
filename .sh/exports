@@ -30,18 +30,6 @@ test -d ~/bin && export PATH="$HOME/bin:$PATH"
 export RSYNC_RSH=ssh
 
 
-HOSTNAME=`hostname`     
+[[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`     
 
-if [ -x  /usr/bin/keychain ] ; then
-        cd ~/.ssh/ ; 
-	CHAIN="" ;
-	for TMP in `ls -f *|grep -v -E "*pub"` ; do
-		if [ -f $TMP -a -f $TMP.pub ] ; then
-			CHAIN="${CHAIN} $TMP" ;
-			keychain  $TMP
-		fi
-	done
-	cd -
-	. ~/.keychain/${HOSTNAME}-sh
-fi
 															

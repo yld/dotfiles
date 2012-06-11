@@ -1,5 +1,5 @@
-
 # puppet module creation
+
 # $1 = module name
 mk_puppet_module () {
   if [[ $# = 1 ]] ; then

@@ -1,2 +1,0 @@
-alias apt-get="sudo apt-get"
-alias dpkg="sudo dpkg"

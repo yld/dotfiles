@@ -11,7 +11,7 @@ alias du='du -h'
 
 
 alias h=history
-alias hg='history | grep'
+alias hg='fc -l 0|grep '
 
 alias pu=pushd
 alias po=popd
@@ -19,6 +19,9 @@ alias po=popd
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....="cd ../../.."
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias .......='cd ../../../../../..'
 
 alias screen='screen -U'
 
@@ -31,7 +34,7 @@ alias r='chmod +r'
 alias :q='exit'
 
 if [ -x $(which vim) ]; then
-	alias vi=vim
+  alias vi=vim
 fi
 
 alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'

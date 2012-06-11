@@ -61,8 +61,11 @@ setopt PROMPT_SUBST
 test -r ~/.sh/aliases && source ~/.sh/aliases
 
 # zsh specific aliases
-alias -g L='|less '
-alias -g G='|grep '
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g L="| less"
+alias -g M="| most"
 alias suzsh='su -p -s /bin/zsh'
 
 #alias screen='nohup screen'
@@ -205,5 +208,6 @@ precmd() {
   #RPS1=$'${vcs_info_msg_0_}'
 }
 
-
+# end zsh specific stuff
+. ~/.sh/rc.sh
 
