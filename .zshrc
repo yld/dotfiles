@@ -55,7 +55,7 @@ setopt NOGLOBDOTS
 ### prompt ###
 setopt PROMPT_BANG
 setopt PROMPT_PERCENT
-setopt PROMPT_SUBST
+#setopt PROMPT_SUBST
 
 # aliases
 test -r ~/.sh/aliases && source ~/.sh/aliases
@@ -71,6 +71,7 @@ alias suzsh='su -p -s /bin/zsh'
 #alias screen='nohup screen'
 alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
+alias mkdir='nocorrect mkdir'
 
 if [[ -r /etc/gentoo-release ]] ; then
 
@@ -79,7 +80,6 @@ elif [[ -r /etc/debian-release ]]; then
 fi
 
 ZLS_COLORS=$LS_COLORS
-
 
 autoload -U promptinit
 promptinit;
@@ -104,6 +104,7 @@ fpath=(~/.zsh/Completion $fpath)
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
+zmodload -i zsh/complist
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' max-errors 2 numeric
@@ -137,7 +138,8 @@ zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
 #zstyle ':vcs_info:git*' formats "(%s) %i %c%u %b%m"
 #zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m%c%u"
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m"
+zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}%S%{$reset_color%} %m"
+#-[%12.12i %b]
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
@@ -192,6 +194,28 @@ function +vi-git-st() {
     fi
 }
 
+
+# hooks
+chpwd() {
+  [[ -o interactive ]] || return
+  # escape '%' chars in $1, make nonprintables visible
+  #   a=${(V)1//\%/\%\%}
+  #
+  #     # Truncate command, and join lines.
+  #       a=$(print -Pn "%40>...>$a" | tr -d "\n")
+  case $TERM in
+    sun-cmd)
+      print -Pn "\e]l%~\e\\"
+    ;;
+    screen)
+      print -Pn "\ek$a:$3\e\\"      # screen title (in ^A")
+    ;;
+    *xterm*|*rxvt|(dt|k|E)term|konsole)
+      print -Pn "\e]2;%~\a"
+      #print -Pn "\e]2;$2 | $a:$3\a" # plain xterm title
+    ;;
+  esac
+}
 
 # prompt
 precmd() {

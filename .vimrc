@@ -78,6 +78,12 @@ set smarttab
 
 set smartindent
 set autoindent
+
+" gui paste fix (http://vim.wikia.com/wiki/Toggle_auto-indenting_for_code_paste)
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
 "Wrap lines
 set wrap
 
@@ -114,6 +120,7 @@ let g:ctrlp_custom_ignore = {
 " Bundle: rosenfeld/conque-term
 " Bundle: fholgado/minibufexpl.vim
 " Bundle: chrisbra/vim_faq
+" Bundle: vim-scripts/vimwiki
 
 " Syntax
 " Bundle: tpope/vim-cucumber

@@ -12,6 +12,12 @@ export EDITOR
 export CVSEDITOR=$EDITOR
 export VISUAL=$EDITOR
 
+if [[ -x /usr/bin/lesspipe.sh ]] ; then
+  export LESSOPEN="|lesspipe.sh %s"
+elif [[ -x /usr/bin/lesspipe ]] ; then
+  export LESSOPEN="|lesspipe %s"
+fi
+
 if [[ -x '/usr/bin/most' ]] then
   export PAGER='/usr/bin/most'
   export MOST_SWITCHES=" -s"

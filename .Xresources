@@ -1,3 +1,8 @@
+! Xterm
+XTerm*background : black
+XTerm*foreground : white
+XTerm*cursorColor : green
+
 urxvt*background : black
 urxvt*foreground : white
 urxvt*transparent : true

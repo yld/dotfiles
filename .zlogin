@@ -18,13 +18,10 @@
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
 
-uname -a
-uptime
 mesg y
 
-#case "`tty`" in /dev/tty[1-6]*)
-##    setleds +num
-##esac
-#
+case "`tty`" in /dev/tty[1-6]*)
+  setleds +num
+esac
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
