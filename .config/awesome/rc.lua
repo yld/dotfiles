@@ -7,6 +7,9 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
+-- vicious
+require("vicious")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -34,7 +37,8 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+-- beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
@@ -95,6 +99,44 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
+-- {{{ Wibox
+--  Network usage widget
+-- Wireless widget
+wirelessicon = widget({ type = "imagebox" })
+wirelessicon.image = image(beautiful.wireless_net)
+
+wirelessnetwidget = widget({ type = "textbox" })
+vicious.register(wirelessnetwidget, vicious.widgets.net, 'wlan0:<span color="#CC9393">${wlan0 down_kb}</span> <span color="#7F9F7F">${wlan0 up_kb}</span>', 3)
+
+wireicon = widget({ type = "imagebox" })
+wireicon.image = image(beautiful.wire_net)
+
+wirenetwidget = widget({ type = "textbox" })
+vicious.register(wirenetwidget, vicious.widgets.net, 'eth0:<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
+
+-- Memory  widget
+memwidget = awful.widget.progressbar()
+-- Progressbar properties
+memwidget:set_width(24)
+memwidget:set_height(10)
+memwidget:set_vertical(true)
+memwidget:set_background_color("#494B4F")
+memwidget:set_border_color(nil)
+memwidget:set_color("#AECF96")
+memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+-- Register widget
+vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
+
+-- Initialize widget
+cpuwidget = awful.widget.graph()
+-- Graph properties
+cpuwidget:set_width(50)
+cpuwidget:set_background_color("#494B4F")
+cpuwidget:set_color("#FF5656")
+cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+-- Register widget
+vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+
 mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
@@ -176,6 +218,12 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
+        wirelessnetwidget,
+        wirelessicon,
+        wirenetwidget,
+        wireicon,
+        cpuwidget,
+        memwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft

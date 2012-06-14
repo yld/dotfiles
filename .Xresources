@@ -1,10 +1,32 @@
+! Default
+*background : black
+*foreground : white
+*cursorColor : green
+*font: 9x15
+! Terminus:11 
+! xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=13
+!xft:Terminus:11
+*loginShell: true
 ! Xterm
 XTerm*background : black
 XTerm*foreground : white
 XTerm*cursorColor : green
 
-urxvt*background : black
-urxvt*foreground : white
+! Urxvt
+URxvt*termName:xterm
+URxvt.urgentOnBell: True
+
+URxvt.perl-ext-common:  default,matcher,tabbed
+URxvt.urlLauncher:      /usr/bin/firefox
+URxvt.matcher.button:   1
+
+URxvt.tabbed.tabbar-fg: 2
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg:    3
+URxvt.tabbed.tab-bg:    0
+
+!urxvt*background : black
+!urxvt*foreground : white
 urxvt*transparent : true
 urxvt*shading : 30
 
