@@ -1,8 +1,12 @@
 ! Default
 *background : black
 *foreground : white
-*cursorColor : green
-*font: 9x15
+*cursorColor : darkorange1
+*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=14
+Monospace
+!DejaVu Sans Mono
+!*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=16
+!*font: 9x15
 ! Terminus:11 
 ! xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=13
 !xft:Terminus:11
@@ -16,25 +20,26 @@ XTerm*cursorColor : green
 URxvt*termName:xterm
 URxvt.urgentOnBell: True
 
-URxvt.perl-ext-common:  default,matcher,tabbed
+URxvt.perl-ext-common:  default,matcher
+!,tabbed
 URxvt.urlLauncher:      /usr/bin/firefox
 URxvt.matcher.button:   1
 
-URxvt.tabbed.tabbar-fg: 2
-URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg:    3
-URxvt.tabbed.tab-bg:    0
+!URxvt.tabbed.tabbar-fg: 3
+!URxvt.tabbed.tabbar-bg: 0
+!URxvt.tabbed.tab-fg:    3
+!URxvt.tabbed.tab-bg:    0
 
 !urxvt*background : black
 !urxvt*foreground : white
 urxvt*transparent : true
-urxvt*shading : 30
+urxvt*shading : 20
 
 urxvt*saveLines: 10000
 urxvt*scrollBar: false
 
 urxvt*cursorColor: #939393
 urxvt*cursorBlink: true
-urxvt*cursorUnderline: true
+urxvt*cursorUnderline: false
 
 urxvt*termName:         rxvt-unicode

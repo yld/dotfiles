@@ -7,7 +7,7 @@ if [ -x  /usr/bin/keychain ] ; then
 	for TMP in `ls -f *|grep -v -E "*pub"` ; do
 		if [ -f $TMP -a -f $TMP.pub ] ; then
 			CHAIN="${CHAIN} $TMP" ;
-			keychain  $TMP
+			keychain -q  $TMP
 		fi
 	done
 	cd -

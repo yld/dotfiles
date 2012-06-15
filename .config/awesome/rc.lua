@@ -41,9 +41,10 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
+rxvt = "urxvt"
 terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
-editor_cmd = terminal .. " -e " .. editor
+editor_cmd = rxvt .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -83,12 +84,13 @@ end
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   --{ "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "open rxvt", rxvt }
                                     { "open terminal", terminal }
                                   }
                         })
@@ -115,13 +117,14 @@ wirenetwidget = widget({ type = "textbox" })
 vicious.register(wirenetwidget, vicious.widgets.net, 'eth0:<span color="#CC9393">${eth0 down_kb}</span> <span color="#7F9F7F">${eth0 up_kb}</span>', 3)
 
 -- Memory  widget
-memwidget = awful.widget.progressbar()
+memwidget = awful.widget.graph()
+--memwidget = awful.widget.progressbar()
 -- Progressbar properties
 memwidget:set_width(24)
-memwidget:set_height(10)
-memwidget:set_vertical(true)
+--memwidget:set_height(10)
+--memwidget:set_vertical(true)
 memwidget:set_background_color("#494B4F")
-memwidget:set_border_color(nil)
+--memwidget:set_border_color(nil)
 memwidget:set_color("#AECF96")
 memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
 -- Register widget

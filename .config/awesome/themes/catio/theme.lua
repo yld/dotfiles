@@ -78,8 +78,8 @@ theme.taglist_squares_unsel = ".config/awesome/themes/catio/taglist/squarez.png"
 
 -- {{{ Misc
 theme.awesome_icon           = ".config/awesome/themes/catio/awesome-icon.png"
-theme.menu_submenu_icon      = ".config/awesome/themes/default/submenu.png"
-theme.tasklist_floating_icon = ".config/awesome/themes/default/tasklist/floatingw.png"
+theme.menu_submenu_icon      = ".config/awesome/themes/catio/submenu.png"
+theme.tasklist_floating_icon = ".config/awesome/themes/catio/tasklist/floatingw.png"
 -- }}}
 
 -- {{{ Layout
