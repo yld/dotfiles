@@ -1,0 +1,12 @@
+#!/bin/sh
+
+GEM_NAME=$1
+bundle gem $GEM_NAME
+cd $GEM_NAME
+sed -i "s/TODO/$GEM_NAME/g" ${GEM_NAME}.gemspec
+echo '*.swp' >> .gitignore
+echo '*.gem' >> .gitignore
+git add .gitignore ${GEM_NAME}.gemspec
+git commit -m "$GEM_NAME intialization"
+gem build ${GEM_NAME}.gemspec
+gem install ${GEM_NAME}*.gem

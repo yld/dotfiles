@@ -3,6 +3,7 @@ alias rm='rm -f'
 
 alias ls='ls --color=auto'
 alias la='ls -A'
+alias lla='ls -lA'
 alias ll='ls -l'
 alias lll='/bin/ls -Al --color|less -R'
 
@@ -38,6 +39,7 @@ if [ -x $(which vim) ]; then
 fi
 
 alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
+alias hebexfiles='git --git-dir=$HOME/Src/hebexfiles.git/ --work-tree=$HOME'
 
 
 

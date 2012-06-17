@@ -123,10 +123,15 @@ compinit -u
 autoload -U colors && colors
 
 # home, end & Co
+# konsole
 bindkey "\e[H" beginning-of-line # Début
 bindkey "\e[F" end-of-line # Fin
 bindkey "\e[3~" delete-char
 bindkey "^R" history-incremental-search-backward # Rechercher
+# urxvt 
+bindkey "^[[7~" beginning-of-line # Début
+bindkey "^[[8~" end-of-line # Fin
+bindkey "^[[3~" delete-char
 
 # vcs
 autoload -Uz vcs_info

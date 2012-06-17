@@ -1,9 +1,9 @@
 ! Default
 *background : black
 *foreground : white
-*cursorColor : darkorange1
+*cursorColor : yellow
 *font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=14
-Monospace
+! Monospace
 !DejaVu Sans Mono
 !*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=16
 !*font: 9x15
@@ -15,9 +15,14 @@ Monospace
 XTerm*background : black
 XTerm*foreground : white
 XTerm*cursorColor : green
+URxvt.cursorColor:      #e0e080
 
 ! Urxvt
+URxvt.selection.pattern-0: ([^"&'()*,;<=>?@[\\\\]^`{|})]+)
+URxvt.selection.pattern-1: ^(/[^:]+):\
+
 URxvt*termName:xterm
+#urxvt*termName:         rxvt-unicode
 URxvt.urgentOnBell: True
 
 URxvt.perl-ext-common:  default,matcher
@@ -42,4 +47,4 @@ urxvt*cursorColor: #939393
 urxvt*cursorBlink: true
 urxvt*cursorUnderline: false
 
-urxvt*termName:         rxvt-unicode
+

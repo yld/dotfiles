@@ -6,8 +6,7 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
-
--- vicious
+-- Vicious
 require("vicious")
 
 -- {{{ Error handling
@@ -42,7 +41,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 rxvt = "urxvt"
-terminal = "xterm"
+terminal = "urxvt"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = rxvt .. " -e " .. editor
 
@@ -84,16 +83,17 @@ end
 -- Create a laucher widget and a main menu
 myawesomemenu = {
    { "manual", terminal .. " -e man awesome" },
-   --{ "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open rxvt", rxvt }
-                                    { "open terminal", terminal }
-                                  }
-                        })
+mymainmenu = awful.menu({ items = { 
+  { "awesome", myawesomemenu, beautiful.awesome_icon },
+  { "open rxvt", rxvt },
+  { "open terminal", terminal }
+  }
+})
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
