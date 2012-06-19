@@ -2,14 +2,9 @@
 *background : black
 *foreground : white
 *cursorColor : yellow
-*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=14
+*font: xft:Monospace:style=Regular:pixelsize=13
+!*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=14
 ! Monospace
-!DejaVu Sans Mono
-!*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=16
-!*font: 9x15
-! Terminus:11 
-! xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=13
-!xft:Terminus:11
 *loginShell: true
 ! Xterm
 XTerm*background : black
@@ -18,11 +13,11 @@ XTerm*cursorColor : green
 URxvt.cursorColor:      #e0e080
 
 ! Urxvt
-URxvt.selection.pattern-0: ([^"&'()*,;<=>?@[\\\\]^`{|})]+)
-URxvt.selection.pattern-1: ^(/[^:]+):\
+! URxvt.selection.pattern-0: ([^"&'()*,;<=>?@[\\\\]^`{|})]+)
+! URxvt.selection.pattern-1: ^(/[^:]+):\
 
 URxvt*termName:xterm
-#urxvt*termName:         rxvt-unicode
+! urxvt*termName:         rxvt-unicode
 URxvt.urgentOnBell: True
 
 URxvt.perl-ext-common:  default,matcher

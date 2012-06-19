@@ -75,7 +75,8 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+    tags[s] = awful.tag({"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}, s, layouts[1])
 end
 -- }}}
 
@@ -102,7 +103,65 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- {{{ Wibox
 -- Create a textclock widget
 -- {{{ Wibox
+
+-- Icons
+
+mycpuicon        = widget({ type = "imagebox", name = "mycpuicon" })
+mycpuicon.image  = image(beautiful.widget_cpu)
+
+
+myneticon         = widget({ type = "imagebox", name = "myneticon" })
+myneticonup       = widget({ type = "imagebox", name = "myneticonup" })
+
+myneticonup.image = image(beautiful.widget_netup)
+myneticon.image   = image(beautiful.widget_net)
+
+myvolicon       = widget({ type = "imagebox", name = "myvolicon" })
+myvolicon.image = image(beautiful.widget_vol)
+
+mymusicicon     = widget({ type = "imagebox", name = "mymusicicon"})
+mymusicicon.image = image(beautiful.widget_music)
+
+myspacer         = widget({ type = "textbox", name = "myspacer" })
+myseparator      = widget({ type = "textbox", name = "myseparator" })
+
+myspacer.text    = " "
+myseparator.text = "|"
+
+mydiskicon         = widget({ type = "imagebox", name = "mydiskicon" })
+mydiskicon.image   = image(beautiful.widget_fs)
+
+mytimeicon       = widget({ type = "imagebox", name = "mytimeicon" })
+mytimeicon.image = image(beautiful.widget_time)
+
+mymemicon       = widget({ type = "imagebox", name = "mymemicon" })
+mymemicon.image = image(beautiful.widget_mem)
+
 --  Network usage widget
+function print_net(name, down, up)
+  return '<span color="'
+  .. "#CC9393" ..'">' .. down .. '</span> <span color="'
+  .. "#7F9F7F" ..'">' .. up .. '</span>'
+end
+
+dnicon = widget({ type = "imagebox" })
+upicon = widget({ type = "imagebox" })
+
+-- Initialize widget
+netwidget = widget({ type = "textbox" })
+-- Register widget
+vicious.register(netwidget, vicious.widgets.net,
+function (widget, args)
+  for _,device in pairs({'eth0', 'wlan0'}) do
+    if tonumber(args["{".. device .." carrier}"]) > 0 then
+      netwidget.found = true
+      dnicon.image = image(beautiful.widget_down)
+      upicon.image = image(beautiful.widget_up)
+      return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
+    end
+  end
+end, 3)
+
 -- Wireless widget
 wirelessicon = widget({ type = "imagebox" })
 wirelessicon.image = image(beautiful.wireless_net)
@@ -141,6 +200,8 @@ cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
 vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
 
 mytextclock = awful.widget.textclock({ align = "right" })
+datewidget = widget({ type = "textbox" })
+vicious.register(datewidget, vicious.widgets.date, "%d/%m %T", 1)
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -220,14 +281,16 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock,
-        wirelessnetwidget,
-        wirelessicon,
-        wirenetwidget,
-        wireicon,
-        cpuwidget,
-        memwidget,
         s == 1 and mysystray or nil,
+        -- mytextclock, 
+        datewidget, mytimeicon, 
+        -- wirelessnetwidget,
+        -- wirelessicon,
+        -- wirenetwidget,
+        -- wireicon,
+        dnicon.image and myseparator, upicon, netwidget, dnicon or nil,
+        myseparator, cpuwidget, mycpuicon,
+        myseparator, memwidget, mymemicon,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -380,6 +443,8 @@ awful.rules.rules = {
                      focus = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
+    { rule = { class = "vlc" },
+      properties = { floating = true } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
