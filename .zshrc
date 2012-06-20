@@ -68,7 +68,9 @@ alias -g L="| less"
 alias -g M="| most"
 alias suzsh='su -p -s /bin/zsh'
 
-#alias screen='nohup screen'
+alias screen='nohup screen'
+alias screen='nohup tmux'
+
 alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
 alias mkdir='nocorrect mkdir'

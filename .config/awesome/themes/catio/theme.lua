@@ -141,6 +141,7 @@ theme.titlebar_maximized_button_normal_inactive = themedir .. "/titlebar/maximiz
 theme.wireless_net = themedir .. "/net/network-wireless.png"
 theme.wire_net = themedir .. "/net/network-wired-activated.png"
 
+theme.widget_bat = themedir .. "/icons/bat.png"
 theme.widget_cpu = themedir .. "/icons/cpu.png"
 theme.widget_disk = themedir .. "/icons/disk.png"
 theme.widget_down = themedir .. "/icons/down.png"

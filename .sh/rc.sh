@@ -22,7 +22,7 @@ if [ -x  /usr/bin/keychain ] ; then
 			keychain -q  $TMP
 		fi
 	done
-	cd -
+	cd -  2>&1 > /dev/null
 	#. ~/.keychain/${HOSTNAME}-sh
 	. ~/.keychain/${HOST}-sh
 fi

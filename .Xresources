@@ -10,7 +10,7 @@
 XTerm*background : black
 XTerm*foreground : white
 XTerm*cursorColor : green
-URxvt.cursorColor:      #e0e080
+!URxvt.cursorColor:      #e0e080
 
 ! Urxvt
 ! URxvt.selection.pattern-0: ([^"&'()*,;<=>?@[\\\\]^`{|})]+)
