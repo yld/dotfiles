@@ -57,6 +57,8 @@ setopt PROMPT_BANG
 setopt PROMPT_PERCENT
 #setopt PROMPT_SUBST
 
+zmodload zsh/zutil
+
 # aliases
 test -r ~/.sh/aliases && source ~/.sh/aliases
 
@@ -75,11 +77,26 @@ alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
 alias mkdir='nocorrect mkdir'
 
+if [ -x $(which vim) ]; then
+  alias -s log='grc less'
+  alias -g ping='grc ping'
+  alias -g netstat='grc netstat'
+  alias -g gcc='grc gcc'
+  alias -g traceroute='grc traceroute'
+else
+  alias -s log='less'
+fi
+
 if [[ -r /etc/gentoo-release ]] ; then
 
 elif [[ -r /etc/debian-release ]]; then
   . ~/.sh/aliases.debian
 fi
+
+autoload -U pick-web-browser
+zstyle ':mime:*' x-browsers konqueror firefox links2
+
+alias -s html=pick-web-browser
 
 ZLS_COLORS=$LS_COLORS
 
@@ -239,6 +256,12 @@ precmd() {
   #RPS1=$'${vcs_info_msg_0_}'
 }
 
+# colorized stderr
+exec 2>>(
+  while read line; do
+    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; 
+  done &
+)
 # end zsh specific stuff
 . ~/.sh/rc.sh
 
