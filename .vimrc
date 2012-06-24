@@ -1,7 +1,44 @@
-"runtime bundle/vim-pathogen/autoload/pathogen.vim
+set nocompatible               " be iMproved
+filetype off                   " required!
 
-call pathogen#infect()
-call pathogen#helptags()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+Bundle 'gmarik/vundle'
+
+"runtime bundle/vim-pathogen/autoload/pathogen.vim
+" call pathogen#infect()
+" call pathogen#helptags()
+
+" > Plugins
+Bundle: kien/ctrlp.vim
+set wildignore+=*.so,*.swp,*.zip
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$',
+  \ }
+Bundle tpope/vim-endwise
+Bundle tpope/vim-rails
+Bundle tpope/vim-surround
+Bundle tpope/vim-commentary
+Bundle majutsushi/tagbar
+Bundle tpope/vim-repeat
+Bundle scrooloose/nerdtree
+Bundle git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
+Bundle Lokaltog/vim-powerline
+Bundle benmills/vimux
+Bundle tpope/vim-fugitive
+Bundle vim-scripts/greplace.vim
+Bundle tpope/vim-bundler
+Bundle rosenfeld/conque-term
+Bundle fholgado/minibufexpl.vim
+Bundle chrisbra/vim_faq
+Bundle vim-scripts/vimwiki
+
+filetype plugin indent on 
 
 " > General
 set history=700
@@ -96,31 +133,6 @@ nnoremap <buffer> <BS> <C-T>
 " nnoremap <buffer> s /\|\zs\S\+\ze\|<CR>
 " nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
  
-" > Plugins
-" Bundle: kien/ctrlp.vim
-set wildignore+=*.so,*.swp,*.zip
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$',
-  \ }
-" Bundle: tpope/vim-endwise
-" Bundle: tpope/vim-rails
-" Bundle: tpope/vim-surround
-" Bundle: tpope/vim-commentary
-" Bundle: majutsushi/tagbar
-" Bundle: tpope/vim-repeat
-" Bundle: scrooloose/nerdtree
-" Bundle: git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
-" Bundle: Lokaltog/vim-powerline
-" Bundle: benmills/vimux
-" Bundle: tpope/vim-fugitive
-" Bundle: vim-scripts/greplace.vim
-" Bundle: tpope/vim-bundler
-" Bundle: rosenfeld/conque-term
-" Bundle: fholgado/minibufexpl.vim
-" Bundle: chrisbra/vim_faq
-" Bundle: vim-scripts/vimwiki
 
 " Syntax
 " Bundle: tpope/vim-cucumber
