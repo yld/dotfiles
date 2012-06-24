@@ -4,39 +4,46 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" > Plugins
 " let Vundle manage Vundle
 " required! 
 Bundle 'gmarik/vundle'
 
-"runtime bundle/vim-pathogen/autoload/pathogen.vim
-" call pathogen#infect()
-" call pathogen#helptags()
-
-" > Plugins
-Bundle: kien/ctrlp.vim
+Bundle 'kien/ctrlp.vim'
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 2
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\.git$\|\.hg$\|\.svn$',
   \ 'file': '\.exe$\|\.so$\|\.dll$',
   \ }
-Bundle tpope/vim-endwise
-Bundle tpope/vim-rails
-Bundle tpope/vim-surround
-Bundle tpope/vim-commentary
-Bundle majutsushi/tagbar
-Bundle tpope/vim-repeat
-Bundle scrooloose/nerdtree
-Bundle git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
-Bundle Lokaltog/vim-powerline
-Bundle benmills/vimux
-Bundle tpope/vim-fugitive
-Bundle vim-scripts/greplace.vim
-Bundle tpope/vim-bundler
-Bundle rosenfeld/conque-term
-Bundle fholgado/minibufexpl.vim
-Bundle chrisbra/vim_faq
-Bundle vim-scripts/vimwiki
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-commentary'
+Bundle 'majutsushi/tagbar'
+Bundle 'tpope/vim-repeat'
+Bundle 'scrooloose/nerdtree'
+Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
+Bundle 'Lokaltog/vim-powerline'
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+let g:Powerline_symbols='fancy'
+set laststatus=2
+Bundle 'benmills/vimux'
+Bundle 'tpope/vim-fugitive'
+Bundle 'vim-scripts/greplace.vim'
+Bundle 'tpope/vim-bundler'
+Bundle 'rosenfeld/conque-term'
+Bundle 'fholgado/minibufexpl.vim'
+Bundle 'chrisbra/vim_faq'
+Bundle 'vim-scripts/vimwiki'
+
+" > Syntax
+Bundle 'tpope/vim-cucumber'
+Bundle 'plasticboy/vim-markdown'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'tpope/vim-haml'
+Bundle 'zaiste/tmux.vim'
+Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
 
 filetype plugin indent on 
 
@@ -134,12 +141,5 @@ nnoremap <buffer> <BS> <C-T>
 " nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
  
 
-" Syntax
-" Bundle: tpope/vim-cucumber
-" Bundle: plasticboy/vim-markdown
-" Bundle: kchmck/vim-coffee-script
-" Bundle: tpope/vim-haml
-" Bundle: zaiste/tmux.vim
-" Bundle: vim-scripts/Puppet-Syntax-Highlighting
 
 " http://amix.dk/vim/vimrc.html
