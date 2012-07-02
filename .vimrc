@@ -28,6 +28,7 @@ Bundle 'Lokaltog/vim-powerline'
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 let g:Powerline_symbols='fancy'
 set laststatus=2
+set t_Co=256
 Bundle 'benmills/vimux'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/greplace.vim'
