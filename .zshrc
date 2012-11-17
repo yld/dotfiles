@@ -77,7 +77,7 @@ alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
 alias mkdir='nocorrect mkdir'
 
-if [ -x $(which vim) ]; then
+if [ -x $(which grc) ]; then
   alias -s log='grc less'
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
@@ -113,6 +113,16 @@ watch=(notme)
 LOGCHECK=120
 WATCHFMT='%n %a %l from %m at %t.'
 
+# rvm settings
+unsetopt auto_name_dirs
+if [[ -s $HOME/.rvm/scripts/rvm ]] then
+  if [[ -e /etc/gentoo-release ]] then
+    unset RUBYOPT; # gentoo hack
+  fi
+  . $HOME/.rvm/scripts/rvm
+fi
+
+export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # rvm completion
 fpath=(~/.zsh/Completion $fpath)
 #[[ -r ./.rvmrc ]] && source ./.rvmrc
@@ -257,11 +267,17 @@ precmd() {
 }
 
 # colorized stderr
-exec 2>>(
-  while read line; do
-    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; 
-  done &
-)
+#exec 2>>(
+#  while read line; do
+#    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; 
+#  done &
+#)
+# second version
+sm_color_red="$(  tput setaf 1)"
+sm_color_reset="$(tput sgr0   )"
+exec 2>>( awk '{print "'"$sm_color_red"'"$0"'"$sm_color_reset"'"}' >&2 & )
+unset sm_color_reset
+unset sm_color_red
 # end zsh specific stuff
 . ~/.sh/rc.sh
 

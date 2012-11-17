@@ -1,16 +1,5 @@
 # interactive shells stuff
 
-# rvm settings
-#unset RUBYOPT
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-if [[ -s $HOME/.rvm/scripts/rvm ]] then
-  if [[ -e /etc/gentoo-release ]] then
-    unset RUBYOPT; # gentoo hack
-  fi
-  . $HOME/.rvm/scripts/rvm
-fi
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # keychain
 if [ -x  /usr/bin/keychain ] ; then
@@ -23,7 +12,6 @@ if [ -x  /usr/bin/keychain ] ; then
 		fi
 	done
 	cd -  2>&1 > /dev/null
-	#. ~/.keychain/${HOSTNAME}-sh
 	. ~/.keychain/${HOST}-sh
 fi
 

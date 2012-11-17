@@ -1,20 +1,22 @@
 #!/bin/sh
 
-emerge -DuvN world || ( 
-until emerge --resume --skipfirst; 
+sudo emerge -DuvN world || ( 
+until sudo emerge --resume --skipfirst; 
 do
-	emerge --resume --skipfirst ;
+	sudo emerge --resume --skipfirst ;
 done ;
 echo "Initial emerge failed"
 )
 
-revdep-rebuild || (
-until emerge --resume --skipfirst; 
+echo "Running revdep-rebuild"
+sudo revdep-rebuild || (
+until sudo emerge --resume --skipfirst; 
 do
-  emerge --resume --skipfirst ;
+  sudo emerge --resume --skipfirst ;
 done ;
 echo "Initial revdep-rebuild failed"
 )
-
-updatedb &
+echo "Running updatedb"
+sudo updatedb 
+echo "Done"
 
