@@ -3,15 +3,17 @@
 
 # keychain
 if [ -x  /usr/bin/keychain ] ; then
-        cd ~/.ssh/ ; 
-	CHAIN="" ;
-	for TMP in `ls -f *|grep -v -E "*pub"` ; do
+  #local OLD_DIR=$(pwd)
+  #cd ~/.ssh/ ; 
+	local CHAIN="" ;
+  for TMP in `ls -f ~/.ssh/*|grep -E  '(r|d)sa' |grep -v -E "*pub"` ; do
 		if [ -f $TMP -a -f $TMP.pub ] ; then
 			CHAIN="${CHAIN} $TMP" ;
 			keychain -q  $TMP
 		fi
 	done
-	cd -  2>&1 > /dev/null
+  #cd $OLD_DIR ;
+	#cd -  2>&1 > /dev/null
 	. ~/.keychain/${HOST}-sh
 fi
 

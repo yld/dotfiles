@@ -1,0 +1,6 @@
+#!/bin/sh
+for g in $(gem list |awk '{print $1 } ')
+do
+  gem rdoc $g
+done
+

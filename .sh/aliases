@@ -2,9 +2,9 @@
 alias rm='rm -f'
 
 # grep with color by default
-alias   grep='grep --color=auto'
-alias   fgrep='fgrep --color=auto'
-alias   egrep='egrep --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 alias ls='ls --color=auto'
 alias la='ls -A'
@@ -46,6 +46,11 @@ fi
 alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
 alias hebexfiles='git --git-dir=$HOME/Src/hebexfiles.git/ --work-tree=$HOME'
 
+if [[ -r /etc/gentoo-release ]] ; then
+  . ~/.sh/aliases.gentoo
+elif [[ -r /etc/debian-release ]]; then
+  . ~/.sh/aliases.debian
+fi
 
 
 

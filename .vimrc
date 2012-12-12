@@ -144,3 +144,5 @@ nnoremap <buffer> <BS> <C-T>
 
 
 " http://amix.dk/vim/vimrc.html
+" add gems ctags, see https://github.com/guard/guard-ctags-bundler#readme
+set tags+=gems.tags

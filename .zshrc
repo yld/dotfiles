@@ -1,4 +1,4 @@
-
+#set -xv
 ### options ###
 
 setopt NOTIFY
@@ -75,7 +75,7 @@ alias screen='nohup tmux'
 
 alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
-alias mkdir='nocorrect mkdir'
+alias mv='nocorrect mv'
 
 if [ -x $(which grc) ]; then
   alias -s log='grc less'
@@ -87,15 +87,8 @@ else
   alias -s log='less'
 fi
 
-if [[ -r /etc/gentoo-release ]] ; then
-
-elif [[ -r /etc/debian-release ]]; then
-  . ~/.sh/aliases.debian
-fi
-
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
-
 alias -s html=pick-web-browser
 
 ZLS_COLORS=$LS_COLORS
@@ -230,26 +223,7 @@ function +vi-git-st() {
 
 
 # hooks
-chpwd() {
-  [[ -o interactive ]] || return
-  # escape '%' chars in $1, make nonprintables visible
-  #   a=${(V)1//\%/\%\%}
-  #
-  #     # Truncate command, and join lines.
-  #       a=$(print -Pn "%40>...>$a" | tr -d "\n")
-  case $TERM in
-    sun-cmd)
-      print -Pn "\e]l%~\e\\"
-    ;;
-    screen)
-      print -Pn "\ek$a:$3\e\\"      # screen title (in ^A")
-    ;;
-    *xterm*|*rxvt|(dt|k|E)term|konsole)
-      print -Pn "\e]2;%~\a"
-      #print -Pn "\e]2;$2 | $a:$3\a" # plain xterm title
-    ;;
-  esac
-}
+# moved to ~/.sh/functions.zsh
 
 # prompt
 precmd() {
@@ -267,17 +241,22 @@ precmd() {
 }
 
 # colorized stderr
+# buggy with su & sudo: do not use
 #exec 2>>(
 #  while read line; do
 #    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; 
 #  done &
 #)
 # second version
-sm_color_red="$(  tput setaf 1)"
-sm_color_reset="$(tput sgr0   )"
-exec 2>>( awk '{print "'"$sm_color_red"'"$0"'"$sm_color_reset"'"}' >&2 & )
-unset sm_color_reset
-unset sm_color_red
+#sm_color_red="$(  tput setaf 1)"
+#sm_color_reset="$(tput sgr0   )"
+#exec 2>>( awk '{print "'"$sm_color_red"'"$0"'"$sm_color_reset"'"}' >&2 & )
+#unset sm_color_reset
+#unset sm_color_red
+#exec 2>>(while read line; do
+#  print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; done &)
+#exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
+#[[ $hilite = "on" ]] || hilite="on" exec hilite zsh
 # end zsh specific stuff
 . ~/.sh/rc.sh
 
