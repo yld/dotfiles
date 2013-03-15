@@ -1,7 +1,7 @@
 ! Default
 *background : black
 *foreground : white
-*cursorColor : yellow
+!*cursorColor : yellow
 *font: xft:Monospace:style=Regular:pixelsize=13
 !*font: xft:Bitstream Vera Sans Mono:style=Regular:pixelsize=14
 ! Monospace
@@ -9,12 +9,10 @@
 ! Xterm
 XTerm*background : black
 XTerm*foreground : white
-XTerm*cursorColor : green
+!XTerm*cursorColor : green
 !URxvt.cursorColor:      #e0e080
 
 ! Urxvt
-! URxvt.selection.pattern-0: ([^"&'()*,;<=>?@[\\\\]^`{|})]+)
-! URxvt.selection.pattern-1: ^(/[^:]+):\
 
 URxvt*termName:xterm
 ! urxvt*termName:         rxvt-unicode
@@ -38,7 +36,7 @@ urxvt*shading : 20
 urxvt*saveLines: 10000
 urxvt*scrollBar: false
 
-urxvt*cursorColor: #939393
+URxvt*cursorColor: green
 urxvt*cursorBlink: true
 urxvt*cursorUnderline: false
 

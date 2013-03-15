@@ -19,3 +19,5 @@
 	br = branch
 	ci = commit
 	last = log -1 HEAD
+[http]
+	proxy = http://yledouaron:boum6paf@hebex-eburo.nice.francetelecom.fr:8080/

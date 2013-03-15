@@ -49,9 +49,9 @@ chpwd() {
   esac
 }
 
-preexec() {
-  echo "$1 from preexec"
-}
+#preexec() {
+#  echo "$1 from preexec"
+#}
 #function zle-line-init zle-keymap-select {
 #  RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
 #  RPS2=$RPS1

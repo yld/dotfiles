@@ -14,6 +14,6 @@ if [ -x  /usr/bin/keychain ] ; then
 	done
   #cd $OLD_DIR ;
 	#cd -  2>&1 > /dev/null
-	. ~/.keychain/${HOST}-sh
+	[[ -f ~/.keychain/${HOST}-sh ]] && . ~/.keychain/${HOST}-sh
 fi
 

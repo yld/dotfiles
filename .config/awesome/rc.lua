@@ -45,6 +45,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 -- This is used later as the default terminal and editor to run.
 rxvt = "urxvt"
 terminal = "urxvt"
+browser = "firefox"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = rxvt .. " -e " .. editor
 
@@ -134,6 +135,7 @@ myawesomemenu = {
 mymainmenu = awful.menu({ items = { 
   { "awesome", myawesomemenu, beautiful.awesome_icon },
   { "open rxvt", rxvt },
+  { "firefox", browser },
   { "open terminal", terminal }
   }
 })
@@ -180,19 +182,19 @@ mymemicon.image = image(beautiful.widget_mem)
 -- {{{ Battery state
 
 -- Initialize widget
-batwidget = widget({ type = "textbox" })
-baticon = widget({ type = "imagebox" })
-
--- Register widget
-vicious.register(batwidget, vicious.widgets.bat,
-  function (widget, args)
-    if args[2] == 100 then return ""
-    else
-      baticon.image = image(beautiful.widget_bat)
-      return "<span color='white'>".. args[2] .. "%</span><span color='red'>" .. args[3] .. " more</span>"
-    end
-  end, 61, "BAT0"
-  )
+--batwidget = widget({ type = "textbox" })
+--baticon = widget({ type = "imagebox" })
+--
+---- Register widget
+--vicious.register(batwidget, vicious.widgets.bat,
+--  function (widget, args)
+--    if args[2] == 100 then return ""
+--    else
+--      baticon.image = image(beautiful.widget_bat)
+--      return "<span color='white'>".. args[2] .. "%</span><span color='red'>" .. args[3] .. " more</span>"
+--    end
+--  end, 61, "BAT0"
+--  )
 -- }}} Battery state
 
 --{{{  Network usage widget
@@ -223,43 +225,43 @@ end, 3)
 -- }}} Network usage widget
 
 -- {{{ Temperature
-tzswidget = widget({ type = "textbox" })
-vicious.register(tzswidget, vicious.widgets.thermal,
-  function (widget, args)
-    if args[1] > 0 then
-      tzfound = true
-      return " " .. args[1] .. "C°"
-    else return "" 
-    end
-  end
-  , 19, "thermal_zone0")
+--tzswidget = widget({ type = "textbox" })
+--vicious.register(tzswidget, vicious.widgets.thermal,
+--  function (widget, args)
+--    if args[1] > 0 then
+--      tzfound = true
+--      return " " .. args[1] .. "C°"
+--    else return "" 
+--    end
+--  end
+--  , 19, "thermal_zone0")
 -- }}} Temperature
 
--- {{{ Volume level
-volicon = widget({ type = "imagebox" })
-volicon.image = image(beautiful.widget_vol)
--- Initialize widgets
-volbar    = awful.widget.progressbar()
-volwidget = widget({ type = "textbox" })
--- Progressbar properties
-volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(16):set_width(8):set_ticks_size(2)
-volbar:set_background_color(beautiful.fg_off_widget)
-volbar:set_gradient_colors({ beautiful.fg_widget,
-   beautiful.fg_center_widget, beautiful.fg_end_widget
-}) -- Enable caching
-vicious.cache(vicious.widgets.volume)
--- Register widgets
-vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "PCM")
-vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
--- Register buttons
-volbar.widget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("kmix") end),
-  awful.button({ }, 4, function () exec("amixer -q set PCM 2dB+", false) vicious.force({volbar, volwidget}) end),
-  awful.button({ }, 5, function () exec("amixer -q set PCM 2dB-", false) vicious.force({volbar, volwidget}) end)
-)) -- Register assigned buttons
-volwidget:buttons(volbar.widget:buttons())
--- }}}
+---- {{{ Volume level
+--volicon = widget({ type = "imagebox" })
+--volicon.image = image(beautiful.widget_vol)
+---- Initialize widgets
+--volbar    = awful.widget.progressbar()
+--volwidget = widget({ type = "textbox" })
+---- Progressbar properties
+--volbar:set_vertical(true):set_ticks(true)
+--volbar:set_height(16):set_width(8):set_ticks_size(2)
+--volbar:set_background_color(beautiful.fg_off_widget)
+--volbar:set_gradient_colors({ beautiful.fg_widget,
+--   beautiful.fg_center_widget, beautiful.fg_end_widget
+--}) -- Enable caching
+--vicious.cache(vicious.widgets.volume)
+---- Register widgets
+--vicious.register(volbar,    vicious.widgets.volume,  "$1",  2, "PCM")
+--vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "PCM")
+---- Register buttons
+--volbar.widget:buttons(awful.util.table.join(
+--  awful.button({ }, 1, function () exec("kmix") end),
+--  awful.button({ }, 4, function () exec("amixer -q set PCM 2dB+", false) vicious.force({volbar, volwidget}) end),
+--  awful.button({ }, 5, function () exec("amixer -q set PCM 2dB-", false) vicious.force({volbar, volwidget}) end)
+--)) -- Register assigned buttons
+--volwidget:buttons(volbar.widget:buttons())
+---- }}}
 
 -- {{{ Memory usage
 
@@ -281,7 +283,7 @@ if membar_enable then
 end
 -- mem text output
 memtext = widget({ type = "textbox" })
-vicious.register(memtext, vicious.widgets.mem, "$1%($2/$3MB)", 13)
+vicious.register(memtext, vicious.widgets.mem, "$1% ($2/$3MB)", 13)
 -- }}} Memory usage 
 
 -- Memory  widget
@@ -401,15 +403,15 @@ for s = 1, screen.count() do
     s == 1 and mysystray or nil,
     -- mytextclock, 
     datewidget, mytimeicon, myseparator,
-    tzfound and tzswidget or nil, myseparator,
-    baticon.image and separator, batwidget, baticon or nil, myseparator,
+    --tzfound and tzswidget or nil, myseparator,
+    --baticon.image and separator, batwidget, baticon or nil, myseparator,
     memtext, membar_enable and membar, memwidget or nil, memicon, myseparator,
     -- wirelessnetwidget,
     -- wirelessicon,
     -- wirenetwidget,
     -- wireicon,
-    dnicon.image and myseparator, upicon, netwidget, dnicon or nil, myseparator,
-    cpuwidget, mycpuicon, myseparator,
+    dnicon.image,  upicon, netwidget, dnicon or nil, myseparator,
+    -- cpuwidget, mycpuicon, myseparator,
     -- myseparator, memwidget, mymemicon,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft

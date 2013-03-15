@@ -32,17 +32,20 @@ theme.font      = "sans 8"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
-theme.fg_focus  = "#F0DFAF"
+theme.fg_focus  = "#000000"
 theme.fg_urgent = "#CC9393"
 theme.bg_normal = "#3F3F3F"
-theme.bg_focus  = "#1E2320"
+theme.bg_focus  = "#00FF00"
 theme.bg_urgent = "#3F3F3F"
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = "2"
+theme.border_width  = "1"
 theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#6F6F6F"
+--theme.border_normal = "#33FF00"
+theme.border_focus  = "#FF0000"
+--theme.border_focus  = "#FF9900"
+--theme.border_focus  = "#6F6F6F"
 theme.border_marked = "#CC9393"
 -- }}}
 
