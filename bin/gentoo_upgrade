@@ -17,6 +17,6 @@ done ;
 echo "Initial revdep-rebuild failed"
 )
 echo "Running updatedb"
-sudo updatedb 
+test -x $(command -v updatedb) && sudo updatedb 
 echo "Done"
 
