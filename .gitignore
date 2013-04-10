@@ -3,6 +3,7 @@
 !.bash/
 !.ruby/
 !.sh/
+!.config/
 .vim/
 .vim/.netrwhist
 .vim/Trashed-Bundles/

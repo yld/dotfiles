@@ -12,6 +12,8 @@ require("vicious")
 -- custom libs
 require("helpers")
 
+local treesome = require("treesome")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -164,9 +166,12 @@ mymusicicon     = widget({ type = "imagebox", name = "mymusicicon"})
 mymusicicon.image = image(beautiful.widget_music)
 
 myspacer         = widget({ type = "textbox", name = "myspacer" })
-myseparator      = widget({ type = "textbox", name = "myseparator" })
-
 myspacer.text    = " "
+
+myseparator2      = widget({ type = "textbox", name = "myseparator" })
+myseparator2.text = "x|x"
+
+myseparator      = widget({ type = "textbox", name = "myseparator" })
 myseparator.text = "|"
 
 mydiskicon         = widget({ type = "imagebox", name = "mydiskicon" })
@@ -405,13 +410,13 @@ for s = 1, screen.count() do
     datewidget, mytimeicon, myseparator,
     --tzfound and tzswidget or nil, myseparator,
     --baticon.image and separator, batwidget, baticon or nil, myseparator,
-    memtext, membar_enable and membar, memwidget or nil, memicon, myseparator,
+    memtext, membar_enable and membar, memwidget or nil, memicon, myseparator2,
     -- wirelessnetwidget,
     -- wirelessicon,
     -- wirenetwidget,
     -- wireicon,
     dnicon.image,  upicon, netwidget, dnicon or nil, myseparator,
-    -- cpuwidget, mycpuicon, myseparator,
+    cpuwidget, mycpuicon, myseparator,
     -- myseparator, memwidget, mymemicon,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
@@ -429,6 +434,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+  --awful.key({ modkey }, "v", treesome.vertical),
+  --awful.key({ modkey }, "h", treesome.horizontal)
   awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
   awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
   awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
