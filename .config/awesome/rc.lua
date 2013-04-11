@@ -48,7 +48,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 rxvt = "urxvtc"
-terminal = "urxvtc"
+terminal = "urxvtc || urxvt"
 browser = "firefox"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = rxvt .. " -e " .. editor
@@ -82,7 +82,7 @@ end
 
 
 --
-local hostname = awful.util.pread('hostname -s'):gsub('\n', '')
+local hostname = awful.util.pread('hostname'):gsub('\n', '')
 local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
 local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
 if awful.util.file_readable(host_config_file) then

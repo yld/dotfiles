@@ -1,21 +1,12 @@
-[submodule "/home/yves/.fonts/ttf-dejavu-powerline"]
-	path = /home/yves/.fonts/ttf-dejavu-powerline
-	url = git://gist.github.com/1630581.git
-[submodule "/home/yves/.fonts/TerminusBold-Powerline.ttf"]
-	path = /home/yves/.fonts/TerminusBold-Powerline.ttf
-	url = git://gist.github.com/1748496.git
-[submodule "/home/yves/.config/awesome/treesome"]
-	path = /home/yves/.config/awesome/treesome
-	url = git://github.com/RobSis/treesome.git
-[submodule ".vim/bundle/vundle"]
-	path = .vim/bundle/vundle
-	url = https://github.com/gmarik/vundle.git
-[submodule ".config/awesome/treesome"]
-	path = .config/awesome/treesome
-	url = https://github.com/RobSis/treesome.git
 [submodule ".fonts/TerminusBold-Powerline.ttf"]
 	path = .fonts/TerminusBold-Powerline.ttf
 	url = https://gist.github.com/1748496.git
+[submodule ".config/awesome/treesome"]
+	path = .config/awesome/treesome
+	url = https://github.com/RobSis/treesome.git
+[submodule ".vim/bundle/vundle"]
+	path = .vim/bundle/vundle
+	url = https://github.com/gmarik/vundle.git
 [submodule ".fonts/ttf-dejavu-powerline"]
 	path = .fonts/ttf-dejavu-powerline
 	url = https://gist.github.com/1630581.git

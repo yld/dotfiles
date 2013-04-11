@@ -37,6 +37,12 @@ Bundle 'rosenfeld/conque-term'
 Bundle 'fholgado/minibufexpl.vim'
 Bundle 'chrisbra/vim_faq'
 Bundle 'vim-scripts/vimwiki'
+Bundle 'godlygeek/tabular' 
+" http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+Bundle 'mileszs/ack.vim'
+" if the_silver_searcher
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+Bundle 'rking/ag.vim'
 
 " > Syntax
 Bundle 'tpope/vim-cucumber'
@@ -54,9 +60,19 @@ filetype plugin indent on
 set history=700
 set autoread                  " watch for file changes
 
-filetype on                   " Enable filetype detection
-filetype indent on            " Enable filetype-specific indenting
-filetype plugin on            " Enable filetype-specific plugins
+if has("autocmd")
+  " Enable filetype detection
+  filetype on                   " Enable filetype detection
+  filetype indent on            " Enable filetype-specific indenting
+  filetype plugin on            " Enable filetype-specific plugins
+  "filetype plugin indent on
+ 
+  " Restore cursor position
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+endif
 
 let mapleader = ","
 let g:mapleader = ","
@@ -148,3 +164,10 @@ nnoremap <buffer> <BS> <C-T>
 " http://amix.dk/vim/vimrc.html
 " add gems ctags, see https://github.com/guard/guard-ctags-bundler#readme
 set tags+=gems.tags
+" working directory
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
