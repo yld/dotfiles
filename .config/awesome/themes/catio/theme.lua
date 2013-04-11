@@ -23,27 +23,34 @@ themes = config .. "/themes"
 
 themename = "/catio"
 themedir = themes .. themename
+iconsdir = themedir .. "/icons"
 
 theme.wallpaper_cmd = { "awsetbg -u feh -a " .. themedir .. "/catio.png" }
 -- }}}
 
 -- {{{ Styles
-theme.font      = "sans 8"
+theme.font      = "sans 9"
+local orange = "#FFC100"
+local green = "#00FF00"
+local gray = "#3F3F3F"
+local white = "#FFFFFF"
 
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
-theme.fg_focus  = "#000000"
+--theme.fg_focus  = "#000000"
+theme.fg_focus  = white 
 theme.fg_urgent = "#CC9393"
-theme.bg_normal = "#3F3F3F"
-theme.bg_focus  = "#00FF00"
+theme.bg_normal = gray
+--theme.bg_focus  = "#00FF00"
+theme.bg_focus  = gray
 theme.bg_urgent = "#3F3F3F"
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = "1"
+theme.border_width  = "2"
 theme.border_normal = "#3F3F3F"
 --theme.border_normal = "#33FF00"
-theme.border_focus  = "#FF0000"
+theme.border_focus  = orange
 --theme.border_focus  = "#FF9900"
 --theme.border_focus  = "#6F6F6F"
 theme.border_marked = "#CC9393"
@@ -61,7 +68,10 @@ theme.titlebar_bg_normal = "#3F3F3F"
 -- titlebar_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- Example:
---theme.taglist_bg_focus = "#CC9393"
+theme.taglist_bg_focus  = orange
+theme.tasklist_fg_focus  = orange
+--theme.tasklist_bg_focus = "#CC9393"
+
 -- }}}
 
 -- {{{ Widgets
@@ -144,16 +154,16 @@ theme.titlebar_maximized_button_normal_inactive = themedir .. "/titlebar/maximiz
 theme.wireless_net = themedir .. "/net/network-wireless.png"
 theme.wire_net = themedir .. "/net/network-wired-activated.png"
 
-theme.widget_bat = themedir .. "/icons/bat.png"
-theme.widget_cpu = themedir .. "/icons/cpu.png"
-theme.widget_disk = themedir .. "/icons/disk.png"
-theme.widget_down = themedir .. "/icons/down.png"
-theme.widget_disk = themedir .. "/icons/disk.png"
-theme.widget_mem = themedir .. "/icons/mem.png"
-theme.widget_music = themedir .. "/icons/music.png"
-theme.widget_time = themedir .. "/icons/time.png"
-theme.widget_up = themedir .. "/icons/up.png"
-theme.widget_vol = themedir .. "/icons/vol.png"
+theme.widget_bat   = iconsdir .. "/bat.png"
+theme.widget_cpu   = iconsdir .. "/cpu.png"
+theme.widget_disk  = iconsdir .. "/disk.png"
+theme.widget_down  = iconsdir .. "/down.png"
+theme.widget_disk  = iconsdir .. "/disk.png"
+theme.widget_mem   = iconsdir .. "/mem.png"
+theme.widget_music = iconsdir .. "/music.png"
+theme.widget_time  = iconsdir .. "/time.png"
+theme.widget_up    = iconsdir .. "/up.png"
+theme.widget_vol   = iconsdir .. "/vol.png"
 -- }}}
 
 return theme

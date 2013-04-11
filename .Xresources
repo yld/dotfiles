@@ -14,6 +14,7 @@ XTerm*foreground : white
 
 ! Urxvt
 
+URxvt.font: xft:DejaVu Sans Mono-10,xft:DejaVu Sans Mono for Powerline-10
 URxvt*termName:xterm
 ! urxvt*termName:         rxvt-unicode
 URxvt.urgentOnBell: True

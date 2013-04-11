@@ -1,13 +1,15 @@
 -- Standard awesome library
-require("awful")
-require("awful.autofocus")
-require("awful.rules")
+awful = require("awful")
+autofocus = require("awful.autofocus")
+rules = require("awful.rules")
 -- Theme handling library
-require("beautiful")
+beautiful = require("beautiful")
 -- Notification library
-require("naughty")
+naughty = require("naughty")
+
+
 -- Vicious
-require("vicious")
+vicious = require("vicious")
 
 -- custom libs
 require("helpers")
@@ -45,8 +47,8 @@ end
 beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-rxvt = "urxvt"
-terminal = "urxvt"
+rxvt = "urxvtc"
+terminal = "urxvtc"
 browser = "firefox"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = rxvt .. " -e " .. editor
@@ -136,7 +138,6 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { 
   { "awesome", myawesomemenu, beautiful.awesome_icon },
-  { "open rxvt", rxvt },
   { "firefox", browser },
   { "open terminal", terminal }
   }
@@ -145,6 +146,12 @@ mymainmenu = awful.menu({ items = {
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
+
+
+
+
+
+
 
 -- {{{ Wibox
 
@@ -173,6 +180,17 @@ myseparator2.text = "x|x"
 
 myseparator      = widget({ type = "textbox", name = "myseparator" })
 myseparator.text = "|"
+
+middlespacer      = widget({ type = "textbox", name = "middlespacer" })
+middlespacer.text = "]["
+
+leftspacer      = widget({ type = "textbox", name = "leftspacer" })
+leftspacer.text = "["
+
+rightspacer      = widget({ type = "textbox", name = "rightspacer" })
+rightspacer.text = "]"
+
+
 
 mydiskicon         = widget({ type = "imagebox", name = "mydiskicon" })
 mydiskicon.image   = image(beautiful.widget_fs)
@@ -305,20 +323,63 @@ memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
 -- Register widget
 vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
 
--- Initialize widget
-cpuwidget = awful.widget.graph()
--- Graph properties
-cpuwidget:set_width(50)
-cpuwidget:set_background_color("#494B4F")
-cpuwidget:set_color("#FF5656")
-cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
--- Register widget
-vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+---- Initialize widget
+--cpuwidget = awful.widget.graph()
+---- Graph properties
+--cpuwidget:set_width(50)
+--cpuwidget:set_background_color("#494B4F")
+--cpuwidget:set_color("#FF5656")
+--cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+---- Register widget
+--vicious.register(cpuwidget, vicious.widgets.cpu, "$1")
+
+function gradient(min, max, val)
+  if (val > max) then val = max end
+  if (val < min) then val = min end
+
+  local v = val - min
+  local d = (max - min) * 0.5
+  local red, green
+
+  if (v <= d) then
+    red = (255 * v) / d
+    green = 255
+  else
+    red = 255
+    green = 255 - (255 * (v-d)) / (max - min - d)
+  end
+
+  return string.format("#%02x%02x00", red, green)
+end
+
+-- {{ CPU widget
+local cpuwidget = widget({ type = "textbox" })
+
+vicious.register(cpuwidget, vicious.widgets.cpu,
+function (widget, args)
+  local text
+  -- list only real cpu cores
+  for i=1,#args do
+    -- alerts, if system is stressed
+    if args[i] > 50 then
+      -- from light green to light red
+      local color = gradient(50,100,args[i])
+      args[i] = string.format("<span color='%s'>%2d</span>", color, args[i])
+    end
+
+    -- append to list
+    if i > 2 then text = text.." "..args[i].."%"
+    else text = args[i].."%" end
+  end
+
+  return text
+end )
+--}} CPU widget
 
 -- {{ Date/time widget
 mytextclock = awful.widget.textclock({ align = "right" })
 datewidget = widget({ type = "textbox" })
-vicious.register(datewidget, vicious.widgets.date, date_format, 1)
+vicious.register(datewidget, vicious.widgets.date, "%d/%m %T", 1)
 -- "%d/%m %T"
 -- }} Date/time widget
 
@@ -407,16 +468,16 @@ for s = 1, screen.count() do
     mylayoutbox[s],
     s == 1 and mysystray or nil,
     -- mytextclock, 
-    datewidget, mytimeicon, myseparator,
-    --tzfound and tzswidget or nil, myseparator,
+    datewidget, mytimeicon, middlespacer,
+    tzfound and tzswidget or nil, myseparator,
     --baticon.image and separator, batwidget, baticon or nil, myseparator,
-    memtext, membar_enable and membar, memwidget or nil, memicon, myseparator2,
+    memtext, membar, memwidget or nil, memicon, middlespacer,
     -- wirelessnetwidget,
     -- wirelessicon,
     -- wirenetwidget,
     -- wireicon,
-    dnicon.image,  upicon, netwidget, dnicon or nil, myseparator,
-    cpuwidget, mycpuicon, myseparator,
+    dnicon.image,  upicon, netwidget, dnicon or nil, middlespacer,
+    cpuwidget, mycpuicon, leftspacer,
     -- myseparator, memwidget, mymemicon,
     mytasklist[s],
     layout = awful.widget.layout.horizontal.rightleft
