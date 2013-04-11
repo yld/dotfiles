@@ -1,6 +1,6 @@
 #!/bin/sh
 sudo emerge --sync
 #layman -s
-sudo eix-update 
+test -x $(command -v eix-update) && sudo eix-update 
 
 

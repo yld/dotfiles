@@ -3,11 +3,15 @@
 !.bash/
 !.ruby/
 !.sh/
+!.fonts/
+# awesome
 !.config/
-.vim/
-.vim/.netrwhist
-.vim/Trashed-Bundles/
-.vim/doc/
-*~
-*.swp
+.config/*
+!.config/awesome/
+# vim
+!.vim/
+.vim/*
+!.vim/bundle/
+.vim/bundle/*
+!.vim/bundle/vundle
 

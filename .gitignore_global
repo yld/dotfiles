@@ -1,0 +1,52 @@
+# archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+#packing-only formats
+*.iso
+*.tar
+
+##package management formats
+*.dmg
+*.xpi
+*.gem
+*.egg
+*.deb
+*.rpm
+
+# backup
+*~
+# vim
+.*.s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+# backup
+*~
+
+# svn
+.svn/
+
+# Mercurial
+/.hg/*
+*/.hg/*
+.hgignore
+
+# sass
+*.sass-cache
+
+# CVS
+/CVS/*
+*/CVS/*
+.cvsignore
+*/.cvsignore
+
+*.sqlite*
+*.log
