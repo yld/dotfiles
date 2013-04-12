@@ -48,7 +48,7 @@ beautiful.init(awful.util.getdir("config") .. "/themes/catio/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 rxvt = "urxvtc"
-terminal = "urxvtc || urxvt"
+terminal = "urxvtc"
 browser = "firefox"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = rxvt .. " -e " .. editor
@@ -82,7 +82,7 @@ end
 
 
 --
-local hostname = awful.util.pread('hostname'):gsub('\n', '')
+local hostname = awful.util.pread('hostname -s'):gsub('\n', '')
 local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
 local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
 if awful.util.file_readable(host_config_file) then
@@ -130,16 +130,21 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "manual"      ,  terminal .. " -e man awesome" },
+   { "edit config" ,  editor_cmd .. " " .. awesome.conffile },
+   { "restart"     ,  awesome.restart },
+   { "quit"        ,  awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { 
-  { "awesome", myawesomemenu, beautiful.awesome_icon },
-  { "firefox", browser },
-  { "open terminal", terminal }
+mysystemmenu = {
+  { "reboot" ,  'sudo shutdown -r now' },
+  { "halt"   ,  'sudo halt -p' }
+}
+mymainmenu = awful.menu({ items = {
+  { "awesome"       ,  myawesomemenu  ,  beautiful.awesome_icon },
+  { "firefox"       ,  browser },
+  { "system"        ,  mysystemmenu },
+  { "open terminal" ,  terminal }
   }
 })
 
@@ -254,7 +259,7 @@ end, 3)
 --    if args[1] > 0 then
 --      tzfound = true
 --      return " " .. args[1] .. "C°"
---    else return "" 
+--    else return ""
 --    end
 --  end
 --  , 19, "thermal_zone0")
@@ -307,7 +312,7 @@ end
 -- mem text output
 memtext = widget({ type = "textbox" })
 vicious.register(memtext, vicious.widgets.mem, "$1% ($2/$3MB)", 13)
--- }}} Memory usage 
+-- }}} Memory usage
 
 -- Memory  widget
 memwidget = awful.widget.graph({ align = "right" })
@@ -467,7 +472,7 @@ for s = 1, screen.count() do
     },
     mylayoutbox[s],
     s == 1 and mysystray or nil,
-    -- mytextclock, 
+    -- mytextclock,
     datewidget, mytimeicon, middlespacer,
     tzfound and tzswidget or nil, myseparator,
     --baticon.image and separator, batwidget, baticon or nil, myseparator,

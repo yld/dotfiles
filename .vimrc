@@ -9,6 +9,7 @@ call vundle#rc()
 " required! 
 Bundle 'gmarik/vundle'
 
+" Tools
 Bundle 'kien/ctrlp.vim'
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 2
@@ -67,6 +68,8 @@ if has("autocmd")
   filetype plugin on            " Enable filetype-specific plugins
   "filetype plugin indent on
  
+  " Strip trailing white spaces
+  autocmd BufWritePre * :%s/\s\+$//e
   " Restore cursor position
   autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -116,7 +119,8 @@ set noerrorbells
 " => Files, backups and undo
 set nobackup
 
-compiler ruby                 " Enable compiler support for ruby
+" Enable compiler support for ruby
+compiler ruby                 
 
 "  > searching
 " incremental search
@@ -164,7 +168,8 @@ nnoremap <buffer> <BS> <C-T>
 " http://amix.dk/vim/vimrc.html
 " add gems ctags, see https://github.com/guard/guard-ctags-bundler#readme
 set tags+=gems.tags
-" working directory
+
+" working directory shortcuts
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>ew :e %%
 map <leader>es :sp %%

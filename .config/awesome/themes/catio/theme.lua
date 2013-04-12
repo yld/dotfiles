@@ -38,7 +38,7 @@ local white = "#FFFFFF"
 -- {{{ Colors
 theme.fg_normal = "#DCDCCC"
 --theme.fg_focus  = "#000000"
-theme.fg_focus  = white 
+theme.fg_focus  = white
 theme.fg_urgent = "#CC9393"
 theme.bg_normal = gray
 --theme.bg_focus  = "#00FF00"
@@ -48,7 +48,7 @@ theme.bg_urgent = "#3F3F3F"
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal = "#3F3F3F"
+theme.border_normal = gray
 --theme.border_normal = "#33FF00"
 theme.border_focus  = orange
 --theme.border_focus  = "#FF9900"
@@ -69,7 +69,7 @@ theme.titlebar_bg_normal = "#3F3F3F"
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- Example:
 theme.taglist_bg_focus  = orange
-theme.tasklist_fg_focus  = orange
+theme.tasklist_bg_focus  = orange
 --theme.tasklist_bg_focus = "#CC9393"
 
 -- }}}
@@ -95,7 +95,7 @@ theme.mouse_finder_color = "#CC9393"
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_height = "20"
-theme.menu_width  = "100"
+theme.menu_width  = "120"
 -- }}}
 
 -- {{{ Icons
