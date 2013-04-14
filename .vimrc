@@ -6,10 +6,15 @@ call vundle#rc()
 
 " > Plugins
 " let Vundle manage Vundle
-" required! 
+" required!
 Bundle 'gmarik/vundle'
 
 " Tools
+
+" Ruby & ROR
+Bundle 'vim-scripts/blockle.vim'
+Bundle 'tpope/vim-rails'
+
 Bundle 'kien/ctrlp.vim'
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 2
@@ -18,7 +23,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\.exe$\|\.so$\|\.dll$',
   \ }
 Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
@@ -38,7 +42,7 @@ Bundle 'rosenfeld/conque-term'
 Bundle 'fholgado/minibufexpl.vim'
 Bundle 'chrisbra/vim_faq'
 Bundle 'vim-scripts/vimwiki'
-Bundle 'godlygeek/tabular' 
+Bundle 'godlygeek/tabular'
 " http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Bundle 'mileszs/ack.vim'
 " if the_silver_searcher
@@ -55,7 +59,7 @@ Bundle 'zaiste/tmux.vim'
 Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
 Bundle 'scrooloose/syntastic'
 
-filetype plugin indent on 
+filetype plugin indent on
 
 " > General
 set history=700
@@ -67,7 +71,7 @@ if has("autocmd")
   filetype indent on            " Enable filetype-specific indenting
   filetype plugin on            " Enable filetype-specific plugins
   "filetype plugin indent on
- 
+
   " Strip trailing white spaces
   autocmd BufWritePre * :%s/\s\+$//e
   " Restore cursor position
@@ -120,7 +124,7 @@ set noerrorbells
 set nobackup
 
 " Enable compiler support for ruby
-compiler ruby                 
+compiler ruby
 
 "  > searching
 " incremental search
@@ -162,7 +166,7 @@ nnoremap <buffer> <BS> <C-T>
 " nnoremap <buffer> O ?'\l\{2,\}'<CR>
 " nnoremap <buffer> s /\|\zs\S\+\ze\|<CR>
 " nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
- 
+
 
 
 " http://amix.dk/vim/vimrc.html

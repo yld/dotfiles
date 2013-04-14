@@ -51,7 +51,7 @@ rxvt = "urxvtc"
 terminal = "urxvtc"
 browser = "firefox"
 editor = os.getenv("EDITOR") or "nano"
-editor_cmd = rxvt .. " -e " .. editor
+editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -179,9 +179,6 @@ mymusicicon.image = image(beautiful.widget_music)
 
 myspacer         = widget({ type = "textbox", name = "myspacer" })
 myspacer.text    = " "
-
-myseparator2      = widget({ type = "textbox", name = "myseparator" })
-myseparator2.text = "x|x"
 
 myseparator      = widget({ type = "textbox", name = "myseparator" })
 myseparator.text = "|"

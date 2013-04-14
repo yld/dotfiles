@@ -40,5 +40,6 @@ urxvt*scrollBar: false
 URxvt*cursorColor: green
 urxvt*cursorBlink: true
 urxvt*cursorUnderline: false
+URxvt.urgentOnBell: True
 
 
