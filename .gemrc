@@ -1,2 +1,2 @@
-gem:  --gen-rdoc --run-tests
-rdoc: --inline-source --line-numbers —diagram
+gem:  --rdoc --ri
+rdoc: --inline-source --line-numbers

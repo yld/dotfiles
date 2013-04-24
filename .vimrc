@@ -180,3 +180,7 @@ map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
+" tabbar, see :hi for current colors
+" :hi TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
+" :hi TabLine ctermfg=Blue ctermbg=Yellow
+" :hi TabLineSel ctermfg=Red ctermbg=Yellow
