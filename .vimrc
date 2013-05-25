@@ -42,12 +42,13 @@ Bundle 'rosenfeld/conque-term'
 Bundle 'fholgado/minibufexpl.vim'
 Bundle 'chrisbra/vim_faq'
 Bundle 'vim-scripts/vimwiki'
-Bundle 'godlygeek/tabular'
 " http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
+Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
 " if the_silver_searcher
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 Bundle 'rking/ag.vim'
+Bundle 'Townk/vim-autoclose'
 
 " > Syntax
 Bundle 'tpope/vim-cucumber'
@@ -72,8 +73,9 @@ if has("autocmd")
   filetype plugin on            " Enable filetype-specific plugins
   "filetype plugin indent on
 
-  " Strip trailing white spaces
+  " Strip trailing white spaces on save
   autocmd BufWritePre * :%s/\s\+$//e
+
   " Restore cursor position
   autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
@@ -81,12 +83,12 @@ if has("autocmd")
     \ endif
 endif
 
-let mapleader = ","
-let g:mapleader = ","
+"let mapleader = ","
+"let g:mapleader = ","
 
 " > UI
 set so=7
-" Show autocomplete menus.
+" Show autocomplete menus (zsh like)
 set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.rubyc,*.zip,*.xz,*.gz,*bz2,*.bzip2
@@ -98,13 +100,10 @@ set more
 set cmdheight=2
 " A buffer becomes hidden when it is abandoned
 set hid
-
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
-
 " For regular expressions turn magic on
 set magic
-
 " Show matching brackets when text indicator is over them
 set showmatch
 " How many tenths of a second to blink when matching brackets
@@ -131,6 +130,8 @@ compiler ruby
 set incsearch
 " Highlight search results
 set hlsearch
+" tooggle hlsearch
+:noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
 
 " >
@@ -154,6 +155,10 @@ set autoindent
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+
+" number toggle
+"nmap <F3> :set number! number?<cr>
+nmap <F3> :set invnumber<CR>
 
 "Wrap lines
 set wrap
