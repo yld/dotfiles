@@ -13,6 +13,7 @@ Bundle 'gmarik/vundle'
 
 " Ruby & ROR
 Bundle 'vim-scripts/blockle.vim'
+Bundle 'vim-scripts/dbext.vim'
 Bundle 'tpope/vim-rails'
 
 Bundle 'kien/ctrlp.vim'
@@ -28,7 +29,9 @@ Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-repeat'
 Bundle 'scrooloose/nerdtree'
-Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
+" Source Forge and Git...
+" Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
+Bundle 'jcf/vim-latex'
 Bundle 'Lokaltog/vim-powerline'
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 let g:Powerline_symbols='fancy'
@@ -49,6 +52,9 @@ Bundle 'mileszs/ack.vim'
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 Bundle 'rking/ag.vim'
 Bundle 'Townk/vim-autoclose'
+
+" > Lua
+Bundle 'xolox/vim-lua-ftplugin'
 
 " > Syntax
 Bundle 'tpope/vim-cucumber'
@@ -99,7 +105,7 @@ set more
 " Height of the command bar
 set cmdheight=2
 " A buffer becomes hidden when it is abandoned
-set hid
+set hidden
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
 " For regular expressions turn magic on
@@ -185,7 +191,11 @@ map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
-" tabbar, see :hi for current colors
+" tabbar, see :hi for current colors, colortest (in bin)
 " :hi TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
 " :hi TabLine ctermfg=Blue ctermbg=Yellow
-" :hi TabLineSel ctermfg=Red ctermbg=Yellow
+:hi TabLineSel ctermfg=White ctermbg=214
+
+" folding
+" +" set foldmethod=syntax
+" +" set foldmethod=indent
