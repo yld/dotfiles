@@ -77,7 +77,8 @@ alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
 alias mv='nocorrect mv'
 
-if [ -x $(which grc) ]; then
+if [ $(command -v vim) != "1" ]; then
+#if [ -x $(which grc) ]; then
   alias -s log='grc less'
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
@@ -150,7 +151,7 @@ bindkey "\e[H" beginning-of-line # Début
 bindkey "\e[F" end-of-line # Fin
 bindkey "\e[3~" delete-char
 bindkey "^R" history-incremental-search-backward # Rechercher
-# urxvt 
+# urxvt
 bindkey "^[[7~" beginning-of-line # Début
 bindkey "^[[8~" end-of-line # Fin
 bindkey "^[[3~" delete-char
@@ -244,7 +245,7 @@ precmd() {
 # buggy with su & sudo: do not use
 #exec 2>>(
 #  while read line; do
-#    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; 
+#    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0';
 #  done &
 #)
 # second version
