@@ -155,6 +155,9 @@ bindkey "^R" history-incremental-search-backward # Rechercher
 bindkey "^[[7~" beginning-of-line # Début
 bindkey "^[[8~" end-of-line # Fin
 bindkey "^[[3~" delete-char
+#gnome terminal
+bindkey "^[OF" end-of-line
+bindkey "^[OH" beginning-of-line
 
 # vcs
 autoload -Uz vcs_info
