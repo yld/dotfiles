@@ -98,9 +98,12 @@ autoload -U promptinit
 promptinit;
 
 # hosts completion
-local _myhosts
-_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
-zstyle ':completion:*' hosts $_myhosts
+if [[ -r $HOME/.ssh/known_hosts ]];
+then
+  local _myhosts
+  _myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+  zstyle ':completion:*' hosts $_myhosts
+fi
 
 cdpath=(.. ~)
 watch=(notme)
