@@ -1,4 +1,16 @@
 #!/bin/sh
 mkdir -p $HOME/Src/dotfiles.git/
-git clone --bare $HOME/Src/dotfiles.git/
+git clone --bare https://github.com/yld/dotfiles.git $HOME/Src/dotfiles.git/
+git checkout -f
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git
+dotfiles subodules init
+dotfiles subodules update
+
+# vim part
+
+if [[ comand -v vim > /dev/null ]];
+then
+  [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  vim +BundleInstall +qall
+fi
+
