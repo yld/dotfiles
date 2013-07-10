@@ -1,4 +1,8 @@
 #!/bin/sh
-mkdir -p $HOME/Src/dotfiles.git/
-git clone --bare $HOME/Src/dotfiles.git/
+DOTFILES_DIR=$HOME/Src/dotfiles.git/
+mkdir -p $DOTFILES_DIR
+git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
+dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
+dotfiles checkout
+
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git

@@ -1,0 +1,26 @@
+#!/bin/sh
+
+
+if [ $# -lt 2 ] || [ $# -gt 3 ]
+then
+  echo "Usage: $0 [feature|release|...] actual_branch_name [new_branch_name]"
+fi
+
+
+
+BRANCH=$1
+SUB_BRANCH=${2:-'feature'}
+NEW_BRANCH=${3:-$2}
+FEATURE="${SUB_BRANCH}/$BRANCH"
+
+echo "NEW_BRANCH= $NEW_BRANCH"
+#git checkout $BRANCH
+#git push origin ${BRANCH}:$FEATURE
+#git branch $FEATURE origin/$FEATURE
+#git reset --hard $new_master_commit
+#git push -f origin
+#
+#echo "Remote branches:"
+#git branch -ra
+#echo "Local branches:"
+#git branch
