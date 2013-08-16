@@ -8,11 +8,12 @@ if [ -x  /usr/bin/keychain ] ; then
 	local CHAIN="" ;
   if [[ -d ~/.ssh ]];
   then
-    for TMP in $(ls -A ~/.ssh/ &> /dev/null |grep -E  '(r|d)sa' |grep -v -E "*pub") ;
+    for TMP_PATH in $(ls -A ~/.ssh/ &> /dev/null |grep -E  '(r|d)sa' |grep -v -E "*pub") ;
     do
-      if [ -f $TMP -a -f $TMP.pub ] ; then
-        CHAIN="${CHAIN} $TMP" ;
-        keychain -q  $TMP
+      TMP_KEY=$(readlink -f $TMP)
+      if [ -f $TMP_KEY -a -f ${TMP_KEY}.pub ] ; then
+        CHAIN="${CHAIN} $TMP__KEY" ;
+        keychain -q  $TMP_KEY
       fi
     done
   fi
