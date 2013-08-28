@@ -1,12 +1,6 @@
-[submodule ".fonts/TerminusBold-Powerline.ttf"]
-	path = .fonts/TerminusBold-Powerline.ttf
-	url = https://gist.github.com/1748496.git
 [submodule ".config/awesome/treesome"]
 	path = .config/awesome/treesome
 	url = https://github.com/RobSis/treesome.git
 [submodule ".vim/bundle/vundle"]
 	path = .vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
-[submodule ".fonts/ttf-dejavu-powerline"]
-	path = .fonts/ttf-dejavu-powerline
-	url = https://gist.github.com/1630581.git
