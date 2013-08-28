@@ -199,3 +199,5 @@ map <leader>et :tabe %%
 " folding
 " +" set foldmethod=syntax
 " +" set foldmethod=indent
+" diff options
+set diffopt+=iwhite

@@ -1,4 +1,14 @@
 rvm_install_on_use_flag=1
+rvm_gemset_create_on_use_flag=1
 rvm_project_rvmrc=1
 rvm_project_rvmrc_default=1
 rvm_auto_reload_flag=1
+rvm_configure_env=(CFLAGS=-O3)
+#rvm_make_flags=" -j 3 "
+
+#if ! command -v pry > /dev/null ; then
+#  gem install pry
+#fi
+#if ! command -v bundle > /dev/null ; then
+#  gem install bundler
+#fi

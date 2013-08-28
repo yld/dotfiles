@@ -1,4 +1,4 @@
-#1!/bin/sh
+#!/bin/bash
 MODULE=$1
 PREFIX=modules/${MODULE}
 mkdir -p ${PREFIX}/{files,lib,manifests,templates,tests}

@@ -4,5 +4,15 @@ mkdir -p $DOTFILES_DIR
 git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
 dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
 dotfiles checkout
-
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git
+dotfiles subodules init
+dotfiles subodules update
+
+# vim part
+
+if [[ comand -v vim > /dev/null ]];
+then
+  [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  vim +BundleInstall +qall
+fi
+

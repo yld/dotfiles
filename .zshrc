@@ -98,9 +98,12 @@ autoload -U promptinit
 promptinit;
 
 # hosts completion
-local _myhosts
-_myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
-zstyle ':completion:*' hosts $_myhosts
+if [[ -r $HOME/.ssh/known_hosts ]];
+then
+  local _myhosts
+  _myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
+  zstyle ':completion:*' hosts $_myhosts
+fi
 
 cdpath=(.. ~)
 watch=(notme)
@@ -109,16 +112,17 @@ WATCHFMT='%n %a %l from %m at %t.'
 
 # rvm settings
 unsetopt auto_name_dirs
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" ]]
 if [[ -s $HOME/.rvm/scripts/rvm ]] then
-  if [[ -e /etc/gentoo-release ]] then
-    unset RUBYOPT; # gentoo hack
-  fi
+  [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
   . $HOME/.rvm/scripts/rvm
 fi
 
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # rvm completion
-fpath=(~/.zsh/Completion $fpath)
+#fpath=(~/.zsh/Completion $fpath)
 #[[ -r ./.rvmrc ]] && source ./.rvmrc
 
 # customs functions
