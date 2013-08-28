@@ -7,7 +7,7 @@ Far from perfect but very usefull, (pretty prompt, VCS (mostly git) integration 
 
 Rely partially on completion files provided by distributions.
 
-## Vim
+## [Vim](http://www.vim.org/)
 
 * A few plugins bundled with [vundle](https://github.com/gmarik/vundle) (see plugins related docs once installed)
 * Try F2, F3, F4 while editing for a few usefull mapping.
@@ -24,7 +24,7 @@ Settings for RVM and Ruby world tools.
 
 # Tools recommanded and used
 
-* urxvt-unicode
+* [urxvt](http://software.schmorp.de/pkg/rxvt-unicode.html)
 * [most](http://www.jedsoft.org/most/) a colofull pager
 * grc for colored output with ping, gcc, netstat (...)
 * [tmux](http://tmux.sourceforge.net/) for terminal multiplexing (actually missing [powerline](https://github.com/Lokaltog/powerline))
