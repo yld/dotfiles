@@ -34,7 +34,7 @@ Settings for RVM and Ruby world tools.
 
 Run:
 
-curl -L https://github.com/yld/dotfiles/raw/master/bin/dotfiles_init | bash -c
+curl -L https://github.com/yld/dotfiles/raw/master/bin/dotfiles_init | bash
 
 It'll create for you a Src/dotfiles directory, a dotfiles alias, and install all the files.
 
