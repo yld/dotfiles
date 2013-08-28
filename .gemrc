@@ -1,2 +1,2 @@
-gem:  --rdoc --ri
+gem:  --no-rdoc --no-ri
 rdoc: --inline-source --line-numbers
