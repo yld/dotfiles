@@ -1,28 +1,14 @@
-#set -u
-#set -x
-
 # interactive shells stuff
-
-# bad but fed up with th lines below
-#eval ` keychain --eval   /home/ledouaron/.ssh/*sa `
 
 # keychain
 if [ -x  /usr/bin/keychain ] ; then
-  #local OLD_DIR=$(pwd)
-  #cd ~/.ssh/ ;
-	local CHAIN="" ;
   if [[ -d ~/.ssh ]];
   then
     for TMP in $(ls -A ~/.ssh/ &> /dev/null |grep -E  '(r|d)sa' |grep -v -E "*pub") ;
     do
-      if [ -f $TMP -a -f $TMP.pub ] ; then
-        CHAIN="${CHAIN} $TMP" ;
-        keychain -q  $TMP
-      fi
+      KEY_PATH=~/.ssh/${TMP}
+      [[ -f $KEY_PATH ]] && [[ -f ${KEY_PATH}.pub ]] &&  keychain  -q $TMP
     done
   fi
-  #cd $OLD_DIR ;
-	#cd -  2>&1 > /dev/null
 	[[ -f ~/.keychain/${HOST}-sh ]] && . ~/.keychain/${HOST}-sh
 fi
-
