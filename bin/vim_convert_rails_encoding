@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#set -x
+set -u
+
+for d in "app config factories db features lib spec test";
+do
+  for f in `find $d -type f  -name '*.rb' -o -name '*.feature' -o -name '*.rjs' | egrep -v './doc/' `;
+  do
+    FILE_ENC=$(file -bi $f |cut -f 2 -d'='|tr -d ' ')
+    [[ $FILE_ENC != 'us-ascii' ]] && echo "$f  $(file -bi $f) " && vi +%s/ê\|è\|é/e/g +%s/à\|â/a/g +%s/ô/o/g +%s/û/u/g +%s/ç/c/g +%s/°/o/g +%s/ù/u/g +%s/î/i/g +%s/–/-/g +x $f
+  done
+done

@@ -63,11 +63,11 @@ zmodload zsh/zutil
 test -r ~/.sh/aliases && source ~/.sh/aliases
 
 # zsh specific aliases
-alias -g H='| head'
-alias -g T='| tail'
-alias -g G='| grep'
-alias -g L="| less"
-alias -g M="| most"
+alias -g H=' | head '
+alias -g T=' | tail'
+alias -g G=' | grep '
+alias -g L=" | less "
+alias -g M=" | most "
 alias suzsh='su -p -s /bin/zsh'
 
 alias screen='nohup screen'
