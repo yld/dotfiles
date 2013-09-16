@@ -1,7 +1,10 @@
-#!/bin/sh
-mkdir -p /{files,lib,manifests,templates,tests}
-echo -e "class $1 {\n  \n}" >> $1/manifests/init.pp
-echo -e "class $1:install {\n  \n}" >> $1/manifests/install.pp
-echo -e "class $1::params {\n  \n}" >> $1/manifests/params.pp
-echo "class { '$1': }" >> $1/tests/init.pp
-puppet apply --noop --parseonly $1/tests/init.pp
+#!/bin/bash
+MODULE=$1
+PREFIX=modules/${MODULE}
+mkdir -p ${PREFIX}/{files,lib,manifests,templates,tests}
+echo -e "class ${MODULE} {\n}" >> ${PREFIX}/manifests/init.pp
+echo -e "class ${MODULE}::install {\n  \n}" >> ${PREFIX}/manifests/install.pp
+echo -e "class ${MODULE}::params {\n  \n}" >> ${PREFIX}/manifests/params.pp
+echo "class { '${MODULE}': }" >> ${PREFIX}/tests/init.pp
+puppet parser validate ${PREFIX}/*/*.pp
+puppet apply --noop ${PREFIX}/tests/init.pp

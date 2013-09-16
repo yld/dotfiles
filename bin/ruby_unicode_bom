@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -u
+#set -x
+
+TARGET=${1:-'.'}
+
+if [[ $TARGET = '-h' ]];
+then
+  echo "$(basename $0) [target] fix ruby bom on *.rb, *.feature, and *.rjs files"
+  exit 0
+fi
+
+for f in `find $TARGET -type f  -name '*.rb' -o -name '*.feature' -o -name '*.rjs' | egrep -v './doc/' `;
+do
+  HEAD_ENC=$(head -n 1 $f |egrep '^# -\*- encoding' |cut -f2 -d':' | cut -f2 -d' '|tr -d ' ')
+  HEAD_ENC=${HEAD_ENC:-''}
+  FILE_ENC=$(file -bi $f |cut -f 2 -d'='|tr -d ' ')
+  #echo "HEAD_ENC = $HEAD_ENC"
+  if [[ -n "$HEAD_ENC" ]] ;
+  then
+    if [[ $HEAD_ENC != $FILE_ENC ]];
+    then
+      if [[ $FILE_ENC = 'us-ascii' ]];
+      then
+        echo "Removing $HEAD_ENC on $f (useless)"
+        sed -i '1d' $f
+      else
+        echo "Changing from $HEAD_ENC to $FILE_ENC on $f (incorrect)"
+        sed -i '1 c\# -*- encoding : '$FILE_ENC' -*-' $f
+      fi
+    fi
+  else
+    if [[ "$FILE_ENC" != "us-ascii" ]];
+      then
+        echo "Adding $FILE_ENC on $f (missing)"
+        sed -i '1 i\# -*- encoding : '$FILE_ENC' -*-' $f
+    fi
+  fi
+done

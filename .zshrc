@@ -63,11 +63,11 @@ zmodload zsh/zutil
 test -r ~/.sh/aliases && source ~/.sh/aliases
 
 # zsh specific aliases
-alias -g H='| head'
-alias -g T='| tail'
-alias -g G='| grep'
-alias -g L="| less"
-alias -g M="| most"
+alias -g H=' | head '
+alias -g T=' | tail'
+alias -g G=' | grep '
+alias -g L=" | less "
+alias -g M=" | most "
 alias suzsh='su -p -s /bin/zsh'
 
 alias screen='nohup screen'
@@ -112,16 +112,17 @@ WATCHFMT='%n %a %l from %m at %t.'
 
 # rvm settings
 unsetopt auto_name_dirs
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" ]]
 if [[ -s $HOME/.rvm/scripts/rvm ]] then
-  if [[ -e /etc/gentoo-release ]] then
-    unset RUBYOPT; # gentoo hack
-  fi
+  [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
   . $HOME/.rvm/scripts/rvm
 fi
 
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 # rvm completion
-fpath=(~/.zsh/Completion $fpath)
+#fpath=(~/.zsh/Completion $fpath)
 #[[ -r ./.rvmrc ]] && source ./.rvmrc
 
 # customs functions
