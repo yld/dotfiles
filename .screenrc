@@ -1,3 +1,4 @@
 defutf8 on
 shell /bin/zsh
+term screen-256color
 #shell -/bin/bash

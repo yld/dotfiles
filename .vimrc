@@ -28,21 +28,110 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-repeat'
+
 Bundle 'scrooloose/nerdtree'
+let g:NERDTreeShowHidden = 1
+let g:NERDChristmasTree = 1
+let g:NERDTreeHijackNetrw = 1
+map <F7> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 " Source Forge and Git...
 " Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
 Bundle 'jcf/vim-latex'
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 let g:Powerline_symbols='fancy'
 set laststatus=2
 set t_Co=256
+
+" https://github.com/Shougo/unite.vim
+Bundle 'Shougo/vimproc'
+Bundle 'Shougo/unite.vim'
+noremap <leader>f :<C-u>Unite -start-insert file<CR>
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+nnoremap <leader>r :<C-u>Unite -start-insert file_rec/asinc:!<CR>
+noremap <leader>m :<C-u>Unite file_mru<CR>
+let g:unite_source_history_yank_enable = 1
+nnoremap <leader>y :<C-u>Unite history/yank<CR>
+"let g:unite_candidate_icon = "●"
+let g:unite_marked_icon = "▲"
+
+Bundle 'tsukkee/unite-help'
+" Execute help.
+nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
+" Execute help by cursor keyword.
+nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>
+
+Bundle 'ujihisa/unite-gem'
+Bundle 'chrisbra/csv.vim'
+Bundle 'airblade/vim-gitgutter'
+nnoremap <F5> :GitGutterToggle<CR>
+let g:gitgutter_enabled = 0
+let g:gitgutter_diff_args='-w'
+let g:gitgutter_escape_grep=1
+let g:gitgutter_highlight_lines = 1
+let g:airline_powerline_fonts=1
+set ttimeoutlen=50
+
+Bundle 'mbbill/undotree'
+nnoremap <F6> :UndotreeToggle<cr>
+if has("persistent_undo")
+  set undodir='/tmp'
+  set undofile
+endif
+
+Bundle 'bling/vim-airline'
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_symbols.branch = '⭠'
+let g:airline_symbols.readonly = '⭤'
+let g:airline_symbols.linenr = '⭡'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.whitespace = 'Ξ'
+
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#empty_message = '?'
+
+let g:airline#extensions#syntastic#enabled = 1
+
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tagbar#flags = 's'
+
+let g:airline#extensions#csv#enabled = 1
+
+let g:airline#extensions#hunks#enabled = 1
+let g:airline#extensions#hunks#non_zero_only = 1
+let g:airline#extensions#hunks#hunk_symbols = ['+', '~', '-']
+
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#show_message = 1
+let g:airline#extensions#whitespace#trailing_format = 'trailing[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 'mixed-indent[%s]'
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_min_count = 0
+let g:airline#extensions#tabline#tab_min_count = 0
+let g:airline#extensions#tabline#left_sep = '⮀'
+
+
+Bundle 'ervandew/screen'
+let g:ScreenShellTmuxInitArgs = '-2'
 Bundle 'benmills/vimux'
+Bundle 'terryma/vim-multiple-cursors'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/greplace.vim'
 Bundle 'tpope/vim-bundler'
 Bundle 'rosenfeld/conque-term'
-Bundle 'fholgado/minibufexpl.vim'
+"Bundle 'fholgado/minibufexpl.vim'
 Bundle 'chrisbra/vim_faq'
 Bundle 'vim-scripts/vimwiki'
 " http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
@@ -52,8 +141,10 @@ Bundle 'mileszs/ack.vim'
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 Bundle 'rking/ag.vim'
 Bundle 'Townk/vim-autoclose'
+let g:AutoClosePairs_add = "<> |"
 
 " > Lua
+Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-lua-ftplugin'
 
 " > Syntax
@@ -65,6 +156,8 @@ Bundle 'tpope/vim-haml'
 Bundle 'zaiste/tmux.vim'
 Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
 Bundle 'scrooloose/syntastic'
+"let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 
@@ -88,9 +181,6 @@ if has("autocmd")
     \   exe "normal! g`\"" |
     \ endif
 endif
-
-"let mapleader = ","
-"let g:mapleader = ","
 
 " > UI
 set so=7
@@ -163,7 +253,6 @@ set pastetoggle=<F2>
 set showmode
 
 " number toggle
-"nmap <F3> :set number! number?<cr>
 nmap <F3> :set invnumber<CR>
 
 "Wrap lines
@@ -178,9 +267,6 @@ nnoremap <buffer> <BS> <C-T>
 " nnoremap <buffer> s /\|\zs\S\+\ze\|<CR>
 " nnoremap <buffer> S ?\|\zs\S\+\ze\|<CR>
 
-
-
-" http://amix.dk/vim/vimrc.html
 " add gems ctags, see https://github.com/guard/guard-ctags-bundler#readme
 set tags+=gems.tags
 
@@ -201,3 +287,10 @@ map <leader>et :tabe %%
 " +" set foldmethod=indent
 " diff options
 set diffopt+=iwhite
+
+"autocmd VimLeave * :set term=screen
+"set t_Co=256
+set background=dark
+let g:solarized_termcolors=256
+colorscheme solarized
+let g:airlinetheme = 'solarized'

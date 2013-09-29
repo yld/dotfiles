@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -u
+#set -x
+
+FROM=$1
+TO=$2
+
+function to_upper () {
+  echo $1 | awk '{ print toupper(substr($0, 1, 1)) substr($0, 2) }'
+}
+
+FROM_UPPER=$(to_upper $FROM)
+TO_UPPER=$(to_upper $TO)
+
+for f in $(find . -regextype posix-extended -regex '.*\.(haml|erb|yml|rb|js|s?(c|a)ss)' -exec grep -q -i $FROM {}  \;  -print)
+do
+
+  echo $f
+  #sed -i '
+  #s/'$FROM'/'$TO'/g
+  #s/'$FROM_UPPER'/'$TO_UPPER'/g
+  #' $f
+
+done
+
+if [[ -d $FROM ]] ;
+then
+ echo " mv $FROM $TO"
+else
+  if [[ -d "../$FROM" ]];
+  then
+    echo "cd .. ; mv $FROM $TO ; cd $TO"
+  fi
+fi
+

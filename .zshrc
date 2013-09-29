@@ -77,8 +77,8 @@ alias mkdir='nocorrect mkdir'
 alias touch='nocorrect touch'
 alias mv='nocorrect mv'
 
-if [ $(command -v vim) != "1" ]; then
-#if [ -x $(which grc) ]; then
+if [[ "$(command -v grc)" == "0" ]];
+then
   alias -s log='grc less'
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
@@ -195,6 +195,7 @@ function +vi-git-icons() {
     hook_com[misc]+="%{$fg[red]%}◼($untracked_count)%{$reset_color%}"
   fi
 }
+
 
 function +vi-git-stash() {
   local -a stashes

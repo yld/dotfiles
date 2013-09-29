@@ -21,7 +21,7 @@ fi
 if [[ -x '/usr/bin/most' ]] then
   export PAGER='/usr/bin/most'
   export MOST_SWITCHES=" -s"
-  export MOST_EDITOR="$EDITOR +%d %s" 
+  export MOST_EDITOR="$EDITOR +%d %s"
 elif [[ -x '/usr/bin/less' ]] then
   export PAGER='/usr/bin/less -FirSwX'
   #export LESSCHARSET="latin1"
@@ -36,6 +36,5 @@ test -d ~/bin && export PATH="$HOME/bin:$PATH"
 export RSYNC_RSH=ssh
 
 
-[[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`     
+[[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`
 
-															
