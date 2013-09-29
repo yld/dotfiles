@@ -1,26 +1,32 @@
 #!/bin/bash
 
+if [[ $# -ne 2 ]]
+then
+  echo "$(basename $0) from to : rename a RAIS application"
+  exit 1
+fi
+
 set -u
 #set -x
 
 FROM=$1
 TO=$2
 
-function to_upper () {
-  echo $1 | awk '{ print toupper(substr($0, 1, 1)) substr($0, 2) }'
+function camelize () {
+  echo $1 | sed 's/_\(.\)/\U\1/g' | awk '{ print toupper(substr($0, 1, 1)) substr($0, 2) }'
 }
 
-FROM_UPPER=$(to_upper $FROM)
-TO_UPPER=$(to_upper $TO)
+FROM_UPPER=$(camelize $FROM)
+TO_UPPER=$(camelize $TO)
 
 for f in $(find . -regextype posix-extended -regex '.*\.(haml|erb|yml|rb|js|s?(c|a)ss)' -exec grep -q -i $FROM {}  \;  -print)
 do
 
   echo $f
-  #sed -i '
-  #s/'$FROM'/'$TO'/g
-  #s/'$FROM_UPPER'/'$TO_UPPER'/g
-  #' $f
+  sed -i '
+  s/'$FROM'/'$TO'/g
+  s/'$FROM_UPPER'/'$TO_UPPER'/g
+  ' $f
 
 done
 
