@@ -34,7 +34,6 @@ let g:NERDTreeShowHidden = 1
 let g:NERDChristmasTree = 1
 let g:NERDTreeHijackNetrw = 1
 map <F7> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Source Forge and Git...
 " Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
@@ -128,11 +127,7 @@ let g:ScreenShellTmuxInitArgs = '-2'
 Bundle 'benmills/vimux'
 map <Leader>vo :VimuxOpenPane<CR>
 map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vl :VimuxRunLastCommand<CR
-map <Leader>vs :VimuxSendText<CR>
-map <Leader>vi :VimuxInspectRunner<CR>
-map <Leader>vpq :VimuxClosePane<CR>
-map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vl :VimuxRunLastComm
 map <Leader>vz :VimuxInterruptRunner<CR>
 
 Bundle 'jingweno/vimux-zeus'
@@ -197,6 +192,8 @@ if has("autocmd")
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
+  " autoclose NERDTree when alone
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 endif
 
 " > UI
@@ -247,7 +244,7 @@ set hlsearch
 noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
 
-" >
+" > files syntax
 syntax on
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -289,7 +286,7 @@ set tags+=gems.tags
 
 " working directory shortcuts
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>ew :e %%
+map <leader>ew : %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
@@ -303,11 +300,14 @@ map <leader>et :tabe %%
 " +" set foldmethod=syntax
 " +" set foldmethod=indent
 " diff options
+
+" > vimdiff options
 set diffopt+=iwhite
 
+" > color scheme
 "autocmd VimLeave * :set term=screen
 "set t_Co=256
-set background=dark
+" set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 let g:airlinetheme = 'solarized'
