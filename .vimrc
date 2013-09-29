@@ -126,6 +126,23 @@ let g:airline#extensions#tabline#left_sep = '⮀'
 Bundle 'ervandew/screen'
 let g:ScreenShellTmuxInitArgs = '-2'
 Bundle 'benmills/vimux'
+map <Leader>vo :VimuxOpenPane<CR>
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vl :VimuxRunLastCommand<CR
+map <Leader>vs :VimuxSendText<CR>
+map <Leader>vi :VimuxInspectRunner<CR>
+map <Leader>vpq :VimuxClosePane<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
+map <Leader>vz :VimuxInterruptRunner<CR>
+
+Bundle 'jingweno/vimux-zeus'
+map <Leader>zs :ZeusStart<CR>
+map <Leader>zc :ZeusConsole<CR>
+map <Leader>zc :ZeusDestroy<space>
+map <Leader>zr :ZeusRake spec<CR>
+map <Leader>zg :ZeusGenerate<space>
+
+Bundle 'guns/xterm-color-table.vim'
 Bundle 'terryma/vim-multiple-cursors'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/greplace.vim'
@@ -227,7 +244,7 @@ set incsearch
 " Highlight search results
 set hlsearch
 " tooggle hlsearch
-:noremap <F4> :set hlsearch! hlsearch?<CR>
+noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
 
 " >
