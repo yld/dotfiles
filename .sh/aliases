@@ -29,7 +29,7 @@ alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 
 alias screen='screen -U'
-alias tmux='tmux -2 '
+alias tmux='tmux -2 -u '
 
 alias w='chmod +w'
 alias x='chmod +x'

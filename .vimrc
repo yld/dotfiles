@@ -127,7 +127,7 @@ let g:ScreenShellTmuxInitArgs = '-2'
 Bundle 'benmills/vimux'
 map <Leader>vo :VimuxOpenPane<CR>
 map <Leader>vp :VimuxPromptCommand<CR>
-map <Leader>vl :VimuxRunLastComm
+map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vz :VimuxInterruptRunner<CR>
 
 Bundle 'jingweno/vimux-zeus'
