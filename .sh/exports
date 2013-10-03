@@ -19,7 +19,7 @@ elif [[ -x /usr/bin/lesspipe ]] ; then
 fi
 
 if [[ -x '/usr/bin/most' ]] then
-  export PAGER='/usr/bin/most'
+  export PAGER='/usr/bin/most c -z'
   export MOST_SWITCHES=" -s"
   export MOST_EDITOR="$EDITOR +%d %s"
 elif [[ -x '/usr/bin/less' ]] then

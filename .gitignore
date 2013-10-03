@@ -9,7 +9,7 @@
 .config/*
 !.config/awesome/
 # vim
-!.vim/
+.vim/
 .vim/*
 !.vim/bundle/
 !.vim/bundle/*

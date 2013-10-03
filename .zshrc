@@ -1,9 +1,9 @@
 #set -xv
+
 ### options ###
 
 setopt NOTIFY
 setopt ZLE
-
 
 ## history ##
 setopt SHARE_HISTORY
@@ -73,13 +73,13 @@ alias suzsh='su -p -s /bin/zsh'
 alias screen='nohup screen'
 alias screen='nohup tmux'
 
-alias mkdir='nocorrect mkdir'
-alias touch='nocorrect touch'
-alias mv='nocorrect mv'
+alias -g mkdir='nocorrect mkdir'
+alias -g touch='nocorrect touch'
+alias -g mv='nocorrect mv'
 
 if [[ "$(command -v grc)" == "0" ]];
 then
-  alias -s log='grc less'
+  alias -s less='grc less'
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
   alias -g gcc='grc gcc'
@@ -97,13 +97,14 @@ ZLS_COLORS=$LS_COLORS
 autoload -U promptinit
 promptinit;
 
-# hosts completion
+### ssh hosts completion
 if [[ -r $HOME/.ssh/known_hosts ]];
 then
   local _myhosts
   _myhosts=( ${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*} )
   zstyle ':completion:*' hosts $_myhosts
 fi
+### end ssh hosts completion
 
 cdpath=(.. ~)
 watch=(notme)
@@ -120,16 +121,13 @@ fi
 
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
-# export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-# rvm completion
-#fpath=(~/.zsh/Completion $fpath)
-#[[ -r ./.rvmrc ]] && source ./.rvmrc
-
 # customs functions
 . ~/.sh/functions.zsh
 
-# The following lines were added by compinstall
+### completion
+fpath=(~/.zsh/completion.d $fpath)
 
+# The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zmodload -i zsh/complist
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -144,12 +142,15 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle :compinstall filename '/home/yves/.zshrc'
 
 autoload -Uz compinit
+autoload -U +X bashcompinit && bashcompinit
 compinit -u
 # End of lines added by compinstall
 
+### end completion
+
 autoload -U colors && colors
 
-# home, end & Co
+# home, end & Co key bindings
 # konsole
 bindkey "\e[H" beginning-of-line # Début
 bindkey "\e[F" end-of-line # Fin

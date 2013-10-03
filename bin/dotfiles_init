@@ -6,14 +6,16 @@ alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
 dotfiles checkout
 
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git
-dotfiles subodules init
-dotfiles subodules update
+dotfiles submodule init
+dotfiles submodule update
 
-# vim part
+### vim part
 
 if [[ comand -v vim > /dev/null ]];
 then
   [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
   vim +BundleInstall +qall
 fi
+
+## zsh part
 

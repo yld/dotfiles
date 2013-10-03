@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 if [[ $# -ne 2 ]]
 then
@@ -12,6 +12,16 @@ set -u
 FROM=$1
 TO=$2
 
+if [[ ! -d $FROM ]];
+then
+  cd ..
+  if [[ ! -d $FROM ]];
+  then
+    echo "Can not find $FROM" ;
+    exit 1
+  fi
+fi
+
 function camelize () {
   echo $1 | sed 's/_\(.\)/\U\1/g' | awk '{ print toupper(substr($0, 1, 1)) substr($0, 2) }'
 }
@@ -19,24 +29,42 @@ function camelize () {
 FROM_UPPER=$(camelize $FROM)
 TO_UPPER=$(camelize $TO)
 
-for f in $(find . -regextype posix-extended -regex '.*\.(haml|erb|yml|rb|js|s?(c|a)ss)' -exec grep -q -i $FROM {}  \;  -print)
-do
+function rename_application () {
 
-  echo $f
+  echo "Renaming in file $1"
   sed -i '
   s/'$FROM'/'$TO'/g
   s/'$FROM_UPPER'/'$TO_UPPER'/g
-  ' $f
+  ' $1
 
+}
+echo "Replacing $FROM by $TO"
+echo "Replacing $FROM_UPPER by $TO_UPPER"
+
+
+
+#for f in $(find . -type f -name '*'  -exec grep -q -i -E "H2ts3|h2ts3" {}  \;  -print |grep -v log)
+# echo "for f in \$(find $FROM -regextype posix-extended -regex '(.*\.(haml|erb|yml|rb|js|s?(c|a)ss)|Rakefile)' -exec grep -q -i -E \"${FROM_UPPER}|${FROM}\" {}  \;  -print)"
+ for f in $(find $FROM -regextype posix-extended -regex '(.*\.(haml|erb|yml|rb|js|s?(c|a)ss)|Rakefile)' -exec grep -q -i -E "${FROM_UPPER}|${FROM}" {}  \;  -print)
+do
+  rename_application $f
 done
 
-if [[ -d $FROM ]] ;
-then
- echo " mv $FROM $TO"
-else
-  if [[ -d "../$FROM" ]];
-  then
-    echo "cd .. ; mv $FROM $TO ; cd $TO"
-  fi
-fi
+rename_application ${FROM}/Rakefile
+
+echo "Creating databases"
+for RAILS_ENV in development test production;
+do
+  psql -U postgres -a -c " DROP DATABASE IF EXISTS ${TO}_${RAILS_ENV};"
+  psql -U postgres -a -c " DROP ROLE IF EXISTS ${TO}_${RAILS_ENV};"
+  psql -U postgres -a -c " CREATE ROLE ${TO}_${RAILS_ENV} SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"
+  psql -U postgres -a -c " ALTER USER ${TO}_${RAILS_ENV} WITH ENCRYPTED PASSWORD '${TO}_${RAILS_ENV}';"
+  psql -U postgres -a -c " CREATE DATABASE ${TO}_${RAILS_ENV} OWNER ${TO}_${RAILS_ENV} ENCODING 'utf-8'; "
+done
+
+mv $FROM $TO
+echo $TO > $TO/.ruby-gemset
+echo "Don't forget to run the followinf command to be up to date:"
+echo "cd $TO; bundle install; rake db:setup; rake db:migrate"
+
 

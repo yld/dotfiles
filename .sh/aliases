@@ -31,9 +31,9 @@ alias .......='cd ../../../../../..'
 alias screen='screen -U'
 alias tmux='tmux -2 -u '
 
-alias w='chmod +w'
-alias x='chmod +x'
-alias r='chmod +r'
+alias W='chmod +w'
+alias X='chmod +x'
+alias R='chmod +r'
 
 # buggy typing
 alias :q='exit'
