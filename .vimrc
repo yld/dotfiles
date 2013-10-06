@@ -149,7 +149,7 @@ Bundle 'vim-scripts/vimwiki'
 " http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
 Bundle 'godlygeek/tabular'
 Bundle 'mileszs/ack.vim'
-" if the_silver_searcher
+" if the_silver_searche
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 Bundle 'rking/ag.vim'
 Bundle 'Townk/vim-autoclose'
@@ -167,8 +167,11 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-haml'
 Bundle 'zaiste/tmux.vim'
 Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
+Bundle 'vim-scripts/yaml.vim'
+" syntax checker
 Bundle 'scrooloose/syntastic'
 "let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+" theme
 Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
@@ -218,10 +221,8 @@ set magic
 set showmatch
 " How many tenths of a second to blink when matching brackets
 set mat=2
-
 " Show editing mode
 set showmode
-
 " Error bells are displayed visually.
 set visualbell
 " No annoying sound on errors
@@ -229,13 +230,13 @@ set noerrorbells
 "set t_vb=
 "set tm=500
 
-" => Files, backups and undo
+" Files, backups and undo
 set nobackup
 
 " Enable compiler support for ruby
 compiler ruby
 
-"  > searching
+" searching
 " incremental search
 set incsearch
 " Highlight search results
