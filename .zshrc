@@ -77,6 +77,8 @@ alias -g mkdir='nocorrect mkdir'
 alias -g touch='nocorrect touch'
 alias -g mv='nocorrect mv'
 
+alias help='run-help'
+
 if [[ "$(command -v grc)" == "0" ]];
 then
   alias -s less='grc less'
