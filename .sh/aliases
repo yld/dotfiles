@@ -16,7 +16,7 @@ alias df='df -h'
 alias du='du -h'
 
 alias h=history
-alias hg='fc -l 0|grep '
+alias hs='fc -l 0|grep '
 
 alias pu=pushd
 alias po=popd
@@ -43,7 +43,6 @@ if [ -x $(which vim) ]; then
 fi
 
 alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
-alias hebexfiles='git --git-dir=$HOME/Src/hebexfiles.git/ --work-tree=$HOME'
 
 if [[ -r /etc/gentoo-release ]] ; then
   . ~/.sh/aliases.gentoo
@@ -51,7 +50,13 @@ elif [[ -r /etc/debian-release ]]; then
   . ~/.sh/aliases.debian
 fi
 
+alias zg='zeus g'
+alias zd='zeus d'
 
+alias zrake='zeus rake'
+alias zcucumber='zeus cucumber'
+alias zrspec='zeus rspec'
+alias zserver='zeus server'
 
 
 

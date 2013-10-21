@@ -1,3 +1,5 @@
+[push]
+  default = current
 [user]
 	name = Yves Le Douaron
 	email = yledouaron@h2ad.net

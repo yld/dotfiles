@@ -75,13 +75,13 @@ alias screen='nohup tmux'
 
 alias -g mkdir='nocorrect mkdir'
 alias -g touch='nocorrect touch'
-alias -g mv='nocorrect mv'
+alias mv='nocorrect mv'
 
 alias help='run-help'
 
 if [[ "$(command -v grc)" == "0" ]];
 then
-  alias -s less='grc less'
+  alias -s log='grc less'
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
   alias -g gcc='grc gcc'
@@ -125,6 +125,7 @@ export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # customs functions
 . ~/.sh/functions.zsh
+. ~/.zsh/functions.d/*
 
 ### completion
 fpath=(~/.zsh/completion.d $fpath)

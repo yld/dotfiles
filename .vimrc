@@ -171,6 +171,12 @@ Bundle 'vim-scripts/yaml.vim'
 " syntax checker
 Bundle 'scrooloose/syntastic'
 "let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_check_on_open=1
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
 " theme
 Bundle 'altercation/vim-colors-solarized'
 
