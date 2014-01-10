@@ -27,6 +27,7 @@ Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
+nmap <F8> :TagbarToggle<CR>
 Bundle 'tpope/vim-repeat'
 
 Bundle 'scrooloose/nerdtree'
