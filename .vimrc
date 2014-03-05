@@ -15,6 +15,7 @@ Bundle 'gmarik/vundle'
 Bundle 'vim-scripts/blockle.vim'
 Bundle 'vim-scripts/dbext.vim'
 Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-git'
 
 Bundle 'kien/ctrlp.vim'
 set wildignore+=*.so,*.swp,*.zip
