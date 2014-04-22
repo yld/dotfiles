@@ -14,6 +14,7 @@ Bundle 'gmarik/vundle'
 " Ruby & ROR
 Bundle 'vim-scripts/blockle.vim'
 Bundle 'vim-scripts/dbext.vim'
+Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-git'
 
@@ -30,6 +31,7 @@ Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
 Bundle 'tpope/vim-repeat'
+Bundle 'honza/vim-snippets'
 
 Bundle 'scrooloose/nerdtree'
 let g:NERDTreeShowHidden = 1
