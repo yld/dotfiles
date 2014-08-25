@@ -151,6 +151,9 @@ compinit -u
 
 ### end completion
 
+autoload -U zmv
+alias mmv='noglob zmv -W'
+
 autoload -U colors && colors
 
 # home, end & Co key bindings
