@@ -166,7 +166,6 @@ Bundle 'xolox/vim-lua-ftplugin'
 " > Syntax
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-markdown'
-Bundle 'plasticboy/vim-markdown'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'tpope/vim-haml'
 Bundle 'zaiste/tmux.vim'

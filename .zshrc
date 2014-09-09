@@ -59,40 +59,66 @@ setopt PROMPT_PERCENT
 
 zmodload zsh/zutil
 
-# aliases
+# load all shells aliases
 test -r ~/.sh/aliases && source ~/.sh/aliases
 
-# zsh specific aliases
-alias -g H=' | head '
-alias -g T=' | tail'
-alias -g G=' | grep '
-alias -g L=" | less "
-alias -g M=" | most "
 alias suzsh='su -p -s /bin/zsh'
 
 alias screen='nohup screen'
-alias screen='nohup tmux'
+alias tmux='nohup tmux'
 
 alias -g mkdir='nocorrect mkdir'
 alias -g touch='nocorrect touch'
-alias mv='nocorrect mv'
+alias -g mv='nocorrect mv'
 
+# help stuff
+export HELPDIR=~/.zsh_help
+if [[ ! -d $HELPDIR ]]; then
+  mkdir $HELPDIR ;
+  cd $HELPDIR
+  perl /usr/share/zsh/${ZSH_VERSION}/Util/helpfiles zshbuiltins .
+fi
+# end help stuff
+
+autoload -U run-help
+autoload run-help-openssl
+autoload run-help-git
+autoload run-help-svn
+autoload run-help-sudo
+unalias run-help
 alias help='run-help'
 
-if [[ "$(command -v grc)" == "0" ]];
+if [[ -x $(which grc) ]];
 then
   alias -s log='grc less'
+  alias -g less='grc less'
+  alias -g L=' | grc less '
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
   alias -g gcc='grc gcc'
   alias -g traceroute='grc traceroute'
 else
+  alias -g L=' | less '
   alias -s log='less'
 fi
+
+# zsh global aliases
+alias -g G=' | grep '
+alias -g H=' | head '
+alias -g M=' | most '
+alias -g P=" | $PAGER"
+alias -g T=' | tail'
+# end zsh global aliases
 
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
 alias -s html=pick-web-browser
+
+# recent directories
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+zstyle ':completion:*:*:cdr:*:*' menu selection
+# end recent directories
 
 ZLS_COLORS=$LS_COLORS
 
@@ -115,7 +141,6 @@ WATCHFMT='%n %a %l from %m at %t.'
 
 # rvm settings
 unsetopt auto_name_dirs
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" ]]
 if [[ -s $HOME/.rvm/scripts/rvm ]] then
   [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
   . $HOME/.rvm/scripts/rvm
@@ -153,6 +178,9 @@ compinit -u
 
 autoload -U zmv
 alias mmv='noglob zmv -W'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zmv='noglob zmv'
 
 autoload -U colors && colors
 
@@ -178,10 +206,7 @@ zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
-#zstyle ':vcs_info:git*' formats "(%s) %i %c%u %b%m"
-#zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}/%S%{$reset_color%} %m%c%u"
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}(%s)%{$reset_color%} %b %{$fg[yellow]%}[%r] %{$fg[magenta]%}%S%{$reset_color%} %m"
-#-[%12.12i %b]
+zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[black]%}|%{$fg_bold[blue]%}%b%{$fg_bold[black]%}|%{$reset_color%}%{$fg[magenta]%}%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
@@ -238,9 +263,6 @@ function +vi-git-st() {
 }
 
 
-# hooks
-# moved to ~/.sh/functions.zsh
-
 # prompt
 precmd() {
   vcs_info
@@ -250,10 +272,7 @@ precmd() {
 "
   fi
   #PS1=$PS1"%h %(!.%{$'\e[0;31m'%}%n@%m%{$reset_color%}.%{$fg[blue]%}%n@%m%{$reset_color%}) %{$fg[magenta]%}%~%{$reset_color%} %0(?..%{$bg[red]%}%?%{$reset_color%} )%1(j.%{$bg[yellow]%}%j%{$reset_color%} .)# "
-  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%} %0(?..%{\e[30;41m%}%?%{\e[0m%} )%1(j.%{\e[30;43m%}%j%{\e[0m%} .)# '
-  # %j = jobs
-  # %? == $?
-  #RPS1=$'${vcs_info_msg_0_}'
+  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{\e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
 }
 
 # colorized stderr

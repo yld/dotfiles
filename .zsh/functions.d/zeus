@@ -1,0 +1,32 @@
+cucumber() {
+  if [ -S .zeus.sock ]; then
+    zeus cucumber "$@"
+  else
+    command cucumber "$@"
+  fi
+}
+
+rake() {
+  if [ -S .zeus.sock ]; then
+    zeus rake "$@"
+  else
+    command rake "$@"
+  fi
+}
+
+rspec() {
+  if [ -S .zeus.sock ]; then
+    zeus rspec "$@"
+  else
+    command rspec "$@"
+  fi
+}
+
+sidekiq() {
+  if [ -S .zeus.sock ]; then
+    zeus sidekiq "$@"
+  else
+    command sidekiq "$@"
+  fi
+}
+

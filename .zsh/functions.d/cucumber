@@ -1,8 +1,0 @@
-cucumber() {
-  if [ -S .zeus.sock ]; then
-    zeus cucumber "$@"
-  else
-    command cucumber "$@"
-  fi
-}
-
