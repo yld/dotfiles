@@ -206,7 +206,7 @@ zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[black]%}|%{$fg_bold[blue]%}%b%{$fg_bold[black]%}|%{$reset_color%}%{$fg[magenta]%}%S%{$reset_color%} %m"
+zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[black]%}[%{$fg_bold[blue]%}%b%{$fg_bold[black]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
@@ -258,7 +258,7 @@ function +vi-git-st() {
         behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
         (( $behind )) && gitstatus+=( "${red}-${behind}${gray}" )
 
-        hook_com[branch]="${hook_com[branch]} [${remote} ${(j:/:)gitstatus}]"
+        hook_com[branch]="%{$fg_bold[yellow]%}${hook_com[branch]}%{$reset_color%}%{$fg_bold[white]%}|%{$fg_bold[blue]%}${remote}%{$fg_bold[yellow]%}${(j:/:)gitstatus}%{$reset_color%}"
     fi
 }
 
