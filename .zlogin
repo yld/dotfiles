@@ -18,7 +18,7 @@
 ## END OF FILE #################################################################
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=4
 
-mesg y
+#mesg y
 
 case "`tty`" in /dev/tty[1-6]*)
   setleds +num
