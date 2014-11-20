@@ -64,12 +64,12 @@ test -r ~/.sh/aliases && source ~/.sh/aliases
 
 alias suzsh='su -p -s /bin/zsh'
 
-alias screen='nohup screen'
-alias tmux='nohup tmux'
+#alias screen='nohup screen'
+#alias tmux='nohup tmux'
 
 alias -g mkdir='nocorrect mkdir'
 alias -g touch='nocorrect touch'
-alias -g mv='nocorrect mv'
+alias mv='nocorrect mv'
 
 # help stuff
 export HELPDIR=~/.zsh_help
@@ -91,7 +91,7 @@ alias help='run-help'
 if [[ -x $(which grc) ]];
 then
   alias -s log='grc less'
-  alias -g less='grc less'
+  #alias -g less='grc less'
   alias -g L=' | grc less '
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
@@ -216,7 +216,7 @@ function +vi-git-icons() {
 
   if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
     stashes=$(git stash list 2>/dev/null | wc -l)
-    hook_com[misc]+="%{$fg[green]%}▲(${stashes})%{$reset_color%}"
+    hook_com[misc]+="%{$fg[green]%}▲(${stashes})%{$reset_color%} "
   fi
   staged_count=${$(git status -s -uno |wc -l)}
   if [[ $staged_count != "0" ]] ; then
