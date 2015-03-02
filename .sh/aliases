@@ -60,6 +60,8 @@ alias zcucumber='zeus cucumber'
 alias zrspec='zeus rspec'
 alias zserver='zeus server'
 
-
+alias tml="tmux list-sessions"
+alias tmk="tmux kill-sesion -t $1"
+alias tma="tmux -2 attach -t $1"
 
 
