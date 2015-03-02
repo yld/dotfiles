@@ -96,7 +96,7 @@ then
   alias -g ping='grc ping'
   alias -g netstat='grc netstat'
   alias -g gcc='grc gcc'
-  alias -g traceroute='grc traceroute'
+  alias traceroute='grc traceroute'
 else
   alias -g L=' | less '
   alias -s log='less'

@@ -163,6 +163,9 @@ let g:AutoClosePairs_add = "<> |"
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-lua-ftplugin'
 
+" > BDD/
+Bundle 'renderedtext/vim-bdd'
+
 " > Syntax
 Bundle 'tpope/vim-cucumber'
 Bundle 'tpope/vim-markdown'

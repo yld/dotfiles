@@ -235,18 +235,18 @@ upicon = widget({ type = "imagebox" })
 -- Initialize widget
 netwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(netwidget, vicious.widgets.net,
-function (widget, args)
-  local networks = {'eth0', 'wlan0'}
-  for _,device in pairs(networks) do
-    if tonumber(args["{".. device .." carrier}"]) > 0 then
-      netwidget.found = true
-      dnicon.image = image(beautiful.widget_down)
-      upicon.image = image(beautiful.widget_up)
-      return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
-    end
-  end
-end, 3)
+-- vicious.register(netwidget, vicious.widgets.net,
+-- function (widget, args)
+--   local networks = {'eth0', 'wlan0'}
+--   for _,device in pairs(networks) do
+--     if tonumber(args["{".. device .." carrier}"]) > 0 then
+--       netwidget.found = true
+--       dnicon.image = image(beautiful.widget_down)
+--       upicon.image = image(beautiful.widget_up)
+--       return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
+--     end
+--   end
+-- end, 3)
 -- }}} Network usage widget
 
 -- {{{ Temperature
