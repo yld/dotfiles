@@ -1,6 +1,8 @@
 
 alias rm='rm -f'
 
+# first, get rid of GREP_OPTIONS
+unset GREP_OPTIONS
 # grep with color by default
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
