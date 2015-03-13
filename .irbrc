@@ -11,4 +11,5 @@ def time(times = 1)
   result
 end
 
-
+require "awesome_print"
+AwesomePrint.irb!
