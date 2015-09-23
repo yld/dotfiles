@@ -2,6 +2,10 @@
 
 ### options ###
 
+### https://github.com/creationix/nvm/issues/841
+setopt POSIX_BUILTINS
+setopt POSIX_ALIASES
+### ZSH features
 setopt NOTIFY
 setopt ZLE
 
@@ -67,8 +71,9 @@ alias suzsh='su -p -s /bin/zsh'
 #alias screen='nohup screen'
 #alias tmux='nohup tmux'
 
-alias -g mkdir='nocorrect mkdir'
-alias -g touch='nocorrect touch'
+alias mkdir='nocorrect mkdir'
+alias svn mkdir='nocorrect svn mkdir'
+alias touch='nocorrect touch'
 alias mv='nocorrect mv'
 
 # help stuff
@@ -106,9 +111,16 @@ fi
 alias -g G=' | grep '
 alias -g H=' | head '
 alias -g M=' | most '
-alias -g P=" | $PAGER"
+alias -g P=" | $PAGER "
 alias -g T=' | tail'
 # end zsh global aliases
+
+# Ruby & RAILS aliases
+alias zeus rspec='nocorrect zeus rspec '
+
+#alias p='git push'
+#alias c='git commit'
+# end Ruby & RAILS aliases
 
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
@@ -295,3 +307,6 @@ precmd() {
 # end zsh specific stuff
 . ~/.sh/rc.sh
 
+
+export NVM_DIR="/home/yves/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
