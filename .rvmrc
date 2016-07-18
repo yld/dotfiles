@@ -2,6 +2,6 @@ rvm_install_on_use_flag=1
 rvm_gemset_create_on_use_flag=1
 rvm_project_rvmrc=1
 rvm_project_rvmrc_default=1
-rvm_configure_env=(CFLAGS=-O3)
-rvm_configure_env=(CFLAGS=-O3)
+rvm_configure_env=(CFLAGS=-O2)
 rvm_auto_reload_flag=1
+rvm_with_default_gems="bundler pry awesome_print"
