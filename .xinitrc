@@ -17,6 +17,10 @@ then
   VBoxClient --seamless
 fi
 
+if [[ -x $(command -v volumeicon) ]];
+then
+  volumeicon &
+fi
 # Awesome WM
 exec awesome
 
