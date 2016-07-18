@@ -1,15 +1,18 @@
 -- Standard awesome library
-awful = require("awful")
-autofocus = require("awful.autofocus")
-rules = require("awful.rules")
+local gears = require("gears")
+local awful = require("awful")
+awful.rules = require("awful.rules")
+require("awful.autofocus")
+-- Widget and layout library
+local wibox = require("wibox")
 -- Theme handling library
-beautiful = require("beautiful")
+local beautiful = require("beautiful")
 -- Notification library
-naughty = require("naughty")
-
+local naughty = require("naughty")
+local menubar = require("menubar")
 
 -- Vicious
-vicious = require("vicious")
+local vicious = require("vicious")
 
 -- custom libs
 require("helpers")
@@ -28,7 +31,7 @@ end
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.add_signal("debug::error", function (err)
+    awesome.connect_signal("debug::error", function (err)
         -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
@@ -100,7 +103,7 @@ end
 
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-layouts =
+local layouts =
 {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
@@ -148,7 +151,7 @@ mymainmenu = awful.menu({ items = {
   }
 })
 
-mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
+mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 -- }}}
 
@@ -162,46 +165,46 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{ Icons
 
-mycpuicon        = widget({ type = "imagebox", name = "mycpuicon" })
-mycpuicon.image  = image(beautiful.widget_cpu)
+mycpuicon = wibox.widget.imagebox()
+mycpuicon:set_image(beautiful.widget_cpu)
 
-myneticon         = widget({ type = "imagebox", name = "myneticon" })
-myneticonup       = widget({ type = "imagebox", name = "myneticonup" })
+myneticon = wibox.widget.imagebox()
+myneticonup = wibox.widget.imagebox()
 
-myneticonup.image = image(beautiful.widget_netup)
-myneticon.image   = image(beautiful.widget_net)
+myneticonup:set_image(beautiful.widget_netup)
+myneticon:set_image(beautiful.widget_net)
 
-myvolicon       = widget({ type = "imagebox", name = "myvolicon" })
-myvolicon.image = image(beautiful.widget_vol)
+myvolicon = wibox.widget.imagebox()
+myvolicon:set_image(beautiful.widget_vol)
 
-mymusicicon     = widget({ type = "imagebox", name = "mymusicicon"})
-mymusicicon.image = image(beautiful.widget_music)
+mymusicicon = wibox.widget.imagebox()
+mymusicicon:set_image(beautiful.widget_music)
 
-myspacer         = widget({ type = "textbox", name = "myspacer" })
-myspacer.text    = " "
+myspacer = wibox.widget.textbox()
+myspacer:set_text(" ")
 
-myseparator      = widget({ type = "textbox", name = "myseparator" })
+myseparator = wibox.widget.textbox()
 myseparator.text = "|"
 
-middlespacer      = widget({ type = "textbox", name = "middlespacer" })
+middlespacer = wibox.widget.textbox()
 middlespacer.text = "]["
 
-leftspacer      = widget({ type = "textbox", name = "leftspacer" })
+leftspacer = wibox.widget.textbox()
 leftspacer.text = "["
 
-rightspacer      = widget({ type = "textbox", name = "rightspacer" })
+rightspacer = wibox.widget.textbox()
 rightspacer.text = "]"
 
 
 
-mydiskicon         = widget({ type = "imagebox", name = "mydiskicon" })
-mydiskicon.image   = image(beautiful.widget_fs)
+mydiskicon = wibox.widget.imagebox()
+mydiskicon:set_image(beautiful.widget_fs)
 
-mytimeicon       = widget({ type = "imagebox", name = "mytimeicon" })
-mytimeicon.image = image(beautiful.widget_time)
+mytimeicon = wibox.widget.imagebox()
+mytimeicon:set_image(beautiful.widget_time)
 
-mymemicon       = widget({ type = "imagebox", name = "mymemicon" })
-mymemicon.image = image(beautiful.widget_mem)
+mymemicon = wibox.widget.imagebox()
+mymemicon:set_image(beautiful.widget_mem)
 -- }} Icons
 
 -- {{{ Battery state
@@ -229,11 +232,11 @@ function print_net(name, down, up)
   .. "#7F9F7F" ..'">' .. up .. '</span>'
 end
 
-dnicon = widget({ type = "imagebox" })
-upicon = widget({ type = "imagebox" })
+dnicon = wibox.widget.imagebox()
+upicon = wibox.widget.imagebox()
 
 -- Initialize widget
-netwidget = widget({ type = "textbox" })
+netwidget = wibox.widget.textbox()
 -- Register widget
 -- vicious.register(netwidget, vicious.widgets.net,
 -- function (widget, args)
@@ -291,8 +294,8 @@ netwidget = widget({ type = "textbox" })
 -- {{{ Memory usage
 
 -- icon
-memicon = widget({ type = "imagebox" })
-memicon.image = image(beautiful.widget_mem)
+memicon = wibox.widget.imagebox()
+memicon:set_image(beautiful.widget_mem)
 
 if membar_enable then
 -- Initialize widget
@@ -301,13 +304,12 @@ if membar_enable then
   membar:set_vertical(true):set_ticks(true)
   membar:set_height(16):set_width(8):set_ticks_size(2)
   membar:set_background_color(beautiful.fg_off_widget)
-  membar:set_gradient_colors({ beautiful.fg_widget,
-  beautiful.fg_center_widget, beautiful.fg_end_widget
-  }) -- Register widget
+  --membar:set_gradient_colors({ beautiful.fg_widget, beautiful.fg_center_widget, beautiful.fg_end_widget })
+  -- Register widget
   vicious.register(membar, vicious.widgets.mem, "$1", 13)
 end
 -- mem text output
-memtext = widget({ type = "textbox" })
+memtext = wibox.widget.textbox()
 vicious.register(memtext, vicious.widgets.mem, "$1% ($2/$3MB)", 13)
 -- }}} Memory usage
 
@@ -321,7 +323,7 @@ memwidget:set_width(24)
 memwidget:set_background_color("#494B4F")
 --memwidget:set_border_color(nil)
 memwidget:set_color("#AECF96")
-memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+-- memwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
 -- Register widget
 vicious.register(memwidget, vicious.widgets.mem, "$1", 13)
 
@@ -355,7 +357,7 @@ function gradient(min, max, val)
 end
 
 -- {{ CPU widget
-local cpuwidget = widget({ type = "textbox" })
+local cpuwidget = wibox.widget.textbox()
 
 vicious.register(cpuwidget, vicious.widgets.cpu,
 function (widget, args)
@@ -380,13 +382,13 @@ end )
 
 -- {{ Date/time widget
 mytextclock = awful.widget.textclock({ align = "right" })
-datewidget = widget({ type = "textbox" })
-vicious.register(datewidget, vicious.widgets.date, "%d/%m %T", 1)
+-- datewidget = awful.widget.textbox()
+-- vicious.register(datewidget, vicious.widgets.date, "%d/%m %T", 1)
 -- "%d/%m %T"
 -- }} Date/time widget
 
 -- Create a systray
-mysystray = widget({ type = "systray" })
+mysystray = wibox.widget.systray()
 
 -- Create a status bar
 --mystatusbar = awful.wibox({ position = "bottom", screen = 1, ontop = false, width = 1, height = 16 })
@@ -439,7 +441,7 @@ mytasklist.buttons = awful.util.table.join(
 
 for s = 1, screen.count() do
   -- Create a promptbox for each screen
-  mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+  -- mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
   -- Create an imagebox widget which will contains an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
   mylayoutbox[s] = awful.widget.layoutbox(s)
