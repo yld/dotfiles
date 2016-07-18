@@ -11,12 +11,16 @@ Bundle 'gmarik/vundle'
 
 " Tools
 
+" EmberJS
+" Bundle 'joukevandermaas/vim-ember-hbs'
+
 " Ruby & ROR
 Bundle 'vim-scripts/blockle.vim'
 Bundle 'vim-scripts/dbext.vim'
 Bundle 'tpope/vim-abolish'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-git'
+Bundle 'rainerborene/vim-reek'
 
 Bundle 'kien/ctrlp.vim'
 set wildignore+=*.so,*.swp,*.zip
@@ -161,20 +165,21 @@ let g:AutoClosePairs_add = "<> |"
 
 " > Lua
 Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-lua-ftplugin'
+" Bundle 'xolox/vim-lua-ftplugin'
 
 " > BDD/
 Bundle 'renderedtext/vim-bdd'
 
 " > Syntax
-Bundle 'tpope/vim-cucumber'
-Bundle 'tpope/vim-markdown'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'tpope/vim-haml'
-Bundle 'zaiste/tmux.vim'
-Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
-Bundle 'vim-scripts/yaml.vim'
+" Bundle 'tpope/vim-cucumber'
+" Bundle 'tpope/vim-markdown'
+" Bundle 'kchmck/vim-coffee-script'
+" Bundle 'tpope/vim-haml'
+" Bundle 'zaiste/tmux.vim'
+" Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
+" Bundle 'vim-scripts/yaml.vim'
 " syntax checker
+Bundle 'sheerun/vim-polyglot'
 Bundle 'scrooloose/syntastic'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_check_on_open=1
