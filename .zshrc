@@ -72,7 +72,7 @@ alias suzsh='su -p -s /bin/zsh'
 #alias tmux='nohup tmux'
 
 alias mkdir='nocorrect mkdir'
-alias svn mkdir='nocorrect svn mkdir'
+alias 'svn mkdir'='nocorrect svn mkdir'
 alias touch='nocorrect touch'
 alias mv='nocorrect mv'
 
@@ -116,7 +116,7 @@ alias -g T=' | tail'
 # end zsh global aliases
 
 # Ruby & RAILS aliases
-alias zeus rspec='nocorrect zeus rspec '
+#alias zeus rspec='nocorrect zeus rspec '
 
 #alias p='git push'
 #alias c='git commit'
@@ -212,7 +212,7 @@ bindkey "^[OH" beginning-of-line
 
 # vcs
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable bzr cvs git svn
+zstyle ':vcs_info:*' enable cvs git svn
 zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
