@@ -44,7 +44,6 @@ let g:NERDTreeHijackNetrw = 1
 map <F7> :NERDTreeToggle<CR>
 
 " Source Forge and Git...
-" Bundle 'git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex'
 Bundle 'jcf/vim-latex'
 "Bundle 'Lokaltog/vim-powerline'
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
@@ -184,6 +183,9 @@ Bundle 'scrooloose/syntastic'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_check_on_open=1
 
+" JSX support (ReactJS)
+Bundle 'mxw/vim-jsx'
+let g:jsx_ext_required = 0
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
