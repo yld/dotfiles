@@ -182,10 +182,25 @@ Bundle 'sheerun/vim-polyglot'
 Bundle 'scrooloose/syntastic'
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_check_on_open=1
+let g:syntastic_javascript_checkers = ['eslint']
 
+" Override eslint with local version where necessary.
+let local_eslint = finddir('node_modules', '.;') . '/.bin/eslint'
+if matchstr(local_eslint, "^\/\\w") == ''
+  let local_eslint = getcwd() . "/" . local_eslint
+endif
+if executable(local_eslint)
+  let g:syntastic_javascript_eslint_exec = local_eslint
+endif
+
+" Javascript
+Bundle 'pangloss/vim-javascript'
+" Node
+Bundle 'moll/vim-node'
 " JSX support (ReactJS)
 Bundle 'mxw/vim-jsx'
 let g:jsx_ext_required = 0
+
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
