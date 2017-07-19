@@ -1,6 +1,6 @@
 # interactive shells stuff
 
-# keychain
+# keychain (ssh & gpg keys)
 if [ -x  /usr/bin/keychain ] ; then
   if [[ -d ~/.ssh ]];
   then

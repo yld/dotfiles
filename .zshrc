@@ -35,7 +35,12 @@ setopt HUP
 setopt NOTIFY
 
 
-### completion ###
+## auto correct ##
+setopt CORRECT
+setopt CORRECT_ALL
+CORRECT_IGNORE='rspec'
+
+## completion ##
 setopt ALWAYS_TO_END
 setopt AUTO_LIST
 setopt AUTO_MENU
@@ -44,8 +49,6 @@ setopt AUTO_PARAM_SLASH
 setopt AUTO_REMOVE_SLASH
 setopt CHASE_LINKS
 setopt COMPLETE_IN_WORD
-setopt CORRECT
-setopt CORRECT_ALL
 setopt EXTENDED_GLOB
 setopt GLOB_DOTS
 setopt HASH_LIST_ALL
@@ -116,10 +119,7 @@ alias -g T=' | tail'
 # end zsh global aliases
 
 # Ruby & RAILS aliases
-#alias zeus rspec='nocorrect zeus rspec '
-
-#alias p='git push'
-#alias c='git commit'
+#see CORRECT_IGNORE upward
 # end Ruby & RAILS aliases
 
 autoload -U pick-web-browser
@@ -307,8 +307,10 @@ precmd() {
 # end zsh specific stuff
 . ~/.sh/rc.sh
 
-
+# nodeJS #
+## nvm ##
 export NVM_DIR="/home/yves/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+## yarn ##
 export PATH="$HOME/.yarn/bin:$PATH"
