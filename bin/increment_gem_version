@@ -1,0 +1,11 @@
+#!/bin/bash
+
+FILE_PATH="lib/$(basename $(pwd))/version.rb"
+
+if [[  -f ./$FILE_PATH && -d .git ]] ; then
+  git checkout $FILE_PATH
+  perl -i -pe 's/((\d+\.)*)(\d+)(.*)/$1.($3+1).$4/e if $_ =~ /VERSION/' $FILE_PATH
+  git add $FILE_PATH
+else
+  echo -e "\e[1m$FILE_PATH\e[21m missing"
+fi
