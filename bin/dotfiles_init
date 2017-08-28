@@ -1,9 +1,13 @@
 #!/bin/sh
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
-mkdir -p $DOTFILES_DIR
-git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
 alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
-dotfiles checkout
+
+if [[ ! -d $DOTFILES_DIR ]] ; then
+  mkdir -p $DOTFILES_DIR
+  git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
+  alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
+  dotfiles checkout
+fi
 
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git
 dotfiles submodule init
@@ -11,11 +15,18 @@ dotfiles submodule update
 
 ### vim part
 
-if [[ comand -v vim > /dev/null ]];
-then
+if [[ -x $(command -v vim) ]] ; then
   [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
   vim +BundleInstall +qall
 fi
 
 ## zsh part
+# for shell in 'zsh fish bashrc'
+if [[ -r  /etc/grc.zsh ]] ; then
+  ln -sf ~/.zsh/grc.zsh /etc/grc.conf
+else
+  wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+fi
+# end zsh part
+
 
