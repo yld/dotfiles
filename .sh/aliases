@@ -46,6 +46,7 @@ if [ -x $(which vim) ]; then
   alias vi=vim
 fi
 
+alias gti='git'
 alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
 
 if [[ -r /etc/gentoo-release ]] ; then
@@ -56,11 +57,12 @@ fi
 
 alias zg='zeus g'
 alias zd='zeus d'
-
 alias zrake='zeus rake'
 alias zcucumber='zeus cucumber'
 alias zrspec='zeus rspec'
 alias zserver='zeus server'
+alais zk='zeus sidekiq'
+alias zdbconsole='zeus dbconsole'
 
 alias tml="tmux list-sessions"
 alias tmk="tmux kill-sesion -t $1"

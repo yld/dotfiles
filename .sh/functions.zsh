@@ -48,27 +48,3 @@ chpwd() {
       ;;
   esac
 }
-
-#preexec() {
-#  echo "$1 from preexec"
-#}
-#function zle-line-init zle-keymap-select {
-#  RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-#  RPS2=$RPS1
-#  zle reset-prompt
-#}
-#zle -N zle-line-init
-#zle -N zle-keymap-select
-
-# help(){
-#     #This function used to call the "bash" builtin.
-#     #bash -c "help $@"
-
-#     #Better way: look it up in the man pages. I often look up "test" which doesn't give a usefull result,
-#     #so I added that as a special case.
-#     if [[ $1 == "test" ]]; then
-#         man --pager="less -p'^CONDITIONAL EXPRESSIONS$'" zshall
-#     else
-#         man --pager="less -p'^ *$@ '" zshall
-#     fi
-# }

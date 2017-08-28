@@ -1,6 +1,6 @@
 #!/bin/sh
 
 [[ "$#" -ne 1 ]] && echo 'you must give it a port number' && exit 1
-command -v lsof 2>&1 || echo 'you must have lsof installed' && exit 2
+command -v lsof > /dev/null 2>&1 || (echo 'you must have lsof installed' && exit 2)
 
 lsof -i:${1} |sed '1d'|awk '{print $2}'|xargs kill -9
