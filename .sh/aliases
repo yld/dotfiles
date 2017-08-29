@@ -61,7 +61,7 @@ alias zrake='zeus rake'
 alias zcucumber='zeus cucumber'
 alias zrspec='zeus rspec'
 alias zserver='zeus server'
-alais zk='zeus sidekiq'
+alias zk='zeus sidekiq'
 alias zdbconsole='zeus dbconsole'
 
 alias tml="tmux list-sessions"
