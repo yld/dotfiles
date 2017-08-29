@@ -179,19 +179,24 @@ Bundle 'renderedtext/vim-bdd'
 " Bundle 'vim-scripts/yaml.vim'
 " syntax checker
 Bundle 'sheerun/vim-polyglot'
-Bundle 'scrooloose/syntastic'
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_check_on_open=1
-let g:syntastic_javascript_checkers = ['eslint']
+Bundle 'w0rp/ale'
+let g:ale_lint_on_enter = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_echo_msg_format = '%linter%%s'
 
-" Override eslint with local version where necessary.
-let local_eslint = finddir('node_modules', '.;') . '/.bin/eslint'
-if matchstr(local_eslint, "^\/\\w") == ''
-  let local_eslint = getcwd() . "/" . local_eslint
-endif
-if executable(local_eslint)
-  let g:syntastic_javascript_eslint_exec = local_eslint
-endif
+let g:ale_ruby_brakeman_options = ' -A'
+let g:ale_ruby_reek_show_wiki_link = 1
+
+let g:ale_fixers = {
+\   'ruby': ['rubocop'],
+\   'javascript': ['eslint'],
+\}
+let g:ale_fix_on_save = 1
+
+"Bundle 'scrooloose/syntastic'
+"let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+"let g:syntastic_check_on_open=1
+"let g:syntastic_javascript_checkers = ['eslint']
 
 " Javascript
 Bundle 'pangloss/vim-javascript'
