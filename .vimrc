@@ -10,83 +10,33 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Tools
-
-" EmberJS
-" Bundle 'joukevandermaas/vim-ember-hbs'
-
-" Ruby & ROR
-Bundle 'vim-scripts/blockle.vim'
-Bundle 'vim-scripts/dbext.vim'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-git'
-Bundle 'rainerborene/vim-reek'
-
-Bundle 'kien/ctrlp.vim'
-set wildignore+=*.so,*.swp,*.zip
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-  \ 'file': '\.exe$\|\.so$\|\.dll$',
-  \ }
-Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-commentary'
 Bundle 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
 Bundle 'tpope/vim-repeat'
 Bundle 'honza/vim-snippets'
-
+Bundle 'tpope/vim-endwise'
 Bundle 'scrooloose/nerdtree'
+
 let g:NERDTreeShowHidden = 1
 let g:NERDChristmasTree = 1
 let g:NERDTreeHijackNetrw = 1
 map <F7> :NERDTreeToggle<CR>
 
-" Source Forge and Git...
-Bundle 'jcf/vim-latex'
-"Bundle 'Lokaltog/vim-powerline'
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
-let g:Powerline_symbols='fancy'
-set laststatus=2
-set t_Co=256
+Bundle 'ctrlpvim/ctrlp.vim'
 
-" https://github.com/Shougo/unite.vim
-Bundle 'Shougo/vimproc'
-Bundle 'Shougo/unite.vim'
-noremap <leader>f :<C-u>Unite -start-insert file<CR>
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
-nnoremap <leader>r :<C-u>Unite -start-insert file_rec/asinc:!<CR>
-noremap <leader>m :<C-u>Unite file_mru<CR>
-let g:unite_source_history_yank_enable = 1
-nnoremap <leader>y :<C-u>Unite history/yank<CR>
-"let g:unite_candidate_icon = "●"
-let g:unite_marked_icon = "▲"
+set wildignore+=*.so,*.swp,*.zip
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+  \ 'file': '\.exe$\|\.so$\|\.dll$',
+  \ }
 
-Bundle 'tsukkee/unite-help'
-" Execute help.
-nnoremap <C-h>  :<C-u>Unite -start-insert help<CR>
-" Execute help by cursor keyword.
-nnoremap <silent> g<C-h>  :<C-u>UniteWithCursorWord help<CR>
+" theme
+Bundle 'altercation/vim-colors-solarized'
 
-Bundle 'ujihisa/unite-gem'
-Bundle 'chrisbra/csv.vim'
-Bundle 'airblade/vim-gitgutter'
-nnoremap <F5> :GitGutterToggle<CR>
-let g:gitgutter_enabled = 0
-let g:gitgutter_diff_args='-w'
-let g:gitgutter_escape_grep=1
-let g:gitgutter_highlight_lines = 1
-let g:airline_powerline_fonts=1
-set ttimeoutlen=50
-
-Bundle 'mbbill/undotree'
-nnoremap <F6> :UndotreeToggle<cr>
-if has("persistent_undo")
-  set undodir='/tmp'
-  set undofile
-endif
-
+" Airline
 Bundle 'bling/vim-airline'
 
 if !exists('g:airline_symbols')
@@ -128,16 +78,66 @@ let g:airline#extensions#tabline#buffer_min_count = 0
 let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
 
+" javascript, React, EmberJS
+Bundle 'joukevandermaas/vim-ember-hbs'
+Bundle 'pangloss/vim-javascript'
+" Node
+Bundle 'moll/vim-node'
+" JSX support (ReactJS)
+Bundle 'mxw/vim-jsx'
+"https://github.com/pangloss/vim-javascript/issues/1003
+" let g:jsx_ext_required = 0
+
+" Ruby & ROR
+Bundle 'vim-scripts/blockle.vim'
+Bundle 'vim-scripts/dbext.vim'
+Bundle 'tpope/vim-abolish'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-git'
+Bundle 'renderedtext/vim-bdd'
+Bundle 'tpope/vim-cucumber'
+
+" Source Forge and Git...
+Bundle 'jcf/vim-latex'
+"Bundle 'Lokaltog/vim-powerline'
+"set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+"let g:Powerline_symbols='fancy'
+"set laststatus=2
+"set t_Co=256
+
+" https://github.com/Shougo/unite.vim
+Bundle 'Shougo/vimproc'
+
+Bundle 'chrisbra/csv.vim'
+Bundle 'airblade/vim-gitgutter'
+nnoremap <F5> :GitGutterToggle<CR>
+let g:gitgutter_enabled = 0
+let g:gitgutter_diff_args='-w'
+let g:gitgutter_escape_grep=1
+let g:gitgutter_highlight_lines = 1
+let g:airline_powerline_fonts=1
+set ttimeoutlen=50
+
+Bundle 'mbbill/undotree'
+nnoremap <F6> :UndotreeToggle<cr>
+if has("persistent_undo")
+  set undodir='/tmp'
+  set undofile
+endif
 
 Bundle 'ervandew/screen'
+
 let g:ScreenShellTmuxInitArgs = '-2'
+
 Bundle 'benmills/vimux'
+
 map <Leader>vo :VimuxOpenPane<CR>
 map <Leader>vp :VimuxPromptCommand<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vz :VimuxInterruptRunner<CR>
 
 Bundle 'jingweno/vimux-zeus'
+
 map <Leader>zs :ZeusStart<CR>
 map <Leader>zc :ZeusConsole<CR>
 map <Leader>zc :ZeusDestroy<space>
@@ -145,7 +145,7 @@ map <Leader>zr :ZeusRake spec<CR>
 map <Leader>zg :ZeusGenerate<space>
 
 Bundle 'guns/xterm-color-table.vim'
-Bundle 'terryma/vim-multiple-cursors'
+"Bundle 'terryma/vim-multiple-cursors'
 Bundle 'tpope/vim-fugitive'
 Bundle 'vim-scripts/greplace.vim'
 Bundle 'tpope/vim-bundler'
@@ -163,11 +163,10 @@ Bundle 'Townk/vim-autoclose'
 let g:AutoClosePairs_add = "<> |"
 
 " > Lua
-Bundle 'xolox/vim-misc'
+"Bundle 'xolox/vim-misc'
 " Bundle 'xolox/vim-lua-ftplugin'
 
 " > BDD/
-Bundle 'renderedtext/vim-bdd'
 
 " > Syntax
 " Bundle 'tpope/vim-cucumber'
@@ -178,7 +177,8 @@ Bundle 'renderedtext/vim-bdd'
 " Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
 " Bundle 'vim-scripts/yaml.vim'
 " syntax checker
-Bundle 'sheerun/vim-polyglot'
+
+"Bundle 'sheerun/vim-polyglot'
 Bundle 'w0rp/ale'
 let g:ale_lint_on_enter = 1
 let g:airline#extensions#ale#enabled = 1
@@ -191,27 +191,13 @@ let g:ale_fixers = {
 \   'ruby': ['rubocop'],
 \   'javascript': ['eslint'],
 \}
+let g:ale_ruby_rubocop_options='-a'
 let g:ale_fix_on_save = 1
-
-"Bundle 'scrooloose/syntastic'
-"let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-"let g:syntastic_check_on_open=1
-"let g:syntastic_javascript_checkers = ['eslint']
-
-" Javascript
-Bundle 'pangloss/vim-javascript'
-" Node
-Bundle 'moll/vim-node'
-" JSX support (ReactJS)
-Bundle 'mxw/vim-jsx'
-let g:jsx_ext_required = 0
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
 
-" theme
-Bundle 'altercation/vim-colors-solarized'
 
 filetype plugin indent on
 
