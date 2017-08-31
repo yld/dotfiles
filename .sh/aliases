@@ -2,11 +2,14 @@
 alias rm='rm -f'
 
 # first, get rid of GREP_OPTIONS
+alias less='less -R'
 unset GREP_OPTIONS
 # grep with color by default
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+if [[ $- == *i* ]] ; then
+  alias grep='grep --color=always'
+  alias fgrep='fgrep --color=always'
+  alias egrep='egrep --color=always'
+fi
 
 alias ls='ls --color=auto'
 alias la='ls -A'

@@ -1,12 +1,21 @@
 #!/bin/sh
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
+NEW_INSTALL="yes"
 alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
+
 
 if [[ ! -d $DOTFILES_DIR ]] ; then
   mkdir -p $DOTFILES_DIR
   git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
   alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
   dotfiles checkout
+else
+  NEW_INSTALL="no"
+  if [[ "$(dotfiles st --porcelain | wc -l)" == "0" ]] ; then
+    dotfiles pull --rebase
+  else
+    echo "you have some uncommitted changes in dotfiles files"
+  fi
 fi
 
 # see http://gmarik.info/blog/2010/05/02/tracking-dotfiles-with-git
@@ -16,17 +25,38 @@ dotfiles submodule update
 ### vim part
 
 if [[ -x $(command -v vim) ]] ; then
-  [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-  vim +BundleInstall +qall
+  if [[ "${NEW_INSTALL}" == "yes" ]] ; then
+    [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    vim +BundleInstall +qall
+  else
+    vim +BundleUpdate +qall
+    vim +BundleClean +qall
+  fi
 fi
 
 ## zsh part
-# for shell in 'zsh fish bashrc'
-if [[ -r  /etc/grc.zsh ]] ; then
-  ln -sf ~/.zsh/grc.zsh /etc/grc.conf
-else
-  wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+if [[ -x $(command -v zsh) ]] ; then
+  ZPLUGD=~/.zplugd
+  [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
+  echo ". ~/.zplugd/init.zsh ; [[ ! zplug check --verbose ]] && zplug install" | zsh -s
+  # for shell in 'zsh fish bashrc'
+  if [[ -r  /etc/grc.zsh ]] ; then
+    ln -sf ~/.zsh/grc.zsh /etc/grc.conf
+  else
+    wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+  fi
 fi
 # end zsh part
 
+if [[ ! -d $HOME/.rvm ]] ; then
+  gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+  curl -sSL https://get.rvm.io | bash -s stable --ruby -- --autolibs=read-fail --ignore-dotfiles --version latest
+fi
+
+source "$HOME/.rvm/scripts/rvm"
+rvm get stable
+# RVM global gems
+rvm @global do gem install awesome_print pry bundler
+
+[[ -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
 

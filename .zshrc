@@ -112,10 +112,10 @@ zplug check || (zplug install && zplug update)
 zplug load
 
 # zsh global aliases
-alias -g L=' | less '
+alias -g L=' | less -R'
 alias -s log='less'
 
-alias -g G=' | grep '
+alias -g G=' | grep --color=always'
 alias -g H=' | head '
 alias -g M=' | most '
 alias -g P=" | $PAGER "
@@ -307,11 +307,6 @@ precmd() {
 #[[ $hilite = "on" ]] || hilite="on" exec hilite zsh
 # end zsh specific stuff
 . ~/.sh/rc.sh
-
-# nodeJS #
-# ## nvm ##
-# export NVM_DIR="/home/yves/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # yarn path
 export PATH="$HOME/.yarn/bin:$PATH"
