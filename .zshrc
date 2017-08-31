@@ -34,7 +34,6 @@ setopt CHECK_JOBS
 setopt HUP
 setopt NOTIFY
 
-
 ## auto correct ##
 setopt CORRECT
 setopt CORRECT_ALL
@@ -96,21 +95,26 @@ autoload run-help-sudo
 unalias run-help
 alias help='run-help'
 
-if [[ -x $(which grc) ]];
-then
-  alias -s log='grc less'
-  #alias -g less='grc less'
-  alias -g L=' | grc less '
-  alias -g ping='grc ping'
-  alias -g netstat='grc netstat'
-  alias -g gcc='grc gcc'
-  alias traceroute='grc traceroute'
-else
-  alias -g L=' | less '
-  alias -s log='less'
-fi
+[[ -x $(command -v grc) ]] && . ~/.zsh/grc.zsh
+
+# https://github.com/unixorn/awesome-zsh-plugins
+. ~/.zplugd/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+export NVM_AUTO_USE=true
+export NVM_LAZY_LOAD=true
+zplug "lukechilds/zsh-nvm"
+zplug "voronkovich/gitignore.plugin.zsh"
+zplug "unixorn/git-extra-commands"
+zplug "RobertAudi/tsm"
+zplug "plugins/yarn", from:oh-my-zsh
+# zplug "johnhamelink/rvm-zsh"
+zplug check || (zplug install && zplug update)
+zplug load
 
 # zsh global aliases
+alias -g L=' | less '
+alias -s log='less'
+
 alias -g G=' | grep '
 alias -g H=' | head '
 alias -g M=' | most '
@@ -155,7 +159,6 @@ WATCHFMT='%n %a %l from %m at %t.'
 unsetopt auto_name_dirs
 if [[ -s $HOME/.rvm/scripts/rvm ]] then
   [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
-  . $HOME/.rvm/scripts/rvm
 fi
 
 export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -240,7 +243,6 @@ function +vi-git-icons() {
   fi
 }
 
-
 function +vi-git-stash() {
   local -a stashes
 
@@ -273,7 +275,6 @@ function +vi-git-st() {
         hook_com[branch]="%{$fg_bold[yellow]%}${hook_com[branch]}%{$reset_color%}%{$fg_bold[white]%}|%{$fg_bold[blue]%}${remote}%{$fg_bold[yellow]%}${(j:/:)gitstatus}%{$reset_color%}"
     fi
 }
-
 
 # prompt
 precmd() {
@@ -308,9 +309,12 @@ precmd() {
 . ~/.sh/rc.sh
 
 # nodeJS #
-## nvm ##
-export NVM_DIR="/home/yves/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# ## nvm ##
+# export NVM_DIR="/home/yves/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
-## yarn ##
+# yarn path
 export PATH="$HOME/.yarn/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
