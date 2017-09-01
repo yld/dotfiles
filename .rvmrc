@@ -5,3 +5,4 @@ rvm_project_rvmrc_default=1
 rvm_configure_env=(CFLAGS=-O2)
 rvm_auto_reload_flag=1
 rvm_with_default_gems="bundler pry awesome_print"
+rvm_autoinstall_bundler_flag=0
