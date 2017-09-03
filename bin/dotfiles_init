@@ -7,7 +7,6 @@ alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
 if [[ ! -d $DOTFILES_DIR ]] ; then
   mkdir -p $DOTFILES_DIR
   git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
-  alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
   dotfiles checkout
 else
   NEW_INSTALL="no"

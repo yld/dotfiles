@@ -1,4 +1,4 @@
-
+alias su='su -l'
 alias rm='rm -f'
 
 # first, get rid of GREP_OPTIONS
