@@ -6,5 +6,3 @@ elif [[ -r /etc/debian-release ]]; then
 fi
 
 ### exports ###
-. ~/.sh/exports
-

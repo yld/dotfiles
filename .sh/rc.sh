@@ -1,9 +1,8 @@
 # interactive shells stuff
 
 # keychain (ssh & gpg keys)
-if [ -x  /usr/bin/keychain ] ; then
-  if [[ -d ~/.ssh ]];
-  then
+if [ -x $(command -v keychain) ] ; then
+  if [[ -d ~/.ssh ]]; then
     for TMP_PATH in $(ls -A ~/.ssh/ &> /dev/null |grep -E  '(r|d)sa' |grep -v -E "*pub") ;
     do
       KEY_PATH=~/.ssh/${TMP_PATH}

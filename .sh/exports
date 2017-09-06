@@ -18,23 +18,33 @@ elif [[ -x /usr/bin/lesspipe ]] ; then
   export LESSOPEN="|lesspipe %s"
 fi
 
-if [[ -x '/usr/bin/most' ]] then
-  export PAGER='/usr/bin/most -c'
-  export MOST_SWITCHES=" -s"
-  export MOST_EDITOR="$EDITOR +%d %s"
-elif [[ -x '/usr/bin/less' ]] then
-  export PAGER='/usr/bin/less -FirSwX'
+# if [[ -x '/usr/bin/most' ]] then
+#   export PAGER='/usr/bin/most -c'
+#   export MOST_SWITCHES=" -s"
+#   export MOST_EDITO="$EDITOR +%d %s"
+# el
+if [[ -x $(command -v less) ]] then
+  export PAGER="$(command -v less) -F -i -S -w -X -R"
   #export LESSCHARSET="latin1"
-elif [[ -x '/usr/bin/more' ]] then
+elif [[ -x $(command -v more) ]] then
   export PAGER='/usr/bin/more'
 fi
 
 export MANPAGER="$PAGER"
 
-test -d ~/bin && export PATH="$HOME/bin:$PATH"
 
 export RSYNC_RSH=ssh
 
-
 [[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`
+
+# yarn path
+export PATH="$HOME/.yarn/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+export PATH="$GEM_HOME/bin:$PATH"
+
+# enable quick scripts
+test -d ~/bin && export PATH="$HOME/bin:${PATH}"
 

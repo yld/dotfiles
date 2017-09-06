@@ -1,23 +1,19 @@
+# https://github.com/creationix/nvm/issues/841
 alias su='su -l'
 alias rm='rm -f'
 
 # first, get rid of GREP_OPTIONS
-alias less='less -R'
 unset GREP_OPTIONS
 # grep with color by default
 if [[ $- == *i* ]] ; then
-  alias grep='grep --color=always'
-  alias fgrep='fgrep --color=always'
-  alias egrep='egrep --color=always'
 fi
 
-alias ls='ls --color=auto'
-alias la='ls -A'
-alias lla='ls -lA'
-alias llah='ls -lAh'
-alias ll='ls -l'
+alias la='ls -A --color=auto'
+alias lla='ls -lA --color=auto'
+alias llah='ls -lAh --color=auto'
+alias ll='ls -l --color=auto'
 alias llh='ls -lh'
-alias lll='/bin/ls -Al --color|less -R'
+alias lll='ls -Al --color|less -R'
 
 alias df='df -h'
 alias du='du -h'
@@ -45,7 +41,7 @@ alias R='chmod +r'
 # buggy typing
 alias :q='exit'
 
-if [ -x $(which vim) ]; then
+if [ -x $(command -v vim) ]; then
   alias vi=vim
 fi
 
@@ -68,7 +64,7 @@ alias zk='zeus sidekiq'
 alias zdbconsole='zeus dbconsole'
 
 alias tml="tmux list-sessions"
-alias tmk="tmux kill-sesion -t $1"
-alias tma="tmux -2 attach -t $1"
+alias tmk="tmux kill-sesion -t"
+alias tma="tmux -2 attach -t"
 
 

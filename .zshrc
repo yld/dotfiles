@@ -1,8 +1,6 @@
 #set -xv
 
 ### options ###
-
-### https://github.com/creationix/nvm/issues/841
 setopt POSIX_BUILTINS
 setopt POSIX_ALIASES
 ### ZSH features
@@ -58,25 +56,42 @@ setopt NOGLOBDOTS
 #setopt VI
 #setopt XTRACE
 
-### prompt ###
-setopt PROMPT_BANG
-setopt PROMPT_PERCENT
-#setopt PROMPT_SUBST
-
 zmodload zsh/zutil
 
-# load all shells aliases
-test -r ~/.sh/aliases && source ~/.sh/aliases
+# zsh only aliases
+alias -g ls='ls --color=auto'
+alias -g less='less -F -i -S -w -X -R'
+alias -g grep='grep --color=always'
+alias -g fgrep='fgrep --color=always'
+alias -g egrep='egrep --color=always'
 
-alias suzsh='su -p -s /bin/zsh'
-
-#alias screen='nohup screen'
-#alias tmux='nohup tmux'
+autoload -U zmv
+alias mmv='noglob zmv -W'
+alias zcp='noglob zmv -C'
+alias zln='noglob zmv -L'
+alias zmv='noglob zmv'
 
 alias mkdir='nocorrect mkdir'
 alias 'svn mkdir'='nocorrect svn mkdir'
 alias touch='nocorrect touch'
 alias mv='nocorrect mv'
+
+alias -g L=' | less -R'
+alias -s log='less'
+
+alias -g G=' | grep --color=always'
+alias -g H=' | head '
+alias -g M=' | most '
+alias -g P=" | $PAGER "
+alias -g T=' | tail'
+# end zsh only aliases
+
+# common aliases
+[[ -x $(command -v grc) ]] && . ~/.zsh/grc.zsh
+test -r ~/.sh/aliases && source ~/.sh/aliases
+
+alias suzsh='su -m -s /bin/zsh -- -u -i'
+
 
 # help stuff
 export HELPDIR=~/.zsh_help
@@ -85,7 +100,6 @@ if [[ ! -d $HELPDIR ]]; then
   cd $HELPDIR
   perl /usr/share/zsh/${ZSH_VERSION}/Util/helpfiles zshbuiltins .
 fi
-# end help stuff
 
 autoload -U run-help
 autoload run-help-openssl
@@ -94,8 +108,8 @@ autoload run-help-svn
 autoload run-help-sudo
 unalias run-help
 alias help='run-help'
+# end help stuff
 
-[[ -x $(command -v grc) ]] && . ~/.zsh/grc.zsh
 
 # https://github.com/unixorn/awesome-zsh-plugins
 . ~/.zplugd/init.zsh
@@ -110,21 +124,6 @@ zplug "plugins/yarn", from:oh-my-zsh
 # zplug "johnhamelink/rvm-zsh"
 zplug check || (zplug install && zplug update)
 zplug load
-
-# zsh global aliases
-alias -g L=' | less -R'
-alias -s log='less'
-
-alias -g G=' | grep --color=always'
-alias -g H=' | head '
-alias -g M=' | most '
-alias -g P=" | $PAGER "
-alias -g T=' | tail'
-# end zsh global aliases
-
-# Ruby & RAILS aliases
-#see CORRECT_IGNORE upward
-# end Ruby & RAILS aliases
 
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
@@ -155,14 +154,6 @@ watch=(notme)
 LOGCHECK=120
 WATCHFMT='%n %a %l from %m at %t.'
 
-# rvm settings
-unsetopt auto_name_dirs
-if [[ -s $HOME/.rvm/scripts/rvm ]] then
-  [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
-fi
-
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 # customs functions
 . ~/.sh/functions.zsh
 . ~/.zsh/functions.d/*
@@ -190,12 +181,6 @@ compinit -u
 # End of lines added by compinstall
 
 ### end completion
-
-autoload -U zmv
-alias mmv='noglob zmv -W'
-alias zcp='noglob zmv -C'
-alias zln='noglob zmv -L'
-alias zmv='noglob zmv'
 
 autoload -U colors && colors
 
@@ -276,7 +261,10 @@ function +vi-git-st() {
     fi
 }
 
-# prompt
+### prompt ###
+setopt PROMPT_BANG
+setopt PROMPT_PERCENT
+#setopt PROMPT_SUBST
 precmd() {
   vcs_info
   PS1=$''
@@ -284,7 +272,6 @@ precmd() {
     PS1=$PS1"${vcs_info_msg_0_}
 "
   fi
-  #PS1=$PS1"%h %(!.%{$'\e[0;31m'%}%n@%m%{$reset_color%}.%{$fg[blue]%}%n@%m%{$reset_color%}) %{$fg[magenta]%}%~%{$reset_color%} %0(?..%{$bg[red]%}%?%{$reset_color%} )%1(j.%{$bg[yellow]%}%j%{$reset_color%} .)# "
   PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{\e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
 }
 
@@ -306,11 +293,11 @@ precmd() {
 #exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
 #[[ $hilite = "on" ]] || hilite="on" exec hilite zsh
 # end zsh specific stuff
+
 . ~/.sh/rc.sh
 
-# yarn path
-export PATH="$HOME/.yarn/bin:$PATH"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-export PATH="$GEM_HOME/bin:$PATH"
+# rvm settings
+unsetopt auto_name_dirs
+if [[ -s $HOME/.rvm/scripts/rvm ]] ; then
+  [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
+fi
