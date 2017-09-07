@@ -52,10 +52,21 @@ if [[ ! -d $HOME/.rvm ]] ; then
   curl -sSL https://get.rvm.io | bash -s stable --ruby -- --autolibs=read-fail --ignore-dotfiles --version latest
 fi
 
+# rvm
 source "$HOME/.rvm/scripts/rvm"
+cat > ~/.rvm/hooks/after_use_show_ruby <<EOF
+gem install awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl
+EOF
 rvm get stable
-# RVM global gems
-rvm @global do gem install awesome_print pry bundler
 
-[[ -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
+# yarn and node
+[[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
+yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
 
+if [[ -x $(command -v pip)  ]] ; then
+  pip install vim-vint yamllint
+fi
+
+for PROG in 'shellcheck' ; do
+  [[ ! -x $(command -v $PROG) ]] && echo "you should install $PROG"
+done
