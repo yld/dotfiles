@@ -24,6 +24,7 @@ dotfiles submodule update
 ### vim part
 
 if [[ -x $(command -v vim) ]] ; then
+  mkdir -p ~/vim/{backup,swp} >> /dev/null
   if [[ "${NEW_INSTALL}" == "yes" ]] ; then
     [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
     vim +BundleInstall +qall
