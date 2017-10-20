@@ -1,5 +1,5 @@
 # https://github.com/creationix/nvm/issues/841
-alias su='su -l'
+alias sul='su -l'
 alias rm='rm -f'
 
 # first, get rid of GREP_OPTIONS

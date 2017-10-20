@@ -294,7 +294,7 @@ precmd() {
 #[[ $hilite = "on" ]] || hilite="on" exec hilite zsh
 # end zsh specific stuff
 
-. ~/.sh/rc.sh
+source ~/.sh/rc.sh
 
 # rvm settings
 unsetopt auto_name_dirs
