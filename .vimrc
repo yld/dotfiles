@@ -79,7 +79,6 @@ let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
 
 " javascript, React, EmberJS
-Bundle 'joukevandermaas/vim-ember-hbs'
 Bundle 'pangloss/vim-javascript'
 " Node
 Bundle 'moll/vim-node'
@@ -87,6 +86,11 @@ Bundle 'moll/vim-node'
 Bundle 'mxw/vim-jsx'
 "https://github.com/pangloss/vim-javascript/issues/1003
 " let g:jsx_ext_required = 0
+" Ember
+Bundle 'dsawardekar/portkey'
+Bundle 'dsawardekar/ember.vim'
+Bundle 'alexlafroscia/vim-ember-cli'
+Bundle 'joukevandermaas/vim-ember-hbs'
 
 " Ruby & ROR
 Bundle 'vim-scripts/blockle.vim'
@@ -96,6 +100,9 @@ Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-git'
 Bundle 'renderedtext/vim-bdd'
 Bundle 'tpope/vim-cucumber'
+
+" JSON
+Bundle 'elzr/vim-json'
 
 " Source Forge and Git...
 Bundle 'jcf/vim-latex'
