@@ -1,9 +1,13 @@
 #!/bin/sh
+
+set -u
+
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
 NEW_INSTALL="yes"
 alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
 
 
+# pull dotfiles
 if [[ ! -d $DOTFILES_DIR ]] ; then
   mkdir -p $DOTFILES_DIR
   git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
@@ -21,20 +25,25 @@ fi
 dotfiles submodule init
 dotfiles submodule update
 
-### vim part
-
+# vim part
 if [[ -x $(command -v vim) ]] ; then
-  mkdir -p ~/vim/{backup,swp} >> /dev/null
+  BUNDLE_DIR=~/.vim/bundle
+  VUNDLE_DIR=${BUNDLE_DIR}/vundle
+  mkdir -p ~/.vim/{backup,swp} >> /dev/null
   if [[ "${NEW_INSTALL}" == "yes" ]] ; then
-    [[ ! -d ~/.vim/bundle ]] && mkdir -p ~/.vim/bundle && git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    [[ ! -d $BUNDLE_DIR ]] && mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
     vim +BundleInstall +qall
   else
+    # fix for https://github.com/VundleVim/Vundle.vim/issues/470
+    pushd $VUNDLE_DIR >> /dev/null
+    git pull
+    popd > /dev/null
     vim +BundleUpdate +qall
     vim +BundleClean +qall
   fi
 fi
 
-## zsh part
+# zsh plugin install + dynamic configurations
 if [[ -x $(command -v zsh) ]] ; then
   ZPLUGD=~/.zplugd
   [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
@@ -46,24 +55,25 @@ if [[ -x $(command -v zsh) ]] ; then
     wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
   fi
 fi
-# end zsh part
 
+# rvm first install
 if [[ ! -d $HOME/.rvm ]] ; then
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   curl -sSL https://get.rvm.io | bash -s stable --ruby -- --autolibs=read-fail --ignore-dotfiles --version latest
 fi
 
-# rvm
+# rvm loading and setup
 source "$HOME/.rvm/scripts/rvm"
 cat > ~/.rvm/hooks/after_use_show_ruby <<EOF
 gem install awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl
 EOF
 rvm get stable
+rvm cleanup all
 
 # yarn and node
+# NOTE: yarn is installed as a plugin for zsh but we enforce its installation here
 [[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
 yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
-
 if [[ -x $(command -v pip)  ]] ; then
   pip install vim-vint yamllint
 fi
