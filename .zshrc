@@ -113,10 +113,8 @@ alias help='run-help'
 
 # https://github.com/unixorn/awesome-zsh-plugins
 . ~/.zplugd/init.zsh
+
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-export NVM_AUTO_USE=true
-export NVM_LAZY_LOAD=true
-zplug "lukechilds/zsh-nvm"
 zplug "voronkovich/gitignore.plugin.zsh"
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
@@ -296,8 +294,6 @@ precmd() {
 
 source ~/.sh/rc.sh
 
-# rvm settings
-unsetopt auto_name_dirs
-if [[ -s $HOME/.rvm/scripts/rvm ]] ; then
-  [[ -e /etc/gentoo-release ]]  && unset RUBYOPT; # gentoo hack
-fi
+source ~/.sh/nodenv.sh
+source ~/.sh/rbenv.sh
+source ~/.sh/pyenv.sh

@@ -1,27 +1,40 @@
-This repository contains a few dotfiles for the tools i use to wotk with.
+This repository contains a few dotfiles for the tools i use to work with.
 
 # Installation
 
+```bash
 curl -L https://github.com/yld/dotfiles/raw/master/bin/dotfiles_init | bash
+```
 
 # Upgrade
 
-Just run  dotfiles_init in your shell
+```bash
+dotfiles_init
+```
 
 # Included setups
 
 ## [Zsh](http://www.zsh.org/)
 
-Far from perfect but very usefull, (pretty prompt, VCS (mostly git) integration ...).
-Rely partially on completion files provided by distributions.
-Zplugd plugins
+* Far from perfect but very usefull, (pretty prompt, VCS (mostly git) integration ...).
+* Rely partially on completion files provided by distributions.
+* Plugins are managed by [Zplug](https://github.com/zplug/zplug)
 
 ## [Vim](http://www.vim.org/)
 
 * A few plugins bundled with [vundle](https://github.com/gmarik/vundle) (see plugins related docs once installed)
 * Try F2, F3, F4 while editing for a few usefull mapping.
 * Somme tricks from [Drew Neil](http://vimcasts.org/)'s book (%% andso on)
-* Tmux, screen, Rails, Node, Git, XML tools and parser included
+* Tmux, screen, Rails, Node, Git, XML tools and parsers included
+* [ale](https://github.com/w0rp/ale) for syntax checking
+
+Requires Vim version 8 or above.
+
+## Version managers
+
+* nodenv
+* rbenv
+* pyenv
 
 ## [Awesome WM] (http://awesome.naquadah.org/)
 
@@ -29,14 +42,13 @@ TO BE REMOVED forget it.
 
 ## Others files
 
-Settings for Ruby, RVM, yarn pip...
+Settings for Ruby, yarn, node...
 
-Cd to $HOME/Src/dotfiles.git/
-
-and run
-````bash
+To get a list of managed files:
+```bash
+cd $HOME/Src/dotfiles.git/
 git ls-files
-````
+```
 
 # Tools recommanded and used
 
@@ -44,19 +56,19 @@ git ls-files
 * [most](http://www.jedsoft.org/most/) a colofull pager (buggy with psql, TO BE REMOVED)
 * grc for colored output with ping, gcc, netstat (...)
 * [tmux](http://tmux.sourceforge.net/) for terminal multiplexing (actually missing [powerline](https://github.com/Lokaltog/powerline))
-* if you use a Linux do not omit lsb_release package for distro detection
+* if you use a Linux do not omit lsb_release package for distro detection. ie. you should have a file named /etc/lsb-release
 
 # Status
 
 Widely tested on Debian family and Gentoo
 
-Correction and suggestions welcome.
+Corrections and suggestions welcome.
 
 
 # TODO
 
-* Configurable DOTFILES_DIR
+* Configurable $DOTFILES_DIR
 * Remove awesome configuration from here.
 * Show untracked files count in git prompt
 * modularize zsh & vim confifguration
-* profiles for shelle keys and so on (see Vincent Bernat repositories)
+* profiles for ssh keys and so on (see Vincent Bernat repositories)
