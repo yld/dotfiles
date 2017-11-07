@@ -119,7 +119,6 @@ zplug "voronkovich/gitignore.plugin.zsh"
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
 zplug "plugins/yarn", from:oh-my-zsh
-# zplug "johnhamelink/rvm-zsh"
 zplug check || (zplug install && zplug update)
 zplug load
 

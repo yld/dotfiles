@@ -7,24 +7,23 @@ call vundle#rc()
 " > Plugins
 " let Vundle manage Vundle
 " required!
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " Tools
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-commentary'
-Bundle 'majutsushi/tagbar'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
+Plugin 'majutsushi/tagbar'
 nmap <F8> :TagbarToggle<CR>
-Bundle 'tpope/vim-repeat'
-Bundle 'honza/vim-snippets'
-Bundle 'tpope/vim-endwise'
-Bundle 'scrooloose/nerdtree'
+Plugin 'tpope/vim-repeat'
+Plugin 'honza/vim-snippets'
+Plugin 'scrooloose/nerdtree'
 
 let g:NERDTreeShowHidden = 1
 let g:NERDChristmasTree = 1
 let g:NERDTreeHijackNetrw = 1
 map <F7> :NERDTreeToggle<CR>
 
-Bundle 'ctrlpvim/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 set wildignore+=*.so,*.swp,*.zip
 let g:ctrlp_working_path_mode = 2
@@ -34,10 +33,10 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 " theme
-Bundle 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 
 " Airline
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -79,44 +78,43 @@ let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
 
 " javascript, React, EmberJS
-Bundle 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
 " Node
-Bundle 'moll/vim-node'
+Plugin 'moll/vim-node'
 " JSX support (ReactJS)
-Bundle 'mxw/vim-jsx'
+Plugin 'mxw/vim-jsx'
 "https://github.com/pangloss/vim-javascript/issues/1003
 " let g:jsx_ext_required = 0
 " Ember
-Bundle 'dsawardekar/portkey'
-Bundle 'dsawardekar/ember.vim'
-Bundle 'alexlafroscia/vim-ember-cli'
-Bundle 'joukevandermaas/vim-ember-hbs'
+Plugin 'dsawardekar/portkey'
+Plugin 'dsawardekar/ember.vim'
+Plugin 'alexlafroscia/vim-ember-cli'
+Plugin 'joukevandermaas/vim-ember-hbs'
 
 " Ruby & ROR
-Bundle 'vim-scripts/blockle.vim'
-Bundle 'vim-scripts/dbext.vim'
-Bundle 'tpope/vim-abolish'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-git'
-Bundle 'renderedtext/vim-bdd'
-Bundle 'tpope/vim-cucumber'
+Plugin 'vim-scripts/blockle.vim'
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rake'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-git'
+" <Leader>; or <Leader>,
+Plugin 'renderedtext/vim-bdd'
+Plugin 'tpope/vim-cucumber'
+Plugin 'tpope/vim-endwise'
 
 " JSON
-Bundle 'elzr/vim-json'
+Plugin 'elzr/vim-json'
 
 " Source Forge and Git...
-Bundle 'jcf/vim-latex'
-"Bundle 'Lokaltog/vim-powerline'
-"set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
-"let g:Powerline_symbols='fancy'
-"set laststatus=2
-"set t_Co=256
+Plugin 'jcf/vim-latex'
 
 " https://github.com/Shougo/unite.vim
-Bundle 'Shougo/vimproc'
+Plugin 'Shougo/vimproc'
 
-Bundle 'chrisbra/csv.vim'
-Bundle 'airblade/vim-gitgutter'
+Plugin 'chrisbra/csv.vim'
+Plugin 'airblade/vim-gitgutter'
 nnoremap <F5> :GitGutterToggle<CR>
 let g:gitgutter_enabled = 0
 let g:gitgutter_diff_args='-w'
@@ -125,25 +123,25 @@ let g:gitgutter_highlight_lines = 1
 let g:airline_powerline_fonts=1
 set ttimeoutlen=50
 
-Bundle 'mbbill/undotree'
+Plugin 'mbbill/undotree'
 nnoremap <F6> :UndotreeToggle<cr>
 if has("persistent_undo")
   set undodir='/tmp'
   set undofile
 endif
 
-Bundle 'ervandew/screen'
+Plugin 'ervandew/screen'
 
 let g:ScreenShellTmuxInitArgs = '-2'
 
-Bundle 'benmills/vimux'
+Plugin 'benmills/vimux'
 
 map <Leader>vo :VimuxOpenPane<CR>
 map <Leader>vp :VimuxPromptCommand<CR>
 map <Leader>vl :VimuxRunLastCommand<CR>
 map <Leader>vz :VimuxInterruptRunner<CR>
 
-Bundle 'jingweno/vimux-zeus'
+Plugin 'jingweno/vimux-zeus'
 
 map <Leader>zs :ZeusStart<CR>
 map <Leader>zc :ZeusConsole<CR>
@@ -151,42 +149,31 @@ map <Leader>zc :ZeusDestroy<space>
 map <Leader>zr :ZeusRake spec<CR>
 map <Leader>zg :ZeusGenerate<space>
 
-Bundle 'guns/xterm-color-table.vim'
-"Bundle 'terryma/vim-multiple-cursors'
-Bundle 'tpope/vim-fugitive'
-Bundle 'vim-scripts/greplace.vim'
-Bundle 'tpope/vim-bundler'
-Bundle 'rosenfeld/conque-term'
-"Bundle 'fholgado/minibufexpl.vim'
-Bundle 'chrisbra/vim_faq'
-Bundle 'vim-scripts/vimwiki'
+Plugin 'guns/xterm-color-table.vim'
+"Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-scripts/greplace.vim'
+Plugin 'rosenfeld/conque-term'
+"Plugin 'fholgado/minibufexpl.vim'
+Plugin 'chrisbra/vim_faq'
+Plugin 'vim-scripts/vimwiki'
 " http://vimcasts.org/episodes/aligning-text-with-tabular-vim/
-Bundle 'godlygeek/tabular'
-Bundle 'mileszs/ack.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'mileszs/ack.vim'
 " if the_silver_searche
 " let g:ackprg = 'ag --nogroup --nocolor --column'
-Bundle 'rking/ag.vim'
-Bundle 'Townk/vim-autoclose'
+Plugin 'rking/ag.vim'
+Plugin 'Townk/vim-autoclose'
 let g:AutoClosePairs_add = "<> |"
 
 " > Lua
-"Bundle 'xolox/vim-misc'
-" Bundle 'xolox/vim-lua-ftplugin'
+"Plugin 'xolox/vim-misc'
+" Plugin 'xolox/vim-lua-ftplugin'
 
 " > BDD/
 
 " > Syntax
-" Bundle 'tpope/vim-cucumber'
-" Bundle 'tpope/vim-markdown'
-" Bundle 'kchmck/vim-coffee-script'
-" Bundle 'tpope/vim-haml'
-" Bundle 'zaiste/tmux.vim'
-" Bundle 'vim-scripts/Puppet-Syntax-Highlighting'
-" Bundle 'vim-scripts/yaml.vim'
-" syntax checker
-
-"Bundle 'sheerun/vim-polyglot'
-Bundle 'w0rp/ale'
+Plugin 'w0rp/ale'
 let g:ale_lint_on_enter = 1
 let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_format = '%linter%%s'

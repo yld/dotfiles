@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -u
+set -ue
 
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
 NEW_INSTALL="yes"
@@ -29,7 +29,7 @@ dotfiles submodule update
 if [[ -x $(command -v zsh) ]] ; then
   ZPLUGD=~/.zplugd
   [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
-  echo ". ~/.zplugd/init.zsh ; [[ ! zplug check --verbose ]] && zplug install" | zsh -s
+  # echo ". ~/.zplugd/init.zsh ; [[ ! zplug check --verbose ]] && zplug install" | zsh -s
   # for shell in 'zsh fish bashrc'
   if [[ -r  /etc/grc.zsh ]] ; then
     ln -sf ~/.zsh/grc.zsh /etc/grc.conf
@@ -46,9 +46,9 @@ NODENV_PLUGINS_DIR=${NODENV_DIR}/plugins
 
 if [[ ! -d  $NODENV_DIR ]] ; then
  git clone https://github.com/nodenv/nodenv.git $NODENV_DIR
- pushd $NODENV_DIR
+ pushd $NODENV_DIR &> /dev/null
  src/configure && make -C src
- popd
+ popd &> /dev/null
  mkdir -p $NODENV_PLUGINS_DIR
 fi
 
@@ -56,9 +56,9 @@ install_nodenv_plugin() {
   local NODENV_PLUGIN_DIR=${NODENV_PLUGINS_DIR}/$1
   local AUTHOR=${2:-'nodenv'}
   if [[ -d $NODENV_PLUGIN_DIR ]] ; then
-    pushd $NODENV_PLUGIN_DIR
+    pushd $NODENV_PLUGIN_DIR &> /dev/null
     git pull
-    popd
+    popd &> /dev/null
   else
     echo "https://github.com/${AUTHOR}/${1}.git"
     git clone https://github.com/${AUTHOR}/${1}.git $NODENV_PLUGIN_DIR
@@ -70,6 +70,7 @@ for PLUGIN in node-build node-build-update-defs nodenv-update nodenv-vars nodenv
 done
 
 DEFAULT_NODENV_PKG_FILE=$(nodenv root)/default-packages
+touch $DEFAULT_NODENV_PKG_FILE
 for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint; do
   grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
 done
@@ -80,9 +81,9 @@ RBENV_PLUGINS_DIR=${RBENV_DIR}/plugins
 
 if [[ ! -d  $RBENV_DIR ]] ; then
  git clone https://github.com/rbenv/rbenv.git $RBENV_DIR
- pushd $RBENV_DIR
+ pushd $RBENV_DIR &> /dev/null
  src/configure && make -C src
- popd
+ popd &> /dev/null
  mkdir -p $RBENV_PLUGINS_DIR
 fi
 
@@ -90,25 +91,26 @@ install_rbenv_plugin() {
   local RBENV_PLUGIN_DIR=${RBENV_PLUGINS_DIR}/$1
   local AUTHOR=${2:-'rbenv'}
   if [[ -d $RBENV_PLUGIN_DIR ]] ; then
-    pushd $RBENV_PLUGIN_DIR
+    pushd $RBENV_PLUGIN_DIR &> /dev/null
     git pull
-    popd
+    popd &> /dev/null
   else
     git clone https://github.com/${AUTHOR}/${1}.git $RBENV_PLUGIN_DIR
   fi
 }
 
 install_rbenv_plugin 'ruby-build'
-install_rbenv_plugin 'rbenv-update', 'rkh'
+install_rbenv_plugin 'rbenv-update' 'rkh'
 install_rbenv_plugin 'rbenv-vars'
 install_rbenv_plugin 'rbenv-each'
 install_rbenv_plugin 'rbenv-default-gems'
-install_rbenv_plugin 'rbenv-gemset', 'jf'
-install_rbenv_plugin 'rbenv-env', 'ianheggie'
-install_rbenv_plugin 'rbenv-ctags', 'tpope'
+install_rbenv_plugin 'rbenv-gemset' 'jf'
+install_rbenv_plugin 'rbenv-env' 'ianheggie'
+install_rbenv_plugin 'rbenv-ctags' 'tpope'
 
 DEFAULT_RBENV_PKG_FILE=$(rbenv root)/default-packages
-for PKG in awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl ; do
+touch $DEFAULT_RBENV_PKG_FILE
+for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl ; do
   grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
 done
 
@@ -118,9 +120,9 @@ PYENV_PLUGINS_DIR=${PYENV_DIR}/plugins
 
 if [[ ! -d  $PYENV_DIR ]] ; then
  git clone https://github.com/pyenv/pyenv.git $PYENV_DIR
- pushd $PYENV_DIR
+ pushd $PYENV_DIR &> /dev/null
  src/configure && make -C src
- popd
+ popd &> /dev/null
  mkdir -p $PYENV_PLUGINS_DIR
 fi
 
@@ -128,9 +130,9 @@ install_pyenv_plugin() {
   local PYENV_PLUGIN_DIR=${PYENV_PLUGINS_DIR}/$1
   local AUTHOR=${2:-'pyenv'}
   if [[ -d $PYENV_PLUGIN_DIR ]] ; then
-    pushd $PYENV_PLUGIN_DIR
+    pushd $PYENV_PLUGIN_DIR &> /dev/null
     git pull
-    popd
+    popd &> /dev/null
   else
     git clone https://github.com/${AUTHOR}/${1}.git $PYENV_PLUGIN_DIR
   fi
@@ -142,10 +144,11 @@ install_pyenv_plugin 'pyenv-update'
 install_pyenv_plugin 'pyenv-pip-update' 'massongit'
 install_pyenv_plugin 'pyenv-pip-rehash'
 install_pyenv_plugin 'pyenv-pip-migrate'
-install_pyenv_plugin 'pyenv-default-packages' 'awshooah'
+install_pyenv_plugin 'pyenv-default-packages' 'jawshooah'
 install_pyenv_plugin 'pyenv-virtualenv'
 
 DEFAULT_PYENV_PKG_FILE=$(pyenv root)/default-packages
+touch $DEFAULT_PYENV_PKG_FILE
 for PKG in jq vim-vint yamllint; do
   grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
 done
@@ -157,40 +160,21 @@ if [[ -x $(command -v vim) ]] ; then
   mkdir -p ~/.vim/{backup,swp} >> /dev/null
   if [[ "${NEW_INSTALL}" == "yes" ]] ; then
     [[ ! -d $BUNDLE_DIR ]] && mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
-    vim +BundleInstall +qall
+    vim +PluginInstall +qall
   else
     # fix for https://github.com/VundleVim/Vundle.vim/issues/470
     pushd $VUNDLE_DIR >> /dev/null
     git pull
     popd > /dev/null
-    vim +BundleUpdate +qall
-    vim +BundleClean +qall
+    vim +PluginUpdate +qall
+    vim +PluginClean! +qall
   fi
 fi
-
-# # rvm first install
-# if [[ ! -d $HOME/.rvm ]] ; then
-#   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-#   curl -sSL https://get.rvm.io | bash -s stable --ruby -- --autolibs=read-fail --ignore-dotfiles --version latest
-# fi
-
-# # rvm loading and setup
-# source "$HOME/.rvm/scripts/rvm"
-# HOOKFILE=~/.rvm/hooks/after_install_add_some_gems
-# cat > $HOOKFILE <<EOF
-# rvm @global do gem install awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl
-# EOF
-# chmod +x $HOOKFILE
-# rvm get stable
-# rvm cleanup all
 
 # yarn
 # NOTE: yarn is installed as a plugin for zsh but we enforce its installation here
 [[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
-yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
-if [[ -x $(command -v pip)  ]] ; then
-  pip install vim-vint yamllint
-fi
+# yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
 
 for PROG in 'shellcheck' ; do
   [[ ! -x $(command -v $PROG) ]] && echo "you should install $PROG"
