@@ -1,8 +1,8 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " > Plugins
 " let Vundle manage Vundle
@@ -87,7 +87,7 @@ Plugin 'mxw/vim-jsx'
 " let g:jsx_ext_required = 0
 " Ember
 Plugin 'dsawardekar/portkey'
-Plugin 'dsawardekar/ember.vim'
+" Plugin 'dsawardekar/ember.vim'
 Plugin 'alexlafroscia/vim-ember-cli'
 Plugin 'joukevandermaas/vim-ember-hbs'
 
@@ -187,6 +187,8 @@ let g:ale_fixers = {
 \}
 let g:ale_ruby_rubocop_options='-a'
 let g:ale_fix_on_save = 1
+call vundle#end()
+
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow
@@ -331,7 +333,7 @@ set diffopt+=iwhite
 " > color scheme
 "autocmd VimLeave * :set term=screen
 "set t_Co=256
-" set background=dark
+set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 let g:airlinetheme = 'solarized'
