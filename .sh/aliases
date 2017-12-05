@@ -8,12 +8,12 @@ unset GREP_OPTIONS
 if [[ $- == *i* ]] ; then
 fi
 
-alias la='ls -A --color=auto'
-alias lla='ls -lA --color=auto'
-alias llah='ls -lAh --color=auto'
-alias ll='ls -l --color=auto'
-alias llh='ls -lh'
-alias lll='ls -Al --color|less -R'
+alias la="ls -A"
+alias lla="ls -lA"
+alias llah="ls -lAh"
+alias ll="ls -l"
+alias llh="ls -lh"
+alias lll="ls -Al --color|less -R"
 
 alias df='df -h'
 alias du='du -h'

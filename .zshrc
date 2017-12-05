@@ -59,7 +59,7 @@ setopt NOGLOBDOTS
 zmodload zsh/zutil
 
 # zsh only aliases
-alias -g ls='ls --color=auto'
+[[ $OS = "LINUX" ]] && alias -g ls='ls --color=auto'
 alias -g less='less -F -i -S -w -X -R'
 alias -g grep='grep --color=always'
 alias -g fgrep='fgrep --color=always'
@@ -118,6 +118,8 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "voronkovich/gitignore.plugin.zsh"
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
+zplug "joel-porquet/zsh-dircolors-solarized"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "plugins/yarn", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
@@ -203,7 +205,7 @@ zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[black]%}[%{$fg_bold[blue]%}%b%{$fg_bold[black]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
+zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[yellow]%}[%{$fg_bold[blue]%}%b%{$fg_bold[yellow]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
@@ -221,7 +223,7 @@ function +vi-git-icons() {
   fi
   untracked_count=${$(git ls-files --exclude-standard --others --directory --no-empty-directory | wc -l )}
   if [[ $untracked_count != "0" ]] ; then
-    hook_com[misc]+="%{$fg[red]%}◼($untracked_count)%{$reset_color%}"
+    hook_com[misc]+=" %{$fg[red]%}◼($untracked_count)%{$reset_color%}"
   fi
 }
 
@@ -269,7 +271,11 @@ precmd() {
     PS1=$PS1"${vcs_info_msg_0_}
 "
   fi
-  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;34m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{\e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
+  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
+  #i RIGHTWIDTH=$(($COLUMNS-${#PS1}))
+  RPS1="%{$orange%}%*%{$reset_color%}
+  "
+  # print $LEFT${(l:$RIGHTWIDTH::.:)RPS1}
 }
 
 # colorized stderr
@@ -296,3 +302,6 @@ source ~/.sh/rc.sh
 source ~/.sh/nodenv.sh
 source ~/.sh/rbenv.sh
 source ~/.sh/pyenv.sh
+source ~/.sh/osx.sh
+source ~/.sh/keychain.sh
+source ~/.sh/iterm2_shell_integration.zsh

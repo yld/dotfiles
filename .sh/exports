@@ -3,7 +3,18 @@
 umask 027
 limit coredumpsize 0
 
-eval `dircolors`
+OS="";
+case "$OSTYPE" in
+  solaris*) OS="SOLARIS" ;;
+  darwin*)  OS="OSX" ;;
+  linux*)   OS="LINUX" ;;
+  bsd*)     OS="BSD" ;;
+  msys*)    OS="WINDOWS" ;;
+  *)        OS="UNKNOWN" ;;
+esac
+export EDITOR
+
+[[ $OS = "LINUX" ]] && eval `dircolors`
 
 export GREP_OPTIONS='--color=auto'
 

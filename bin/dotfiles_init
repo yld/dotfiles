@@ -1,20 +1,30 @@
 #!/bin/sh
 
-set -ue
+set -u
+
+OS="";
+case "$OSTYPE" in
+  solaris*) OS="SOLARIS" ;;
+  darwin*)  OS="OSX" ;;
+  linux*)   OS="LINUX" ;;
+  bsd*)     OS="BSD" ;;
+  msys*)    OS="WINDOWS" ;;
+  *)        OS="UNKNOWN" ;;
+esac
 
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
-NEW_INSTALL="yes"
-alias dotfiles='git --git-dir=$DOTFILES_DIR --work-tree=$HOME'
 
+dotfiles() {
+  git --git-dir=$DOTFILES_DIR --work-tree=$HOME "$@"
+}
 
 # pull dotfiles
 if [[ ! -d $DOTFILES_DIR ]] ; then
   mkdir -p $DOTFILES_DIR
-  git clone --bare  --recursive https://github.com/yld/dotfiles $DOTFILES_DIR
+  git clone --bare  --recursive git@github.com/yld/dotfiles $DOTFILES_DIR
   dotfiles checkout
 else
-  NEW_INSTALL="no"
-  if [[ "$(dotfiles st --porcelain | wc -l)" == "0" ]] ; then
+  if [[ "$(dotfiles status --porcelain | wc -l)" == "0" ]] ; then
     dotfiles pull --rebase
   else
     echo "You have some uncommitted changes in dotfiles files. Skipping update..."
@@ -25,16 +35,42 @@ fi
 dotfiles submodule init
 dotfiles submodule update
 
+TOOLS_INSTALLED="yes"
+check_tool() {
+  local TOOL=$1
+  if [[ ! -x $(command -v $TOOL) ]]; then
+    TOOLS_INSTALLED="no"
+    echo "You should install $TOOL before continuing..."
+  fi
+}
+
+for TOOL in "wget tmux tree"; do
+  check_tool $TOOL
+done
+
+[[ $TOOLS_INSTALLED = "no" ]] && exit 1
+
+case $OS in
+  "OSX")
+  [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
+  ;;
+  *)
+  echo "doing nothing...";
+  ;;
+esac
+
 # zsh plugin install + dynamic configurations
 if [[ -x $(command -v zsh) ]] ; then
   ZPLUGD=~/.zplugd
   [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
   # echo ". ~/.zplugd/init.zsh ; [[ ! zplug check --verbose ]] && zplug install" | zsh -s
   # for shell in 'zsh fish bashrc'
-  if [[ -r  /etc/grc.zsh ]] ; then
-    ln -sf ~/.zsh/grc.zsh /etc/grc.conf
-  else
-    wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+  if [[ -x $(command -v grc) ]]; then
+    if [[ -r  /etc/grc.zsh ]] ; then
+      ln -sf ~/.zsh/grc.zsh /etc/grc.conf
+    else
+      wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+    fi
   fi
 fi
 
@@ -69,10 +105,12 @@ for PLUGIN in node-build node-build-update-defs nodenv-update nodenv-vars nodenv
   install_nodenv_plugin $PLUGIN
 done
 
-DEFAULT_NODENV_PKG_FILE=$(nodenv root)/default-packages
+nodenv package-hooks install --all
+
+DEFAULT_NODENV_PKG_FILE=${NODENV_DIR}/default-packages
 touch $DEFAULT_NODENV_PKG_FILE
 for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint; do
-  grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
+  grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
 done
 
 # rbenv
@@ -88,14 +126,14 @@ if [[ ! -d  $RBENV_DIR ]] ; then
 fi
 
 install_rbenv_plugin() {
-  local RBENV_PLUGIN_DIR=${RBENV_PLUGINS_DIR}/$1
+  local RBENV_PLUGINS_DIR=${RBENV_PLUGINS_DIR}/$1
   local AUTHOR=${2:-'rbenv'}
-  if [[ -d $RBENV_PLUGIN_DIR ]] ; then
-    pushd $RBENV_PLUGIN_DIR &> /dev/null
+  if [[ -d $RBENV_PLUGINS_DIR ]] ; then
+    pushd $RBENV_PLUGINS_DIR &> /dev/null
     git pull
     popd &> /dev/null
   else
-    git clone https://github.com/${AUTHOR}/${1}.git $RBENV_PLUGIN_DIR
+    git clone https://github.com/${AUTHOR}/${1}.git $RBENV_PLUGINS_DIR
   fi
 }
 
@@ -108,10 +146,10 @@ install_rbenv_plugin 'rbenv-gemset' 'jf'
 install_rbenv_plugin 'rbenv-env' 'ianheggie'
 install_rbenv_plugin 'rbenv-ctags' 'tpope'
 
-DEFAULT_RBENV_PKG_FILE=$(rbenv root)/default-packages
+DEFAULT_RBENV_PKG_FILE=${RBENV_PLUGINS_DIR}/default-packages
 touch $DEFAULT_RBENV_PKG_FILE
 for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl ; do
-  grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
+  grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
 done
 
 # pyenv
@@ -147,19 +185,20 @@ install_pyenv_plugin 'pyenv-pip-migrate'
 install_pyenv_plugin 'pyenv-default-packages' 'jawshooah'
 install_pyenv_plugin 'pyenv-virtualenv'
 
-DEFAULT_PYENV_PKG_FILE=$(pyenv root)/default-packages
+DEFAULT_PYENV_PKG_FILE=${PYENV_DIR}/default-packages
 touch $DEFAULT_PYENV_PKG_FILE
 for PKG in jq vim-vint yamllint; do
-  grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
+  grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
 done
 
 # vim part
 if [[ -x $(command -v vim) ]] ; then
   BUNDLE_DIR=~/.vim/bundle
   VUNDLE_DIR=${BUNDLE_DIR}/vundle
+  # mkdir -p $VUNDLE_DIR > /dev/null
   mkdir -p ~/.vim/{backup,swp} >> /dev/null
-  if [[ "${NEW_INSTALL}" == "yes" ]] ; then
-    [[ ! -d $BUNDLE_DIR ]] && mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
+  if [[ ! -d $VUNDLE_DIR ]] ; then
+    mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
     vim +PluginInstall +qall
   else
     # fix for https://github.com/VundleVim/Vundle.vim/issues/470
