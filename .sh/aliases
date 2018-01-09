@@ -43,6 +43,7 @@ alias :q='exit'
 
 if [ -x $(command -v vim) ]; then
   alias vi=vim
+  alias v=vim
 fi
 
 alias gti='git'

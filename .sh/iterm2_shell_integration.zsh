@@ -106,9 +106,9 @@ if [[ -o interactive ]]; then
 
       iterm2_after_cmd_executes "$STATUS"
 
-      if [ -n "$ITERM2_SHOULD_DECORATE_PROMPT" ]; then
-        iterm2_decorate_prompt
-      fi
+      # if [ -n "$ITERM2_SHOULD_DECORATE_PROMPT" ]; then
+      #   iterm2_decorate_prompt
+      # fi
     }
 
     # This is not run if you press ^C while entering a command.

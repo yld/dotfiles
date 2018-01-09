@@ -161,7 +161,7 @@ Plugin 'vim-scripts/vimwiki'
 Plugin 'godlygeek/tabular'
 Plugin 'mileszs/ack.vim'
 " if the_silver_searche
-" let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag --nogroup --nocolor --column'
 Plugin 'rking/ag.vim'
 Plugin 'Townk/vim-autoclose'
 let g:AutoClosePairs_add = "<> |"
