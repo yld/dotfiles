@@ -109,7 +109,7 @@ nodenv package-hooks install --all
 
 DEFAULT_NODENV_PKG_FILE=${NODENV_DIR}/default-packages
 touch $DEFAULT_NODENV_PKG_FILE
-for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint; do
+for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint neovim; do
   grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
 done
 
@@ -145,10 +145,12 @@ install_rbenv_plugin 'rbenv-default-gems'
 install_rbenv_plugin 'rbenv-gemset' 'jf'
 install_rbenv_plugin 'rbenv-env' 'ianheggie'
 install_rbenv_plugin 'rbenv-ctags' 'tpope'
+install_rbenv_plugin 'rbenv-bundler' 'carsomyr'
+echo "you should run 'rbenv bundler on' to enable rbenv-bundler"
 
-DEFAULT_RBENV_PKG_FILE=${RBENV_PLUGINS_DIR}/default-packages
+DEFAULT_RBENV_PKG_FILE=${RBENV_DIR}/default-gems
 touch $DEFAULT_RBENV_PKG_FILE
-for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl ; do
+for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
   grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
 done
 
@@ -207,6 +209,18 @@ if [[ -x $(command -v vim) ]] ; then
     popd > /dev/null
     vim +PluginUpdate +qall
     vim +PluginClean! +qall
+  fi
+fi
+
+#nvim part
+if [[ -x $(command -v nvim) ]] ; then
+  PLUGGED_DIR=~/.local/share/nvim/plugged
+  if [[ ! -d $PLUGGED_DIR ]] ; then
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    mkdir -p $PLUGGED_DIR
+    nvim +PlugInstall! +qall
+  else
+    nvim +PlugUpdate! +qall
   fi
 fi
 
