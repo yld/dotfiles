@@ -10,7 +10,7 @@ Plug 'icymind/NeoSolarized'
 Plug 'tmhedberg/matchit'
 " Tim Pope stuff
 " cd and so on
-Plus 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
