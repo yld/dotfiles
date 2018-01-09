@@ -176,7 +176,13 @@ zstyle :compinstall filename '/home/yves/.zshrc'
 
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
-compinit -u
+
+# https://gist.github.com/ctechols/ca1035271ad134841284
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+
+compinit -C
 # End of lines added by compinstall
 
 ### end completion
