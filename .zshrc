@@ -118,7 +118,7 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "voronkovich/gitignore.plugin.zsh"
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
-zplug "joel-porquet/zsh-dircolors-solarized"
+# zplug "joel-porquet/zsh-dircolors-solarized"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "plugins/yarn", from:oh-my-zsh
 zplug check || (zplug install && zplug update)

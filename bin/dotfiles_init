@@ -146,6 +146,8 @@ install_rbenv_plugin 'rbenv-gemset' 'jf'
 install_rbenv_plugin 'rbenv-env' 'ianheggie'
 install_rbenv_plugin 'rbenv-ctags' 'tpope'
 install_rbenv_plugin 'rbenv-bundler' 'carsomyr'
+install_rbenv_plugin 'rbenv-update' 'rkh'
+install_rbenv_plugin 'rbenv-clean' 'jbernsie'
 echo "you should run 'rbenv bundler on' to enable rbenv-bundler"
 
 DEFAULT_RBENV_PKG_FILE=${RBENV_DIR}/default-gems

@@ -8,7 +8,7 @@ $LOAD_PATH.push(*Dir["#{ENV['HOME']}/.prygems/gems/*/lib"]).uniq!
 Pry.config.editor = "mvim --nofork"
 
 # My pry is polite
-Pry.hooks = { :after_session => proc { puts "bye-bye" } }
+Pry.hooks = { :after_session => proc { puts 'Ciao bello' } }
 
 # Prompt with ruby version
 Pry.prompt = [

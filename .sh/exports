@@ -47,7 +47,8 @@ export MANPAGER="$PAGER"
 export RSYNC_RSH=ssh
 
 [[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`
-
+# use brew ctags
+[[ $OS = "OSX" ]] && export PATH="$PATH:/usr/local/bin"
 
 # yarn path
 export PATH="$HOME/.yarn/bin:$PATH"
