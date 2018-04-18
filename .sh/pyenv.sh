@@ -1,5 +1,5 @@
 if [[ -d ~/.pyenv/bin ]] ; then
   export PATH="$HOME/.pyenv/bin:$PATH"
-  eval "$(rbenv init --no-rehash -)"
+  eval "$(pyenv init --no-rehash -)"
 fi
 

@@ -52,10 +52,10 @@ let g:airline_symbols.linenr = '⭡'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.whitespace = 'Ξ'
 
-let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#branch#empty_message = '?'
 
-let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#syntastic#enabled = 0
 
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tagbar#flags = 's'
@@ -71,11 +71,17 @@ let g:airline#extensions#whitespace#show_message = 1
 let g:airline#extensions#whitespace#trailing_format = 'trailing[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'mixed-indent[%s]'
 
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_min_count = 0
 let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
+
+let g:airline#extensions#ale#enabled = 1
+
+" Tmuxline
+Plugin 'edkolev/tmuxline.vim'
 
 " javascript, React, EmberJS
 Plugin 'pangloss/vim-javascript'
@@ -337,3 +343,6 @@ set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 let g:airlinetheme = 'solarized'
+
+" kitty background fix
+let &t_ut=''
