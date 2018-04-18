@@ -196,20 +196,24 @@ for PKG in jq vim-vint yamllint; do
   grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
 done
 
-# asdf
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
-
-asdf install erlang
-asdf instal elixir
-asdf install ruby
-DEFAULT_RBENV_PKG_FILE=${home}/.default-gems
+DEFAULT_RBENV_PKG_FILE=${HOME}/.default-gems
 touch $DEFAULT_RBENV_PKG_FILE
 for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
   grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
 done
-# mkdir ~/.asdf/installs/
-# mv ~/.rbenv/versions/* ~/.asdf/installs/ruby/
-asdf install python
+
+# asdf
+if [[ -d $HOME/.asdf ]] ; then
+  asdf plugin-update --all
+else
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
+fi
+
+asdf plugin-add erlang
+asdf plugin-add elixir
+asdf plugin-add ruby
+asdf plugin-add nodejs
+asdf plugin-add python
 
 # vim part
 if [[ -x $(command -v vim) ]] ; then
