@@ -13,3 +13,5 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
