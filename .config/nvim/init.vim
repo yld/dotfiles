@@ -5,6 +5,12 @@ let &packpath = &runtimepath
 set termguicolors
 
 call plug#begin('~/.vim/plugged')
+" dispatch
+Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
+" REPL/term
+Plug 'kassio/neoterm'
+Plug 'vimlab/split-term.vim'
 " theme
 Plug 'icymind/NeoSolarized'
 Plug 'tmhedberg/matchit'
@@ -20,16 +26,16 @@ Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
-Plug 'elzr/vim-json', { 'for': 'json'  }
+"Plug 'elzr/vim-json', { 'for': 'json'  }
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter', { 'on':  'GitGutterToggle' }
 " javascript
 Plug 'pangloss/vim-javascript'
 " Node
-Plug 'moll/vim-node', { 'for': 'javascript' }
+Plug 'moll/vim-node'
 " JSX support (ReactJS)
 Plug 'mxw/vim-jsx'
 " ember
@@ -39,27 +45,34 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 " Ruby & ROR
 " <leader> b
-Plug 'vim-scripts/blockle.vim'
+Plug 'jgdavey/vim-blockle'
+" Elixir
+"Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
+Plug 'slashmili/alchemist.vim'
 " Plug 'vim-scripts/dbext.vim'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-git'
+" Plug 'tpope/vim-git'
 " <Leader>; or <Leader>,
 Plug 'renderedtext/vim-bdd'
-Plug 'tpope/vim-cucumber'
+"Plug 'tpope/vim-cucumber'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'guns/xterm-color-table.vim', { 'on': 'XtermColorTable' }
 Plug 'godlygeek/tabular'
 Plug 'Townk/vim-autoclose'
-" Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vimlab/split-term.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'edkolev/tmuxline.vim'
+"
+Plug 'sheerun/vim-polyglot'
 " Initialize plugin system
 call plug#end()
 
 " begin plugins configuration
 set bg=dark
+let g:neosolarized_vertSplitBgTrans = 1
+let g:neosolarized_contrast = "high"
 colorscheme NeoSolarized
 
 nmap <F8> :TagbarToggle<CR>
@@ -143,6 +156,9 @@ let g:AutoClosePairs_add = "<> |"
 " https://neovim.io/doc/user/nvim.html#nvim-from-vim<Paste>
 " terminal settings
 if has('nvim')
+  " cursor
+  highlight TermCursor ctermfg=red guifg=red
+
   tnoremap <Esc> <C-\><C-n>
   tnoremap <M-[> <Esc>
   tnoremap <C-v><Esc> <Esc>
@@ -169,7 +185,10 @@ if has('nvim')
 endif
 
 let g:disable_key_mappings = 1
+
+" splits
 set splitbelow
+set splitright
 
 " ale
 let g:ale_lint_on_enter = 1
@@ -182,6 +201,7 @@ let g:ale_ruby_reek_show_wiki_link = 1
 let g:ale_fixers = {
 \   'ruby': ['rubocop'],
 \   'javascript': ['eslint'],
+\   'elixir': [''],
 \}
 let g:ale_ruby_rubocop_options='-a'
 let g:ale_fix_on_save = 1
@@ -192,28 +212,6 @@ if executable('ag')
 endif
 " end plugins configuration
 set ttimeoutlen=50
-
-
-
-" default value is "normal", Setting this option to "high" or "low" does use the
-" same Solarized palette but simply shifts some values up or down in order to
-" expand or compress the tonal range displayed.
-let g:neosolarized_contrast = "normal"
-
-" Special characters such as trailing whitespace, tabs, newlines, when displayed
-" using ":set list" can be set to one of three levels depending on your needs.
-" Default value is "normal". Provide "high" and "low" options.
-let g:neosolarized_visibility = "normal"
-
-" I make vertSplitBar a transparent background color. If you like the origin solarized vertSplitBar
-" style more, set this value to 0.
-let g:neosolarized_vertSplitBgTrans = 1
-
-" If you wish to enable/disable NeoSolarized from displaying bold, underlined or italicized
-" typefaces, simply assign 1 or 0 to the appropriate variable. Default values:
-let g:neosolarized_bold = 1
-let g:neosolarized_underline = 1
-let g:neosolarized_italic = 0
 
 "tmux hack
 set t_8f=^[[38;2;%lu;%lu;%lum

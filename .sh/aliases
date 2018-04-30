@@ -41,7 +41,10 @@ alias R='chmod +r'
 # buggy typing
 alias :q='exit'
 
-if [ -x $(command -v vim) ]; then
+if [ -x $(command -v nvim) ]; then
+  alias vi=nvim
+  alias v=nvim
+elif [ -x $(command -v vim) ]; then
   alias vi=vim
   alias v=vim
 fi

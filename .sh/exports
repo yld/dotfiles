@@ -18,7 +18,14 @@ export EDITOR
 
 export GREP_OPTIONS='--color=auto'
 
-test -n `command -v vim`  && EDITOR=vim || EDITOR=vi
+if [ -x $(command -v nvim) ]; then
+  EDITOR=nvim
+elif [ -x $(command -v vim) ]; then
+  EDITOR=vim
+else
+  EDITOR=vi
+fi
+
 export EDITOR
 export CVSEDITOR=$EDITOR
 export VISUAL=$EDITOR
