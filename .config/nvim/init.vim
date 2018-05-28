@@ -1,19 +1,25 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
+
 let &packpath = &runtimepath
 " source ~/.vimrc
 
-set termguicolors
-
 call plug#begin('~/.vim/plugged')
+" fzf
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
+
 " dispatch
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
+
 " REPL/term
 Plug 'kassio/neoterm'
 Plug 'vimlab/split-term.vim'
+
 " theme
-Plug 'icymind/NeoSolarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'tmhedberg/matchit'
+
 " Tim Pope stuff
 " cd and so on
 Plug 'tpope/vim-fugitive'
@@ -29,13 +35,15 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
-"Plug 'elzr/vim-json', { 'for': 'json'  }
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter', { 'on':  'GitGutterToggle' }
+
 " javascript
 Plug 'pangloss/vim-javascript'
+
 " Node
 Plug 'moll/vim-node'
+
 " JSX support (ReactJS)
 Plug 'mxw/vim-jsx'
 " ember
@@ -43,12 +51,14 @@ Plug 'alexlafroscia/vim-ember-cli'
 " snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" Elixir
+Plug 'mhinz/vim-mix-format'
+Plug 'slashmili/alchemist.vim'
+
 " Ruby & ROR
 " <leader> b
 Plug 'jgdavey/vim-blockle'
-" Elixir
-"Plug 'elixir-lang/vim-elixir', { 'for': 'elixir' }
-Plug 'slashmili/alchemist.vim'
 " Plug 'vim-scripts/dbext.vim'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
@@ -56,26 +66,23 @@ Plug 'tpope/vim-bundler'
 " Plug 'tpope/vim-git'
 " <Leader>; or <Leader>,
 Plug 'renderedtext/vim-bdd'
-"Plug 'tpope/vim-cucumber'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'guns/xterm-color-table.vim', { 'on': 'XtermColorTable' }
 Plug 'godlygeek/tabular'
 Plug 'Townk/vim-autoclose'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Tmux stuff
+" Plug 'benmills/vimux'
+" Plug 'spiegela/vimix'
 Plug 'edkolev/tmuxline.vim'
-"
+" Global syntax files (cucumber, eleixir, ruby...)
 Plug 'sheerun/vim-polyglot'
 " Initialize plugin system
 call plug#end()
 
 " begin plugins configuration
-set bg=dark
-let g:neosolarized_vertSplitBgTrans = 1
-let g:neosolarized_contrast = "high"
-colorscheme NeoSolarized
 
 nmap <F8> :TagbarToggle<CR>
+nmap <F7> :NERDTreeToggle<CR>
 
 " airline
 if !exists('g:airline_symbols')
@@ -201,7 +208,6 @@ let g:ale_ruby_reek_show_wiki_link = 1
 let g:ale_fixers = {
 \   'ruby': ['rubocop'],
 \   'javascript': ['eslint'],
-\   'elixir': [''],
 \}
 let g:ale_ruby_rubocop_options='-a'
 let g:ale_fix_on_save = 1
@@ -210,6 +216,8 @@ let g:ale_fix_on_save = 1
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+let g:ack_use_dispatch = 1
+let g:ackhighlight = 1
 " end plugins configuration
 set ttimeoutlen=50
 
@@ -219,13 +227,6 @@ set t_8b=^[[48;2;%lu;%lu;%lum
 
 
 if has("autocmd")
-  " Enable filetype detection
-  filetype plugin indent on
-  " filetype on                   " Enable filetype detection
-  " filetype indent on            " Enable filetype-specific indenting
-  " filetype plugin on            " Enable filetype-specific plugins
-  "filetype plugin indent on
-
   " Strip trailing white spaces on save
   autocmd BufWritePre * :%s/\s\+$//e
 
@@ -239,15 +240,12 @@ if has("autocmd")
 endif
 
 " general options
-set nocompatible
 " > UI
 set so=7
 " Show autocomplete menus (zsh like)
-set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc,*.rubyc,*.zip,*.xz,*.gz,*bz2,*.bzip2,*.so,*.swp
 " show the line number on the bar
-set ruler
 " use more prompt
 set more
 " Height of the command bar
@@ -282,25 +280,24 @@ set directory=~/.vim/swp//
 compiler ruby
 
 " searching
-" incremental search
-set incsearch
-" Highlight search results
-set hlsearch
 " tooggle hlsearch
 noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
 
-" > files syntax
+" files syntax
 syntax on
+
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 set encoding=utf-8
 
-" > Text, tab and indent related
+" Text, tab and indent related
 set tabstop=2
 set shiftwidth=2
+
 " Use spaces instead of tabs
 set expandtab
+
 " Be smart when using tabs ;)
 set smarttab
 
@@ -311,6 +308,16 @@ set autoindent
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+
+" terminal title handling
+let &titlestring = hostname() . "[vi(" . expand("%:t") . ")]"
+if &term == "screen"
+  set t_ts=^[k
+  set t_fs=^[\
+endif
+if &term == "screen" || &term == "xterm"
+  set title
+endif
 
 " number toggle
 nmap <F3> :set invnumber<CR>
@@ -350,4 +357,17 @@ map <leader>et :tabe %%
 " > vimdiff options
 set diffopt+=iwhite
 
+if has('termguicolors') && $COLORTERM ==# 'truecolor'
+  " True-color terminal
+  set termguicolors
+else
+  let g:solarized_use16 = 1
+endif
+
+let g:solarized_old_cursor_style=1
+set background=dark
+colorscheme solarized8_high
+" TMUX issue?
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 

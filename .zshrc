@@ -79,6 +79,7 @@ alias mv='nocorrect mv'
 alias -g L=' | less -R'
 alias -s log='less'
 
+test -x $(command -v ag) && alias -g A=' |ag
 alias -g G=' | grep --color=always'
 alias -g H=' | head '
 alias -g M=' | most '
@@ -211,7 +212,7 @@ zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
 zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
-zstyle ':vcs_info:git*' formats "%{$fg_bold[black]%}@%s%{$reset_color%} %{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[yellow]%}[%{$fg_bold[blue]%}%b%{$fg_bold[yellow]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
+zstyle ':vcs_info:git*' formats "%{$fg_bold[orange]%}%s %{$reset_color%}%{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[yellow]%}[%{$fg_bold[blue]%}%b%{$fg_bold[yellow]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
@@ -305,13 +306,11 @@ precmd() {
 
 source ~/.sh/rc.sh
 
-source ~/.sh/nodenv.sh
-source ~/.sh/rbenv.sh
-source ~/.sh/pyenv.sh
 source ~/.sh/osx.sh
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
 . $HOME/.asdf/asdf.sh
-
 . $HOME/.asdf/completions/asdf.bash
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

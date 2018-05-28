@@ -45,20 +45,31 @@ check_tool() {
   fi
 }
 
-for TOOL in "wget tmux tree"; do
+
+for TOOL in "wget tmux tree the_silver_searcher zsh pwgen shellcheck jq keychain neovim ctags"; do
   check_tool $TOOL
 done
 
-[[ $TOOLS_INSTALLED = "no" ]] && exit 1
+brew_check_and_install() {
+  local TOOL=$1
+  if [[ ! $(brew ls --versions $TOOL) ]]; then
+    brew install $TOOL
+  fi
+}
 
 case $OS in
   "OSX")
   [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
+  for TOOL in "gnu-sed wxmac"; do
+    brew_check_and_install $TOOL
+  done
   ;;
   *)
   echo "doing nothing...";
   ;;
 esac
+
+[[ $TOOLS_INSTALLED = "no" ]] && exit 1
 
 # zsh plugin install + dynamic configurations
 if [[ -x $(command -v zsh) ]] ; then
@@ -75,145 +86,154 @@ if [[ -x $(command -v zsh) ]] ; then
   fi
 fi
 
-# TODO: factorize those 3 code block (waiting for snow)
+# # TODO: factorize those 3 code block (waiting for snow)
 
-# nodenv
-NODENV_DIR=~/.nodenv # $(nodenv root)
-NODENV_PLUGINS_DIR=${NODENV_DIR}/plugins
+# # nodenv
+# NODENV_DIR=~/.nodenv # $(nodenv root)
+# NODENV_PLUGINS_DIR=${NODENV_DIR}/plugins
 
-if [[ ! -d  $NODENV_DIR ]] ; then
- git clone https://github.com/nodenv/nodenv.git $NODENV_DIR
- pushd $NODENV_DIR &> /dev/null
- src/configure && make -C src
- popd &> /dev/null
- mkdir -p $NODENV_PLUGINS_DIR
-fi
+# if [[ ! -d  $NODENV_DIR ]] ; then
+#  git clone https://github.com/nodenv/nodenv.git $NODENV_DIR
+#  pushd $NODENV_DIR &> /dev/null
+#  src/configure && make -C src
+#  popd &> /dev/null
+#  mkdir -p $NODENV_PLUGINS_DIR
+# fi
 
-install_nodenv_plugin() {
-  local NODENV_PLUGIN_DIR=${NODENV_PLUGINS_DIR}/$1
-  local AUTHOR=${2:-'nodenv'}
-  if [[ -d $NODENV_PLUGIN_DIR ]] ; then
-    pushd $NODENV_PLUGIN_DIR &> /dev/null
-    git pull
-    popd &> /dev/null
-  else
-    echo "https://github.com/${AUTHOR}/${1}.git"
-    git clone https://github.com/${AUTHOR}/${1}.git $NODENV_PLUGIN_DIR
-  fi
-}
+# install_nodenv_plugin() {
+#   local NODENV_PLUGIN_DIR=${NODENV_PLUGINS_DIR}/$1
+#   local AUTHOR=${2:-'nodenv'}
+#   if [[ -d $NODENV_PLUGIN_DIR ]] ; then
+#     pushd $NODENV_PLUGIN_DIR &> /dev/null
+#     git pull
+#     popd &> /dev/null
+#   else
+#     echo "https://github.com/${AUTHOR}/${1}.git"
+#     git clone https://github.com/${AUTHOR}/${1}.git $NODENV_PLUGIN_DIR
+#   fi
+# }
 
-for PLUGIN in node-build node-build-update-defs nodenv-update nodenv-vars nodenv-env nodenv-each nodenv-package-rehash nodenv-npm-migrate nodenv-default-packages nodenv-man; do
-  install_nodenv_plugin $PLUGIN
-done
+# for PLUGIN in node-build node-build-update-defs nodenv-update nodenv-vars nodenv-env nodenv-each nodenv-package-rehash nodenv-npm-migrate nodenv-default-packages nodenv-man; do
+#   install_nodenv_plugin $PLUGIN
+# done
 
-nodenv package-hooks install --all
+# nodenv package-hooks install --all
 
-DEFAULT_NODENV_PKG_FILE=${NODENV_DIR}/default-packages
-touch $DEFAULT_NODENV_PKG_FILE
-for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint neovim; do
-  grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
-done
+# DEFAULT_NODENV_PKG_FILE=${NODENV_DIR}/default-packages
+# touch $DEFAULT_NODENV_PKG_FILE
+# for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint neovim; do
+#   grep "^${PKG}$" $DEFAULT_NODENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODENV_PKG_FILE
+# done
 
-# rbenv
-RBENV_DIR=~/.rbenv # $(rbenv root)
-RBENV_PLUGINS_DIR=${RBENV_DIR}/plugins
+# # rbenv
+# RBENV_DIR=~/.rbenv # $(rbenv root)
+# RBENV_PLUGINS_DIR=${RBENV_DIR}/plugins
 
-if [[ ! -d  $RBENV_DIR ]] ; then
- git clone https://github.com/rbenv/rbenv.git $RBENV_DIR
- pushd $RBENV_DIR &> /dev/null
- src/configure && make -C src
- popd &> /dev/null
- mkdir -p $RBENV_PLUGINS_DIR
-fi
+# if [[ ! -d  $RBENV_DIR ]] ; then
+#  git clone https://github.com/rbenv/rbenv.git $RBENV_DIR
+#  pushd $RBENV_DIR &> /dev/null
+#  src/configure && make -C src
+#  popd &> /dev/null
+#  mkdir -p $RBENV_PLUGINS_DIR
+# fi
 
-install_rbenv_plugin() {
-  local RBENV_PLUGINS_DIR=${RBENV_PLUGINS_DIR}/$1
-  local AUTHOR=${2:-'rbenv'}
-  if [[ -d $RBENV_PLUGINS_DIR ]] ; then
-    pushd $RBENV_PLUGINS_DIR &> /dev/null
-    git pull
-    popd &> /dev/null
-  else
-    git clone https://github.com/${AUTHOR}/${1}.git $RBENV_PLUGINS_DIR
-  fi
-}
+# install_rbenv_plugin() {
+#   local RBENV_PLUGINS_DIR=${RBENV_PLUGINS_DIR}/$1
+#   local AUTHOR=${2:-'rbenv'}
+#   if [[ -d $RBENV_PLUGINS_DIR ]] ; then
+#     pushd $RBENV_PLUGINS_DIR &> /dev/null
+#     git pull
+#     popd &> /dev/null
+#   else
+#     git clone https://github.com/${AUTHOR}/${1}.git $RBENV_PLUGINS_DIR
+#   fi
+# }
 
-install_rbenv_plugin 'ruby-build'
-install_rbenv_plugin 'rbenv-update' 'rkh'
-install_rbenv_plugin 'rbenv-vars'
-install_rbenv_plugin 'rbenv-each'
-install_rbenv_plugin 'rbenv-default-gems'
-install_rbenv_plugin 'rbenv-gemset' 'jf'
-install_rbenv_plugin 'rbenv-env' 'ianheggie'
-install_rbenv_plugin 'rbenv-ctags' 'tpope'
-install_rbenv_plugin 'rbenv-bundler' 'carsomyr'
-install_rbenv_plugin 'rbenv-update' 'rkh'
-install_rbenv_plugin 'rbenv-clean' 'jbernsie'
-echo "you should run 'rbenv bundler on' to enable rbenv-bundler"
+# install_rbenv_plugin 'ruby-build'
+# install_rbenv_plugin 'rbenv-update' 'rkh'
+# install_rbenv_plugin 'rbenv-vars'
+# install_rbenv_plugin 'rbenv-each'
+# install_rbenv_plugin 'rbenv-default-gems'
+# install_rbenv_plugin 'rbenv-gemset' 'jf'
+# install_rbenv_plugin 'rbenv-env' 'ianheggie'
+# install_rbenv_plugin 'rbenv-ctags' 'tpope'
+# install_rbenv_plugin 'rbenv-bundler' 'carsomyr'
+# install_rbenv_plugin 'rbenv-update' 'rkh'
+# install_rbenv_plugin 'rbenv-clean' 'jbernsie'
+# echo "you should run 'rbenv bundler on' to enable rbenv-bundler"
 
-DEFAULT_RBENV_PKG_FILE=${RBENV_DIR}/default-gems
-touch $DEFAULT_RBENV_PKG_FILE
-for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
-  grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
-done
+# DEFAULT_RBENV_PKG_FILE=${RBENV_DIR}/default-gems
+# touch $DEFAULT_RBENV_PKG_FILE
+# for PKG in gem-ctags awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
+#   grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
+# done
 
-# pyenv
-PYENV_DIR=~/.pyenv # $(pyenv root)
-PYENV_PLUGINS_DIR=${PYENV_DIR}/plugins
+# # pyenv
+# PYENV_DIR=~/.pyenv # $(pyenv root)
+# PYENV_PLUGINS_DIR=${PYENV_DIR}/plugins
 
-if [[ ! -d  $PYENV_DIR ]] ; then
- git clone https://github.com/pyenv/pyenv.git $PYENV_DIR
- pushd $PYENV_DIR &> /dev/null
- src/configure && make -C src
- popd &> /dev/null
- mkdir -p $PYENV_PLUGINS_DIR
-fi
+# if [[ ! -d  $PYENV_DIR ]] ; then
+#  git clone https://github.com/pyenv/pyenv.git $PYENV_DIR
+#  pushd $PYENV_DIR &> /dev/null
+#  src/configure && make -C src
+#  popd &> /dev/null
+#  mkdir -p $PYENV_PLUGINS_DIR
+# fi
 
-install_pyenv_plugin() {
-  local PYENV_PLUGIN_DIR=${PYENV_PLUGINS_DIR}/$1
-  local AUTHOR=${2:-'pyenv'}
-  if [[ -d $PYENV_PLUGIN_DIR ]] ; then
-    pushd $PYENV_PLUGIN_DIR &> /dev/null
-    git pull
-    popd &> /dev/null
-  else
-    git clone https://github.com/${AUTHOR}/${1}.git $PYENV_PLUGIN_DIR
-  fi
-}
+# install_pyenv_plugin() {
+#   local PYENV_PLUGIN_DIR=${PYENV_PLUGINS_DIR}/$1
+#   local AUTHOR=${2:-'pyenv'}
+#   if [[ -d $PYENV_PLUGIN_DIR ]] ; then
+#     pushd $PYENV_PLUGIN_DIR &> /dev/null
+#     git pull
+#     popd &> /dev/null
+#   else
+#     git clone https://github.com/${AUTHOR}/${1}.git $PYENV_PLUGIN_DIR
+#   fi
+# }
 
-install_pyenv_plugin 'pyenv-doctor'
 # install_pyenv_plugin 'pyenv-doctor'
-install_pyenv_plugin 'pyenv-update'
-install_pyenv_plugin 'pyenv-pip-update' 'massongit'
-install_pyenv_plugin 'pyenv-pip-rehash'
-install_pyenv_plugin 'pyenv-pip-migrate'
-install_pyenv_plugin 'pyenv-default-packages' 'jawshooah'
-install_pyenv_plugin 'pyenv-virtualenv'
+# # install_pyenv_plugin 'pyenv-doctor'
+# install_pyenv_plugin 'pyenv-update'
+# install_pyenv_plugin 'pyenv-pip-update' 'massongit'
+# install_pyenv_plugin 'pyenv-pip-rehash'
+# install_pyenv_plugin 'pyenv-pip-migrate'
+# install_pyenv_plugin 'pyenv-default-packages' 'jawshooah'
+# install_pyenv_plugin 'pyenv-virtualenv'
 
-DEFAULT_PYENV_PKG_FILE=${PYENV_DIR}/default-packages
-touch $DEFAULT_PYENV_PKG_FILE
-for PKG in jq vim-vint yamllint; do
-  grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
-done
-
-DEFAULT_RBENV_PKG_FILE=${HOME}/.default-gems
-touch $DEFAULT_RBENV_PKG_FILE
-for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
-  grep "^${PKG}$" $DEFAULT_RBENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RBENV_PKG_FILE
-done
+# DEFAULT_PYENV_PKG_FILE=${PYENV_DIR}/default-packages
+# touch $DEFAULT_PYENV_PKG_FILE
+# for PKG in jq vim-vint yamllint; do
+#   grep "^${PKG}$" $DEFAULT_PYENV_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_PYENV_PKG_FILE
+# done
 
 # asdf
-if [[ -d $HOME/.asdf ]] ; then
-  asdf plugin-update --all
-else
+if [[ ! -d $HOME/.asdf ]] ; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
 fi
+
+DEFAULT_NODE_ASDF_PKG_FILE="${HOME}/.default-npm-packages"
+touch ${DEFAULT_NODE_ASDF_PKG_FILE}
+for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint neovim; do
+  grep "^${PKG}$" $DEFAULT_NODE_ASDF_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODE_ASDF_PKG_FILE
+done
+
+DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
+touch $DEFAULT_RUBY_ADSF_PKG_FILE
+for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
+  grep "^${PKG}$" $DEFAULT_RUBY_ADSF_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RUBY_ADSF_PKG_FILE
+done
+
+# Node.js release team's OpenPGP keys
+bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
 asdf plugin-add erlang
 asdf plugin-add elixir
 asdf plugin-add ruby
 asdf plugin-add nodejs
 asdf plugin-add python
+
+asdf plugin-update --all > /dev/null
 
 # vim part
 if [[ -x $(command -v vim) ]] ; then
@@ -234,7 +254,7 @@ if [[ -x $(command -v vim) ]] ; then
   fi
 fi
 
-#nvim part
+# nvim part
 if [[ -x $(command -v nvim) ]] ; then
   PLUGGED_DIR=~/.local/share/nvim/plugged
   if [[ ! -d $PLUGGED_DIR ]] ; then
@@ -250,7 +270,3 @@ fi
 # NOTE: yarn is installed as a plugin for zsh but we enforce its installation here
 [[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
 # yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
-
-for PROG in 'shellcheck' ; do
-  [[ ! -x $(command -v $PROG) ]] && echo "you should install $PROG"
-done
