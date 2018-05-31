@@ -31,12 +31,14 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter', { 'on':  'GitGutterToggle' }
+" Plug 'ryanoasis/vim-devicons'
 
 " javascript
 Plug 'pangloss/vim-javascript'
@@ -55,6 +57,9 @@ Plug 'honza/vim-snippets'
 " Elixir
 Plug 'mhinz/vim-mix-format'
 Plug 'slashmili/alchemist.vim'
+Plug 'avdgaag/vim-phoenix'
+" Plug 'mattreduce/vim-mix'
+Plug 'jadercorrea/elixir_generator.vim
 
 " Ruby & ROR
 " <leader> b
@@ -238,6 +243,23 @@ if has("autocmd")
   " autoclose NERDTree when alone
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 endif
+
+if has('mac')
+  " Set the title of the Terminal to the currently open file
+  function! SetTerminalTitle()
+    let titleString = expand('%:t')
+    if len(titleString) > 0
+      let &titlestring = expand('%:t')
+      " this is the format iTerm2 expects when setting the window title
+      let args = "\033];".&titlestring."\007"
+      let cmd = 'silent !echo -e "'.args.'"'
+      execute cmd
+      redraw!
+    endif
+  endfunction
+endif
+
+autocmd BufEnter * call SetTerminalTitle()
 
 " general options
 " > UI

@@ -79,7 +79,7 @@ alias mv='nocorrect mv'
 alias -g L=' | less -R'
 alias -s log='less'
 
-test -x $(command -v ag) && alias -g A=' |ag
+test -x $(command -v ag) && alias -g A=' |ag '
 alias -g G=' | grep --color=always'
 alias -g H=' | head '
 alias -g M=' | most '
@@ -121,9 +121,29 @@ zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
 # zplug "joel-porquet/zsh-dircolors-solarized"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "b4b4r07/zsh-vimode-visual", defer:3
 zplug "plugins/yarn", from:oh-my-zsh
+zplug "plugins/bundler", from:oh-my-zsh
+zplug "supercrabtree/k"
+zplug "djui/alias-tips"
+zplug "raylee/tldr", as:command, use:tldr
+zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
+zplug "rupa/z", use:"*.sh"
+zplug "gusaiani/elixir-oh-my-zsh"
+# zplug "plugins/mix", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
+
+export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
+
+# burl aliases
+alias GET='burl GET'
+alias HEAD='burl -I'
+alias POST='burl POST'
+alias PUT='burl PUT'
+alias PATCH='burl PATCH'
+alias DELETE='burl DELETE'
+alias OPTIONS='burl OPTIONS'
 
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
@@ -310,7 +330,7 @@ source ~/.sh/osx.sh
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+source ~/.asdf/asdf.sh
+source ~/.asdf/completions/asdf.bash
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

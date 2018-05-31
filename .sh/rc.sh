@@ -7,6 +7,6 @@ if [ -x $(command -v keychain) ] ; then
       [[ -f ${KEY_PATH}.pub ]] &&  keychain  -q $TMP_PATH
     done
   fi
-	[[ -f ~/.keychain/${HOST}-sh ]] && . ~/.keychain/${HOST}-sh
+	test -f ~/.keychain/${HOST}-sh && . ~/.keychain/${HOST}-sh
 fi
 
