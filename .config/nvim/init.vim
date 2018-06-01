@@ -59,7 +59,7 @@ Plug 'mhinz/vim-mix-format'
 Plug 'slashmili/alchemist.vim'
 Plug 'avdgaag/vim-phoenix'
 " Plug 'mattreduce/vim-mix'
-Plug 'jadercorrea/elixir_generator.vim
+Plug 'jadercorrea/elixir_generator.vim'
 
 " Ruby & ROR
 " <leader> b

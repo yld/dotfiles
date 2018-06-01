@@ -112,6 +112,7 @@ alias help='run-help'
 # end help stuff
 
 
+# zplug begin
 # https://github.com/unixorn/awesome-zsh-plugins
 . ~/.zplugd/init.zsh
 
@@ -144,6 +145,8 @@ alias PUT='burl PUT'
 alias PATCH='burl PATCH'
 alias DELETE='burl DELETE'
 alias OPTIONS='burl OPTIONS'
+export PATH="$PATH:$ZPLUG_BIN"
+# zplug end
 
 autoload -U pick-web-browser
 zstyle ':mime:*' x-browsers konqueror firefox links2
