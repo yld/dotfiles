@@ -292,11 +292,11 @@ set noerrorbells
 "set tm=500
 
 " Files, backups and undo
-set backupdir=~/.vim/backup//
+set backupdir=~/.vim/backup/
 set nobackup
 
 " swap files (broccoli related)
-set directory=~/.vim/swp//
+set directory=~/.vim/swp/
 
 " Enable compiler support for ruby
 compiler ruby

@@ -131,6 +131,7 @@ zplug "raylee/tldr", as:command, use:tldr
 zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
 zplug "rupa/z", use:"*.sh"
 zplug "gusaiani/elixir-oh-my-zsh"
+# zplug "bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:"dheroku.sh"
 # zplug "plugins/mix", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
@@ -333,6 +334,7 @@ source ~/.sh/osx.sh
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
+# asdf
 source ~/.asdf/asdf.sh
 source ~/.asdf/completions/asdf.bash
 

@@ -220,7 +220,7 @@ done
 
 DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
 touch $DEFAULT_RUBY_ADSF_PKG_FILE
-for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim; do
+for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist; do
   grep "^${PKG}$" $DEFAULT_RUBY_ADSF_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RUBY_ADSF_PKG_FILE
 done
 
