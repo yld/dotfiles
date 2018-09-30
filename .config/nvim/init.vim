@@ -159,7 +159,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " undotree
 nnoremap <F6> :UndotreeToggle<cr>
 if has("persistent_undo")
-  set undodir='/tmp'
+  set undodir=~/.undodir
   set undofile
 endif
 
@@ -208,7 +208,7 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_format = '%linter%%s'
 
 let g:ale_ruby_brakeman_options = ' -A'
-let g:ale_ruby_reek_show_wiki_link = 1
+let g:ale_ruby_reek_show_wiki_link = 0
 
 let g:ale_fixers = {
 \   'ruby': ['rubocop'],
