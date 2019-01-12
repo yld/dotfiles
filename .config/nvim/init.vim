@@ -26,7 +26,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-" Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-abolish'
+Plugin 'tpope/vim-eunuch'
 " gc, gcap
 Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
