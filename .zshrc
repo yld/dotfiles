@@ -124,14 +124,21 @@ zplug "RobertAudi/tsm"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
 zplug "plugins/yarn", from:oh-my-zsh
+zplug "plugins/kubectl", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/bundler", from:oh-my-zsh
+zplug "plugins/codeclimate", from:oh-my-zsh
 zplug "supercrabtree/k"
 zplug "djui/alias-tips"
 zplug "raylee/tldr", as:command, use:tldr
 zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
+zplug "cytopia/aws-export-profile", as:command, use:"aws-export-profile"
 zplug "rupa/z", use:"*.sh"
 zplug "gusaiani/elixir-oh-my-zsh"
-# zplug "bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:"dheroku.sh"
+zplug "johanhaleby/kubetail", as:command, use:'kubetail'
+# zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
+# zplug "superbrothers/zsh-kubectl-prompt",
+zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
@@ -210,6 +217,7 @@ done
 compinit -C
 # End of lines added by compinstall
 
+[[ -x $(command -v kops) ]] && source <(kops completion zsh)
 ### end completion
 
 autoload -U colors && colors
@@ -234,11 +242,11 @@ zstyle ':vcs_info:*' enable cvs git svn
 zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
-zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
+# zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
+# zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
 zstyle ':vcs_info:git*' formats "%{$fg_bold[orange]%}%s %{$reset_color%}%{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[yellow]%}[%{$fg_bold[blue]%}%b%{$fg_bold[yellow]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
-zstyle ':vcs_info:*' branchformat '[%b:%r]' # bzr, svn, svk and hg
-zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}%a%{$fg_bold[black]%}) %12.12i %c%u %b%m"
+zstyle ':vcs_info:*' branchformat '(%b:%r)' # bzr, svn, svk and hg
+zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}(%a)%{$fg_bold[black]%}) %12.12i %c%u %b%m"
 zstyle ':vcs_info:git*+set-message:*' hooks git-st git-untracked git-icons
 
 function +vi-git-icons() {
@@ -246,25 +254,15 @@ function +vi-git-icons() {
 
   if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
     stashes=$(git stash list 2>/dev/null | wc -l)
-    hook_com[misc]+="%{$fg[green]%}▲(${stashes})%{$reset_color%} "
+    hook_com[misc]+="%{$fg[yellow]%}●(${stashes})%{$reset_color%} "
   fi
   staged_count=${$(git status -s -uno |wc -l)}
   if [[ $staged_count != "0" ]] ; then
-    hook_com[misc]+="%{$fg_bold[yellow]%}●($staged_count)%{$reset_color%}"
+    hook_com[misc]+="%{$fg_bold[green]%}▲($staged_count)%{$reset_color%}"
   fi
   untracked_count=${$(git ls-files --exclude-standard --others --directory --no-empty-directory | wc -l )}
   if [[ $untracked_count != "0" ]] ; then
     hook_com[misc]+=" %{$fg[red]%}◼($untracked_count)%{$reset_color%}"
-  fi
-}
-
-function +vi-git-stash() {
-  local -a stashes
-
-  if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
-    stashes=$(git stash list 2>/dev/null | wc -l)
-    #hook_com[misc]+="${stashes}▲)"
-    hook_com[misc]+="%{$fg[green]%}▲(${stashes})%{$reset_color%}"
   fi
 }
 
@@ -277,19 +275,17 @@ function +vi-git-st() {
         --symbolic-full-name --abbrev-ref 2>/dev/null)}
 
     if [[ -n ${remote} ]] ; then
-        # for git prior to 1.7
-        # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
         ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
         (( $ahead )) && gitstatus+=( "${green}+${ahead}${gray}" )
-
-        # for git prior to 1.7
-        # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
         behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
         (( $behind )) && gitstatus+=( "${red}-${behind}${gray}" )
-
-        hook_com[branch]="%{$fg_bold[yellow]%}${hook_com[branch]}%{$reset_color%}%{$fg_bold[white]%}|%{$fg_bold[blue]%}${remote}%{$fg_bold[yellow]%}${(j:/:)gitstatus}%{$reset_color%}"
+        hook_com[branch]="%{$fg_bold[yellow]%}${hook_com[branch]}%{$reset_color%}%{$fg_bold[white]%}:%{$fg_bold[blue]%}${remote}%{$fg_bold[yellow]%}${gitstatus}%{$reset_color%}"
     fi
 }
+
+# kubectl prompt
+# zstyle ':zsh-kubectl-prompt:' separator ':'
+# RPROMPT=%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}
 
 ### prompt ###
 setopt PROMPT_BANG
@@ -303,19 +299,24 @@ precmd() {
 "
   fi
   PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
-  #i RIGHTWIDTH=$(($COLUMNS-${#PS1}))
-  RPS1="%{$orange%}%*%{$reset_color%}
-  "
-  # print $LEFT${(l:$RIGHTWIDTH::.:)RPS1}
+	# if [[ -n ${ ZSH_KUBECTL_PROMPT } ]] then
+    # RIGHTWIDTH=$(($COLUMNS-${#PS1}))
+    # RPS1=$'%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+    # print $LEFT${(l:$RIGHTWIDTH::.:)RPS1}
+	# fi
 }
 
 # colorized stderr
-# buggy with su & sudo: do not use
-#exec 2>>(
-#  while read line; do
-#    print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0';
-#  done &
-#)
+# buggy with su & sudo so drop it for root
+# if [[ $UID != 0 && $EUID != 0 ]]; then
+# 	exec 2>>(
+# 		while read line; do
+# 			print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0';
+# 		done &
+# 	)
+# fi
+
+
 # second version
 #sm_color_red="$(  tput setaf 1)"
 #sm_color_reset="$(tput sgr0   )"
@@ -339,3 +340,6 @@ source ~/.asdf/asdf.sh
 source ~/.asdf/completions/asdf.bash
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# added by travis gem
+[ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
