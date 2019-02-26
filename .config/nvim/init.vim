@@ -82,6 +82,8 @@ Plug 'Townk/vim-autoclose'
 Plug 'edkolev/tmuxline.vim'
 " Global syntax files (cucumber, eleixir, ruby...)
 Plug 'sheerun/vim-polyglot'
+" Documentation
+Plug 'rizzatti/dash.vim'
 " Initialize plugin system
 call plug#end()
 
@@ -343,7 +345,8 @@ if &term == "screen" || &term == "xterm"
 endif
 
 " number toggle
-nmap <F3> :set invnumber<CR>
+nmap <F3> :set invnumber <bar> set relativenumber<CR>
+" set relativenumber
 
 "Wrap lines
 set wrap
