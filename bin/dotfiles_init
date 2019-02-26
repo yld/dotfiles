@@ -42,7 +42,7 @@ check_tool() {
 }
 
 
-for TOOL in "wget tmux tree the_silver_searcher zsh pwgen shellcheck jq keychain neovim ctags"; do
+for TOOL in wget tmux tree ag zsh pwgen shellcheck jq keychain nvim ctags; do
   check_tool "$TOOL"
 done
 
