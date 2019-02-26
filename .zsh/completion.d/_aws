@@ -1,0 +1,2 @@
+AWS_COMPLETION_FILE=$(dirname $(command -v aws_completer))/aws_zsh_completer.sh
+test -f "$AWS_COMPLETION_FILE" && source "$AWS_COMPLETION_FILE"
