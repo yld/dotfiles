@@ -27,6 +27,7 @@ else
 fi
 
 export EDITOR
+export ECTO_EDITOR=$EDITOR
 export CVSEDITOR=$EDITOR
 export VISUAL=$EDITOR
 
