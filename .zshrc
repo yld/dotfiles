@@ -136,12 +136,16 @@ zplug "cytopia/aws-export-profile", as:command, use:"aws-export-profile"
 zplug "rupa/z", use:"*.sh"
 zplug "gusaiani/elixir-oh-my-zsh"
 zplug "johanhaleby/kubetail", as:command, use:'kubetail'
-# zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
+zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
 # zplug "superbrothers/zsh-kubectl-prompt",
 zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
+
+# kubectl prompt
+autoload -U colors; colors
+RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
 
