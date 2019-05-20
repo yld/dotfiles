@@ -1,7 +1,6 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 
 let &packpath = &runtimepath
-" source ~/.vimrc
 
 call plug#begin('~/.vim/plugged')
 " fzf
@@ -31,8 +30,17 @@ Plug 'tpope/vim-eunuch'
 " gc, gcap
 Plug 'tpope/vim-commentary'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+
+" File browsing
+let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+let g:netrw_banner = 0
+" let g:netrw_altv = 1
+
+Plug 'tpope/vim-vinegar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
+
 
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'

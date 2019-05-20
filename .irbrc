@@ -1,7 +1,12 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 
 IRB.conf[:SAVE_HISTORY] = 1000
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb_history"
+
+require 'awesome_print'
+AwesomePrint.irb!
 
 require 'benchmark'
 
@@ -20,18 +25,18 @@ if defined? Pry
   exit
 else
   begin
-    require "awesome_print"
+    require 'awesome_print'
     AwesomePrint.irb!
   rescue LoadError
     puts 'please gem install awesome_print'
   end
 
-  if defined?r(RAILS_ENV) && RAILS_ENV == 'test'
+  if defined? r(RAILS_ENV) && RAILS_ENV == 'test'
     begin
       require 'factory_bot'
       FactoryBot.find_definitions
       include FactoryBot::Syntax::Methods
-    rescue
+    rescue StandardError
       puts 'please gem install factory_bot'
     end
   end

@@ -132,20 +132,20 @@ zplug "supercrabtree/k"
 zplug "djui/alias-tips"
 zplug "raylee/tldr", as:command, use:tldr
 zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
-zplug "cytopia/aws-export-profile", as:command, use:"aws-export-profile"
 zplug "rupa/z", use:"*.sh"
 zplug "gusaiani/elixir-oh-my-zsh"
 zplug "johanhaleby/kubetail", as:command, use:'kubetail'
 zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
-# zplug "superbrothers/zsh-kubectl-prompt",
-zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
+zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku
+zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env
+# zplug "FinalCAD/devops_tools", as:command, use:"{manage-aws-env/manage-aws-env,rotate_aws_credentials/rotate_aws_credentials,switch_aws_profile/switch_aws_profile,switch_aws_profile/switch_aws_profile,switch_kube_context/switch_kube_context}"
+# zplug "FinalCAD/devops_tools", as:command, use:"rotate_aws_credentials/rotate_aws_credentials"
+# zplug "FinalCAD/devops_tools", as:command, use:"switch_aws_profile/switch_aws_profile"
+# zplug "FinalCAD/devops_tools", as:command, use:"switch_kube_context/switch_kube_context"
+# zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
 zplug check || (zplug install && zplug update)
 zplug load
-
-# kubectl prompt
-autoload -U colors; colors
-RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
 
@@ -288,8 +288,27 @@ function +vi-git-st() {
 }
 
 # kubectl prompt
-# zstyle ':zsh-kubectl-prompt:' separator ':'
-# RPROMPT=%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}
+autoload -U colors; colors
+function kube_prompt() {
+  local KUBE_CURRENT_CONTEXT=$(kubectl  config current-context)
+  local KUBE_CURRENT_NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+	KUBE_PROMPT="%B"$'\u2388'"%b %F{red}$(echo $KUBE_CURRENT_CONTEXT | cut -d '/' -f 2 | sed 's/eks-//g')%f:%F{blue}${KUBE_CURRENT_NAMESPACE}%f"
+}
+# if [[ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]
+# then
+#   KUBE_PROMPT=$(kubectl  config current-context)
+#   function get_cluster_short() {
+#     echo "$1" | cut -d '/' -f 2 | sed 's/eks-//g'
+#   }
+#   KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+#   # KUBE_PS1_SYMBOL_ENABLE=false
+#   KUBE_PS1_SYMBOL_USE_IMG=true
+
+#   source /usr/local/opt/kube-ps1/share/kube-ps1.sh
+#   KUBE_PROMPT='$(kube_ps1)'
+# fi
+
+#$RPROMPT
 
 ### prompt ###
 setopt PROMPT_BANG
@@ -297,17 +316,17 @@ setopt PROMPT_PERCENT
 #setopt PROMPT_SUBST
 precmd() {
   vcs_info
+	kube_prompt
   PS1=$''
+  if [[ -n ${KUBE_PROMPT} ]] then
+    PS1=$PS1"${KUBE_PROMPT}
+"
+  fi
   if [[ -n ${vcs_info_msg_0_} ]] then
     PS1=$PS1"${vcs_info_msg_0_}
 "
   fi
-  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)# '
-	# if [[ -n ${ ZSH_KUBECTL_PROMPT } ]] then
-    # RIGHTWIDTH=$(($COLUMNS-${#PS1}))
-    # RPS1=$'%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
-    # print $LEFT${(l:$RIGHTWIDTH::.:)RPS1}
-	# fi
+  PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)%# '
 }
 
 # colorized stderr
@@ -347,3 +366,5 @@ source ~/.asdf/completions/asdf.bash
 
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
+
+complete -o nospace -C /Users/yves/.asdf/installs/terraform/0.11.13/bin/terraform terraform

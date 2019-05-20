@@ -11,6 +11,7 @@
 	autocrlf = input
 	editor = vim
 	excludesfile = ~/.cvsignore
+	filemode = true
 [merge]
 	tool = vimdiff
 [man]

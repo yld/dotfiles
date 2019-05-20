@@ -17,10 +17,18 @@ nmap <F8> :TagbarToggle<CR>
 Plugin 'tpope/vim-repeat'
 Plugin 'honza/vim-snippets'
 Plugin 'scrooloose/nerdtree'
-
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 let g:NERDTreeShowHidden = 1
 let g:NERDChristmasTree = 1
 let g:NERDTreeHijackNetrw = 1
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+" auto open when empty
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists(“s:std_in”) | NERDTree | endif
+
 map <F7> :NERDTreeToggle<CR>
 
 Plugin 'ctrlpvim/ctrlp.vim'
