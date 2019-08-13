@@ -16,7 +16,9 @@ Plug 'kassio/neoterm'
 Plug 'vimlab/split-term.vim'
 
 " theme
-Plug 'lifepillar/vim-solarized8'
+" Plug 'lifepillar/vim-solarized8'
+Plug 'dracula/vim'
+
 Plug 'tmhedberg/matchit'
 
 " Tim Pope stuff
@@ -59,6 +61,12 @@ Plug 'moll/vim-node'
 Plug 'mxw/vim-jsx'
 " ember
 Plug 'alexlafroscia/vim-ember-cli'
+
+" Golang
+Plug 'fatih/vim-go'
+let g:go_fmt_command = "goimports"
+Plug 'buoto/gotests-vim'
+
 " snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -140,7 +148,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_min_count = 0
 let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
-let g:airlinetheme = 'solarized'
+let g:airlinetheme = 'dracula'
 
 let g:airline#extensions#ale#enabled = 1
 
@@ -394,13 +402,13 @@ set diffopt+=iwhite
 if has('termguicolors') && $COLORTERM ==# 'truecolor'
   " True-color terminal
   set termguicolors
-else
-  let g:solarized_use16 = 1
+" else
+"   let g:solarized_use16 = 1
 endif
 
-let g:solarized_old_cursor_style=1
+" let g:solarized_old_cursor_style=1
 set background=dark
-colorscheme solarized8_high
+" colorscheme solarized8_high
 " TMUX issue?
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"

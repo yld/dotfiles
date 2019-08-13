@@ -106,30 +106,37 @@ asdf plugin-add erlang
 asdf plugin-add elixir
 asdf plugin-add ruby
 asdf plugin-add nodejs
+asdf plugin-add golang
+asdf plugin-add packer
 asdf plugin-add python
 asdf plugin-add terraform
 asdf plugin-add terragrunt
 
 asdf plugin-update --all > /dev/null
 
+
+go get -u golang.org/x/tools/cmd/goimports
+go get -u golang.org/x/tools/cmd/godoc
+go get -u github.com/cweill/gotests
+
 # vim part (probably outdated)
-if [[ -x $(command -v vim) ]] ; then
-  BUNDLE_DIR=~/.vim/bundle
-  VUNDLE_DIR=${BUNDLE_DIR}/vundle
-  # mkdir -p $VUNDLE_DIR > /dev/null
-  mkdir -p ~/.vim/{backup,swp} >> /dev/null
-  if [[ ! -d $VUNDLE_DIR ]] ; then
-    mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
-    vim +PluginInstall +qall
-  else
-    # fix for https://github.com/VundleVim/Vundle.vim/issues/470
-    pushd $VUNDLE_DIR >> /dev/null
-    git pull
-    popd > /dev/null
-    vim +PluginUpdate +qall
-    vim +PluginClean! +qall
-  fi
-fi
+# if [[ -x $(command -v vim) ]] ; then
+#   BUNDLE_DIR=~/.vim/bundle
+#   VUNDLE_DIR=${BUNDLE_DIR}/vundle
+#   # mkdir -p $VUNDLE_DIR > /dev/null
+#   mkdir -p ~/.vim/{backup,swp} >> /dev/null
+#   if [[ ! -d $VUNDLE_DIR ]] ; then
+#     mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
+#     vim +PluginInstall +qall
+#   else
+#     # fix for https://github.com/VundleVim/Vundle.vim/issues/470
+#     pushd $VUNDLE_DIR >> /dev/null
+#     git pull
+#     popd > /dev/null
+#     vim +PluginUpdate +qall
+#     vim +PluginClean! +qall
+#   fi
+# fi
 
 # nvim part
 if [[ -x $(command -v nvim) ]] ; then

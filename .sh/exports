@@ -1,6 +1,6 @@
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 
-umask 027
+umask 022
 limit coredumpsize 0
 
 OS="";
@@ -59,6 +59,7 @@ export RSYNC_RSH=ssh
 
 # yarn path
 export PATH="$HOME/.yarn/bin:$PATH"
+test -d "${KREW_ROOT:-$HOME/.krew}" && export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # export PATH="$GEM_HOME/bin:$PATH"
 

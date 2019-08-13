@@ -138,6 +138,7 @@ zplug "johanhaleby/kubetail", as:command, use:'kubetail'
 zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
 zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku
 zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env
+zplug "zchee/zsh-completions", use:'src/go/_go'
 # zplug "FinalCAD/devops_tools", as:command, use:"{manage-aws-env/manage-aws-env,rotate_aws_credentials/rotate_aws_credentials,switch_aws_profile/switch_aws_profile,switch_aws_profile/switch_aws_profile,switch_kube_context/switch_kube_context}"
 # zplug "FinalCAD/devops_tools", as:command, use:"rotate_aws_credentials/rotate_aws_credentials"
 # zplug "FinalCAD/devops_tools", as:command, use:"switch_aws_profile/switch_aws_profile"
@@ -289,11 +290,11 @@ function +vi-git-st() {
 
 # kubectl prompt
 autoload -U colors; colors
-function kube_prompt() {
-  local KUBE_CURRENT_CONTEXT=$(kubectl  config current-context)
-  local KUBE_CURRENT_NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
-	KUBE_PROMPT="%B"$'\u2388'"%b %F{red}$(echo $KUBE_CURRENT_CONTEXT | cut -d '/' -f 2 | sed 's/eks-//g')%f:%F{blue}${KUBE_CURRENT_NAMESPACE}%f"
-}
+# function kube_prompt() {
+#   local KUBE_CURRENT_CONTEXT=$(kubectl  config current-context)
+#   local KUBE_CURRENT_NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
+# 	KUBE_PROMPT="%B"$'\u2388'"%b %F{red}$(echo $KUBE_CURRENT_CONTEXT | cut -d '/' -f 2 | sed 's/eks-//g')%f:%F{blue}${KUBE_CURRENT_NAMESPACE}%f"
+# }
 # if [[ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]
 # then
 #   KUBE_PROMPT=$(kubectl  config current-context)
@@ -316,7 +317,7 @@ setopt PROMPT_PERCENT
 #setopt PROMPT_SUBST
 precmd() {
   vcs_info
-	kube_prompt
+	# kube_prompt
   PS1=$''
   if [[ -n ${KUBE_PROMPT} ]] then
     PS1=$PS1"${KUBE_PROMPT}
@@ -367,4 +368,5 @@ source ~/.asdf/completions/asdf.bash
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
-complete -o nospace -C /Users/yves/.asdf/installs/terraform/0.11.13/bin/terraform terraform
+complete -o nospace -C /Users/yves/.asdf/installs/terraform/$(asdf current terraform | cut -f1 -d ' ')/bin/terraform terraform
+

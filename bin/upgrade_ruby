@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# this script reads Gemfile.lock
+# it upgrade Dockerfile accordingly
+# the same goes for several funny files (versions, binstubs)
+
+GEMFILE_LOCK=Gemfile.lock
+[ ! -f "$GEMFILE_LOCK" ] && echo "Can't find any Gemfile.lock" && exit 1
+
+BUNDLER_VERSION=$(awk 'c&&!--c;/BUNDLED WITH/{c=1}' $GEMFILE_LOCK | tr -d '[:space:]')
+RUBY_VERSION=$(awk 'c&&!--c;/RUBY VERSION/{c=1}' $GEMFILE_LOCK | tr -d '[:space:]' | sed 's/ruby//g' | sed 's/p.*$//g')
+
+if [ -f Dockerfile ]
+then
+  sed -i.bak "s/^FROM.*$/FROM ruby:"${RUBY_VERSION}"-alpine/g" Dockerfile
+  sed -i.bak "s/^ARG BUNDLER_VERSION.*$/ARG BUNDLER_VERSION="${BUNDLER_VERSION}"/g" Dockerfile
+  rm Dockerfile.bak
+fi
+
+echo "$RUBY_VERSION" > .ruby-version
+echo "ruby ${RUBY_VERSION}" > .tool-version
+
+# binstaub, order is important
+bundle exec rails app:update:bin
+bundle binstubs bundler --force
+bundle binstubs puma --force
+bundle binstubs sidekiq --force
+
+bundle audit update
+touch Gemfile.lock
+
+if [ -f .rubocop.yml ]
+then
+  sed -i.bak "s/  TargetRubyVersion:.$/  TargetRubyVersion: "${RUBY_VERSION%.*}"/g" .rubocop.yml
+  rm .rubocop.yml.bak
+fi
