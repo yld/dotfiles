@@ -114,13 +114,43 @@ alias help='run-help'
 
 # zplug begin
 # https://github.com/unixorn/awesome-zsh-plugins
-. ~/.zplugd/init.zsh
 
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+# hack, see https://github.com/zplug/zplug/issues/420
+OLD_LANG=$LANG
+OLD_LC_ALL=$LC_ALL
+export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
+
+# if [[ ! -d ~/.zplug ]]; then
+#   echo "Cloning zplug"
+#   git clone https://github.com/zplug/zplug ~/.zplug
+#   source ~/.zplug/init.zsh && zplug update --self
+# else
+#   . ~/.zplug/init.zsh
+# fi
+# export ZPLUG_HOME=${HOME}/.zplug
+# git clone https://github.com/zplug/zplug $ZPLUG_HOME
+source ~/.zplug/init.zsh
+
+zplug "zplug/zplug", hook-build:"zplug --self-manage"
+#
+##commands
+zplug "flosell/iam-policy-json-to-terraform" # FIXME, from:gh-r, as:command, rename-to:iam-policy-json-to-terraform
+zplug "johanhaleby/kubetail", as:command, use:'kubetail'
+zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
+zplug "rupa/z", use:"*.sh"
+zplug "raylee/tldr", as:command, use:tldr
+# k -> l
+zplug "supercrabtree/k", rename-to:l
+# zplug "kubernetes-sigs/aws-iam-authenticator", from:gh-r, rename-to:aws-iam-authenticator, use:"aws-iam-authenticator_*_darwin_amd64 "
+# gi
 zplug "voronkovich/gitignore.plugin.zsh"
+#
+## completions
+zplug "git/git", use:"contrib/completion/git-completion.zsh"
+zplug "zchee/zsh-completions", use:'src/go/_go'
+# others
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
-# zplug "joel-porquet/zsh-dircolors-solarized"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
 zplug "plugins/yarn", from:oh-my-zsh
@@ -128,37 +158,42 @@ zplug "plugins/kubectl", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/bundler", from:oh-my-zsh
 zplug "plugins/codeclimate", from:oh-my-zsh
-zplug "supercrabtree/k"
 zplug "djui/alias-tips"
-zplug "raylee/tldr", as:command, use:tldr
-zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
-zplug "rupa/z", use:"*.sh"
 zplug "gusaiani/elixir-oh-my-zsh"
-zplug "johanhaleby/kubetail", as:command, use:'kubetail'
 zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
-zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku
-zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env
-zplug "zchee/zsh-completions", use:'src/go/_go'
-# zplug "FinalCAD/devops_tools", as:command, use:"{manage-aws-env/manage-aws-env,rotate_aws_credentials/rotate_aws_credentials,switch_aws_profile/switch_aws_profile,switch_aws_profile/switch_aws_profile,switch_kube_context/switch_kube_context}"
-# zplug "FinalCAD/devops_tools", as:command, use:"rotate_aws_credentials/rotate_aws_credentials"
-# zplug "FinalCAD/devops_tools", as:command, use:"switch_aws_profile/switch_aws_profile"
-# zplug "FinalCAD/devops_tools", as:command, use:"switch_kube_context/switch_kube_context"
+zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku, defer:3
+zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env, defer:3
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
-zplug check || (zplug install && zplug update)
-zplug load
+if ! zplug check --verbose; then
+    printf "Install zplug plugins ? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
 
-export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
+zplug load #--verbose
+# zplug check || (zplug install && zplug update)
+# zplug load
 
-# burl aliases
-alias GET='burl GET'
-alias HEAD='burl -I'
-alias POST='burl POST'
-alias PUT='burl PUT'
-alias PATCH='burl PATCH'
-alias DELETE='burl DELETE'
-alias OPTIONS='burl OPTIONS'
-export PATH="$PATH:$ZPLUG_BIN"
+if zplug check tj/burl; then
+  export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
+fi
+
+# hack, see https://github.com/zplug/zplug/issues/420
+export LC_ALL=$OLD_LC_ALL && export LANG=$OLD_LANG
+
+if zplug check tj/burl; then
+  # burl aliases
+  alias GET='burl GET'
+  alias HEAD='burl -I'
+  alias POST='burl POST'
+  alias PUT='burl PUT'
+  alias PATCH='burl PATCH'
+  alias DELETE='burl DELETE'
+  alias OPTIONS='burl OPTIONS'
+  export PATH="$PATH:$ZPLUG_BIN"
+fi
 # zplug end
 
 autoload -U pick-web-browser
@@ -368,5 +403,4 @@ source ~/.asdf/completions/asdf.bash
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
-complete -o nospace -C /Users/yves/.asdf/installs/terraform/$(asdf current terraform | cut -f1 -d ' ')/bin/terraform terraform
-
+complete -o nospace -C ${HOME}/.asdf/installs/terraform/$(asdf current terraform | cut -f1 -d ' ')/bin/terraform terraform
