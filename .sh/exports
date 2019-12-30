@@ -1,6 +1,6 @@
 # vim:filetype=zsh foldmethod=marker autoindent expandtab shiftwidth=2
 
-umask 022
+umask 002
 limit coredumpsize 0
 
 OS="";
@@ -66,9 +66,15 @@ test -d "${KREW_ROOT:-$HOME/.krew}" && export PATH="${KREW_ROOT:-$HOME/.krew}/bi
 # enable quick scripts
 test -d ~/bin && export PATH="$HOME/bin:${PATH}"
 
-# oovercommit
+# overcommit
 command -v overcommit && export GIT_TEMPLATE_DIR="$(overcommit --template-dir)"
 
-if ! [ -x "$(command -v terragrunt)" ]; then
+# terraform
+TERRAFORM_CACHE_DIR="$HOME/.terraform.d/plugins-cache"
+[[ ! -d "$TERRAFORM_CACHE_DIR" ]] && mkdir -p "$TERRAFORM_CACHE_DIR"
+
+# terragrunt
+if [ -x "$(command -v terragrunt)" ]; then
   export TERRAGRUNT_DOWNLOAD=~/.terragrunt-cache
+  [[ ! -d "$TERRAGRUNT_DOWNLOAD" ]] && mkdir -p "$TERRAGRUNT_DOWNLOAD"
 fi

@@ -15,13 +15,13 @@ esac
 DOTFILES_DIR=$HOME/Src/dotfiles.git/
 
 dotfiles() {
-  git --git-dir=$DOTFILES_DIR --work-tree=$HOME "$@"
+  git --git-dir="${DOTFILES_DIR}" --work-tree="$HOME" "$@"
 }
 
 # pull dotfiles
 if [[ ! -d $DOTFILES_DIR ]] ; then
-  mkdir -p $DOTFILES_DIR
-  git clone --bare  --recursive git@github.com/yld/dotfiles $DOTFILES_DIR
+  mkdir -p "$DOTFILES_DIR"
+  git clone --bare  --recursive git@github.com/yld/dotfiles "$DOTFILES_DIR"
   dotfiles checkout
 else
   if [[ "$(dotfiles status --porcelain | wc -l)" == "0" ]] ; then
@@ -35,7 +35,7 @@ TOOLS_INSTALLED="yes"
 
 check_tool() {
   local TOOL=$1
-  if [[ ! -x $(command -v $TOOL) ]]; then
+  if [[ ! -x $(command -v "$TOOL") ]]; then
     TOOLS_INSTALLED="no"
     echo "You should install $TOOL before continuing..."
   fi
@@ -48,20 +48,27 @@ done
 
 brew_check_and_install() {
   local TOOL=$1
-  if [[ ! $(brew ls --versions $TOOL) ]]; then
-    brew install $TOOL
+  if [[ ! $(brew ls --versions "$TOOL") ]]; then
+    brew install "$TOOL"
   fi
 }
 
 case $OS in
   "OSX")
+  [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
   for TOOL in "gnu-sed wxmac"; do
-    brew_check_and_install $TOOL
+    brew_check_and_install "$TOOL"
+  done
+  ;;
+  "LINUX")
+  for TOOL in "gnu-sed wxmac"; do
+    # FIXME: handle something else than debian
+    apt-get install -y "$TOOL"
   done
   ;;
   *)
-  echo "doing nothing...";
+  echo "Continuing";
   ;;
 esac
 
@@ -71,8 +78,6 @@ esac
 if [[ -x $(command -v zsh) ]] ; then
   ZPLUGD=~/.zplugd
   [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
-  # echo ". ~/.zplugd/init.zsh ; [[ ! zplug check --verbose ]] && zplug install" | zsh -s
-  # for shell in 'zsh fish bashrc'
   if [[ -x $(command -v grc) ]]; then
     if [[ -r  /etc/grc.zsh ]] ; then
       ln -sf ~/.zsh/grc.zsh /etc/grc.conf
@@ -89,56 +94,34 @@ fi
 
 DEFAULT_NODE_ASDF_PKG_FILE="${HOME}/.default-npm-packages"
 touch "$DEFAULT_NODE_ASDF_PKG_FILE"
-for PKG in css-lint sass-lint stylelint prettier jsonlint ember-template-lint neovim prettier; do
-  grep "^${PKG}$" $DEFAULT_NODE_ASDF_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_NODE_ASDF_PKG_FILE
-done
-
-DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
-touch "$DEFAULT_RUBY_ADSF_PKG_FILE"
-for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist landscape; do
-  grep "^${PKG}$" $DEFAULT_RUBY_ADSF_PKG_FILE > /dev/null || echo $PKG >> $DEFAULT_RUBY_ADSF_PKG_FILE
+for PKG in css-lint sass-lint eslint typescript-eslint babel-eslint stylelint prettier jsonlint ember-template-lint neovim prettier; do
+  grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_NODE_ASDF_PKG_FILE"
 done
 
 # Node.js release team's OpenPGP keys
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
-asdf plugin-add erlang
-asdf plugin-add elixir
-asdf plugin-add ruby
-asdf plugin-add nodejs
-asdf plugin-add golang
-asdf plugin-add packer
-asdf plugin-add python
-asdf plugin-add terraform
-asdf plugin-add terragrunt
+DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
+touch "$DEFAULT_RUBY_ADSF_PKG_FILE"
+for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist landscape; do
+  grep "^${PKG}$" "$DEFAULT_RUBY_ADSF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_RUBY_ADSF_PKG_FILE"
+done
 
+# install plugins
+awk '{print("asdf plugin-add "$1)}' ~/.tool-versions | sh > /dev/null
+# update plugins
 asdf plugin-update --all > /dev/null
+# install versions
+awk '{print("asdf install "$1" "$2)}' ~/.tool-versions | sh > /dev/null
+# reshim to avaoid problems
+awk '{print("asdf reshim "$1" "$2)}' ~/.tool-versions | sh
 
-
+# go
 go get -u golang.org/x/tools/cmd/goimports
 go get -u golang.org/x/tools/cmd/godoc
 go get -u github.com/cweill/gotests
 
-# vim part (probably outdated)
-# if [[ -x $(command -v vim) ]] ; then
-#   BUNDLE_DIR=~/.vim/bundle
-#   VUNDLE_DIR=${BUNDLE_DIR}/vundle
-#   # mkdir -p $VUNDLE_DIR > /dev/null
-#   mkdir -p ~/.vim/{backup,swp} >> /dev/null
-#   if [[ ! -d $VUNDLE_DIR ]] ; then
-#     mkdir -p $BUNDLE_DIR && git clone https://github.com/gmarik/vundle.git $VUNDLE_DIR
-#     vim +PluginInstall +qall
-#   else
-#     # fix for https://github.com/VundleVim/Vundle.vim/issues/470
-#     pushd $VUNDLE_DIR >> /dev/null
-#     git pull
-#     popd > /dev/null
-#     vim +PluginUpdate +qall
-#     vim +PluginClean! +qall
-#   fi
-# fi
-
-# nvim part
+# nvim
 if [[ -x $(command -v nvim) ]] ; then
   PLUGGED_DIR=~/.local/share/nvim/plugged
   if [[ ! -d $PLUGGED_DIR ]] ; then
@@ -151,6 +134,5 @@ if [[ -x $(command -v nvim) ]] ; then
 fi
 
 # yarn
-# NOTE: yarn is installed as a plugin for zsh but we enforce its installation here
 [[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
 # yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev

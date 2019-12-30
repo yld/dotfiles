@@ -21,6 +21,7 @@
 	co = checkout
 	br = branch
 	ci = commit
+  unstage = reset HEAD
 	last = log -1 HEAD
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	uncommit = reset HEAD^
@@ -33,3 +34,7 @@
 	clean = git-lfs clean -- %f
 [mergetool]
 	keepBackup = false
+[mergetool "vimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+  ; cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+

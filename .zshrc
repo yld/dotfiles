@@ -61,9 +61,9 @@ zmodload zsh/zutil
 # zsh only aliases
 [[ $OS = "LINUX" ]] && alias -g ls='ls --color=auto'
 alias -g less='less -F -i -S -w -X -R'
-alias -g grep='grep --color=always'
-alias -g fgrep='fgrep --color=always'
-alias -g egrep='egrep --color=always'
+# alias -g grep='grep --color=auto'
+# alias -g fgrep='fgrep --color=auto'
+# alias -g egrep='egrep --color=auto'
 
 autoload -U zmv
 alias mmv='noglob zmv -W'
@@ -80,7 +80,7 @@ alias -g L=' | less -R'
 alias -s log='less'
 
 test -x $(command -v ag) && alias -g A=' |ag '
-alias -g G=' | grep --color=always'
+alias -g G=' | grep --color=auto'
 alias -g H=' | head '
 alias -g M=' | most '
 alias -g P=" | $PAGER "
@@ -139,6 +139,7 @@ zplug "johanhaleby/kubetail", as:command, use:'kubetail'
 zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
 zplug "rupa/z", use:"*.sh"
 zplug "raylee/tldr", as:command, use:tldr
+# zplug "Mic92/pry.py", as:command, use:pry.py, rename-to:pypry
 # k -> l
 zplug "supercrabtree/k", rename-to:l
 # zplug "kubernetes-sigs/aws-iam-authenticator", from:gh-r, rename-to:aws-iam-authenticator, use:"aws-iam-authenticator_*_darwin_amd64 "
@@ -153,7 +154,6 @@ zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug "plugins/yarn", from:oh-my-zsh
 zplug "plugins/kubectl", from:oh-my-zsh
 zplug "plugins/docker", from:oh-my-zsh
 zplug "plugins/bundler", from:oh-my-zsh
@@ -402,5 +402,3 @@ source ~/.asdf/completions/asdf.bash
 
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
-
-complete -o nospace -C ${HOME}/.asdf/installs/terraform/$(asdf current terraform | cut -f1 -d ' ')/bin/terraform terraform

@@ -16,3 +16,5 @@ gem 'pry-theme'
 gem 'rails-env-switcher'
 gem 'terraform_landscape'
 gem 'aws-sdk', '~> 3'
+
+gem "overcommit", "~> 0.51.0"

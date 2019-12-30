@@ -24,6 +24,7 @@ Plug 'tmhedberg/matchit'
 " Tim Pope stuff
 " cd and so on
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -261,6 +262,20 @@ if has("autocmd")
     \ endif
   " autoclose NERDTree when alone
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+  " auto create directories
+  function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+  endfunction
+  augroup BWCCreateDir
+      autocmd!
+      autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+  augroup END
 endif
 
 if has('mac')
