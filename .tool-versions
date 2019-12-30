@@ -10,3 +10,4 @@ ruby 2.5.3
 terraform 0.12.16
 terragrunt 0.21.6
 yarn 1.19.1
+shellcheck 0.7.0
