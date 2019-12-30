@@ -252,10 +252,10 @@ set t_8b=^[[48;2;%lu;%lu;%lum
 
 
 if has("autocmd")
-  " Strip trailing white spaces on save
+  " strip trailing white spaces on save
   autocmd BufWritePre * :%s/\s\+$//e
 
-  " Restore cursor position
+  " restore cursor position
   autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
@@ -421,7 +421,6 @@ if has('termguicolors') && $COLORTERM ==# 'truecolor'
 "   let g:solarized_use16 = 1
 endif
 
-" let g:solarized_old_cursor_style=1
 set background=dark
 " colorscheme solarized8_high
 " TMUX issue?

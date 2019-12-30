@@ -399,6 +399,6 @@ source ~/.asdf/asdf.sh
 source ~/.asdf/completions/asdf.bash
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+[[ -x $(command -v "direnv") ]] && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh

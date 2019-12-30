@@ -11,3 +11,4 @@ terraform 0.12.16
 terragrunt 0.21.6
 yarn 1.19.1
 shellcheck 0.7.0
+direnv 2.20.0
