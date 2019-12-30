@@ -46,6 +46,13 @@ for TOOL in wget tmux tree ag zsh pwgen shellcheck jq keychain nvim ctags; do
   check_tool "$TOOL"
 done
 
+apt_check_and_install() {
+  local TOOL=$1
+  if [[ ! $(dpkg -l  "$TOOL") ]]; then
+    apt-get install -y "$TOOL"
+  fi
+
+}
 brew_check_and_install() {
   local TOOL=$1
   if [[ ! $(brew ls --versions "$TOOL") ]]; then
@@ -57,12 +64,12 @@ case $OS in
   "OSX")
   [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
-  for TOOL in "gnu-sed wxmac"; do
+  for TOOL in gnu-sed wxmac; do
     brew_check_and_install "$TOOL"
   done
   ;;
   "LINUX")
-  for TOOL in "gnu-sed wxmac"; do
+  for TOOL in sed ; do
     # FIXME: handle something else than debian
     apt-get install -y "$TOOL"
   done
@@ -133,6 +140,5 @@ if [[ -x $(command -v nvim) ]] ; then
   fi
 fi
 
-# yarn
-[[ ! -x $(command -v yarn) ]] || (curl -o- -L https://yarnpkg.com/install.sh | bash)
-# yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
+# yarn is installed through asdf
+yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev
