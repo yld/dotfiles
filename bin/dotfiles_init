@@ -60,18 +60,19 @@ brew_check_and_install() {
   fi
 }
 
+echo "Checking required system tools"
 case $OS in
   "OSX")
   [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
-  for TOOL in gnu-sed wxmac; do
+  for TOOL in gnu-sed wxmac neovim; do
     brew_check_and_install "$TOOL"
   done
   ;;
   "LINUX")
-  for TOOL in sed ; do
-    # FIXME: handle something else than debian
-    apt-get install -y "$TOOL"
+  for TOOL in sed neovim ; do
+    # FIXME: handle something else than debian (ie. Gentoo & friends)
+    apt_check_and_install "$TOOL"
   done
   ;;
   *)
@@ -84,7 +85,11 @@ esac
 # zsh plugin install + dynamic configurations
 if [[ -x $(command -v zsh) ]] ; then
   ZPLUGD=~/.zplugd
-  [[ ! -d $ZPLUGD ]] && git clone https://github.com/zplug/zplug $ZPLUGD
+  if [[ ! -d $ZPLUGD ]] ; then
+    echo "Installaing zplug"
+    git clone https://github.com/zplug/zplug $ZPLUGD
+  fi
+
   if [[ -x $(command -v grc) ]]; then
     if [[ -r  /etc/grc.zsh ]] ; then
       ln -sf ~/.zsh/grc.zsh /etc/grc.conf
@@ -96,31 +101,39 @@ fi
 
 # asdf
 if [[ ! -d $HOME/.asdf ]] ; then
+  echo "Installaing asdf"
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.4.3
 fi
 
+echo "Configuring npm common packages"
 DEFAULT_NODE_ASDF_PKG_FILE="${HOME}/.default-npm-packages"
 touch "$DEFAULT_NODE_ASDF_PKG_FILE"
 for PKG in css-lint sass-lint eslint typescript-eslint babel-eslint stylelint prettier jsonlint ember-template-lint neovim prettier; do
   grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_NODE_ASDF_PKG_FILE"
 done
 
+echo "Downloading/updating nodejs PGP keys"
 # Node.js release team's OpenPGP keys
 bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 
+echo "Configuring ruby common packages"
 DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
 touch "$DEFAULT_RUBY_ADSF_PKG_FILE"
-for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist landscape; do
+for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist terraform_landscape; do
   grep "^${PKG}$" "$DEFAULT_RUBY_ADSF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_RUBY_ADSF_PKG_FILE"
 done
 
+echo "Installing asdf plugins"
 # install plugins
 awk '{print("asdf plugin-add "$1)}' ~/.tool-versions | sh > /dev/null
 # update plugins
+echo "Updating asdf plugins"
 asdf plugin-update --all > /dev/null
 # install versions
+echo "Installing asdf plugins versions"
 awk '{print("asdf install "$1" "$2)}' ~/.tool-versions | sh > /dev/null
-# reshim to avaoid problems
+echo "Reshim asdf"
+# reshim to avoid problems
 awk '{print("asdf reshim "$1" "$2)}' ~/.tool-versions | sh
 
 # go
@@ -131,6 +144,7 @@ go get -u github.com/cweill/gotests
 # nvim
 if [[ -x $(command -v nvim) ]] ; then
   PLUGGED_DIR=~/.local/share/nvim/plugged
+  echo "Setting up nvim"
   if [[ ! -d $PLUGGED_DIR ]] ; then
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     mkdir -p $PLUGGED_DIR
@@ -140,5 +154,6 @@ if [[ -x $(command -v nvim) ]] ; then
   fi
 fi
 
+echo "Running Yarn"
 # yarn is installed through asdf
 yarn global add sass-lint stylelint prettier jsonlint ember-template-lint --check-files --dev

@@ -130,6 +130,7 @@ export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 # export ZPLUG_HOME=${HOME}/.zplug
 # git clone https://github.com/zplug/zplug $ZPLUG_HOME
 source ~/.zplug/init.zsh
+touch $ZPLUG_LOADFILE
 
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
 #
@@ -147,22 +148,45 @@ zplug "supercrabtree/k", rename-to:l
 zplug "voronkovich/gitignore.plugin.zsh"
 #
 ## completions
-zplug "git/git", use:"contrib/completion/git-completion.zsh"
+zplug "git/git", use:"contrib/completion/git-completion.zsh", defer:2
+
 zplug "zchee/zsh-completions", use:'src/go/_go'
+zplug "zsh-users/zsh-completions", use:'src/_git-flow', defer:2
+zplug "zsh-users/zsh-completions", use:'src/_golang', defer:2
+zplug "ggreer/the_silver_searcher", use:'_the_silver_searcher', defer:2
+zplug "plugins/heroku", from:oh-my-zsh, defer:2
+zplug "plugins/asdf", from:oh-my-zsh, defer:2
+zplug "plugins/autopep8", from:oh-my-zsh, defer:2
+zplug "plugins/aws", from:oh-my-zsh, defer:2
+zplug "plugins/brew", from:oh-my-zsh, defer:2
+zplug "plugins/bundler", from:oh-my-zsh, defer:2
+zplug "plugins/codeclimate", from:oh-my-zsh
+zplug "plugins/colored-man-pages", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh, defer:2
+zplug "plugins/gem", from:oh-my-zsh, defer:2
+zplug "plugins/git", from:oh-my-zsh, defer:2
+zplug "plugins/gpg-agent", from:oh-my-zsh, defer:2
+[ "$OS" != "LINUX" ] && zplug "plugins/gnu-utils", from:oh-my-zsh, defer:2
+zplug "plugins/helm", from:oh-my-zsh, defer:2
+zplug "plugins/kubectl", from:oh-my-zsh
+zplug "plugins/npm", from:oh-my-zsh, defer:2
+zplug "plugins/rails", from:oh-my-zsh, defer:2
+zplug "plugins/pip", from:oh-my-zsh, defer:2
+zplug "plugins/python", from:oh-my-zsh, defer:2
+
 # others
 zplug "unixorn/git-extra-commands"
 zplug "RobertAudi/tsm"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug "plugins/kubectl", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/bundler", from:oh-my-zsh
-zplug "plugins/codeclimate", from:oh-my-zsh
-zplug "djui/alias-tips"
+zplug "plugins/tmux", from:oh-my-zsh
+zplug "plugins/alias-finder", from:oh-my-zsh, defer:3
 zplug "gusaiani/elixir-oh-my-zsh"
 zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
 zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku, defer:3
 zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env, defer:3
+zplug "plugins/zsh_reload", from:oh-my-zsh, defer:3
+
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
 if ! zplug check --verbose; then
@@ -176,8 +200,14 @@ zplug load #--verbose
 # zplug check || (zplug install && zplug update)
 # zplug load
 
-if zplug check tj/burl; then
-  export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias tip: "
+if zplug check plugins/alias-finder;
+then
+  export ZSH_ALIAS_FINDER_AUTOMATIC=true
+fi
+
+if zplug check djui/alias-tips;
+then
+  export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
 fi
 
 # hack, see https://github.com/zplug/zplug/issues/420
@@ -197,7 +227,7 @@ fi
 # zplug end
 
 autoload -U pick-web-browser
-zstyle ':mime:*' x-browsers konqueror firefox links2
+zstyle ':mime:*' x-browsers konqueror firefox chrome links2
 alias -s html=pick-web-browser
 
 # recent directories
@@ -255,6 +285,7 @@ for dump in ~/.zcompdump(N.mh+24); do
 done
 
 compinit -C
+#
 # End of lines added by compinstall
 
 [[ -x $(command -v kops) ]] && source <(kops completion zsh)
@@ -278,7 +309,7 @@ bindkey "^[OH" beginning-of-line
 
 # vcs
 autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable cvs git svn
+zstyle ':vcs_info:*' enable git # cvs svn
 zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
@@ -325,27 +356,7 @@ function +vi-git-st() {
 
 # kubectl prompt
 autoload -U colors; colors
-# function kube_prompt() {
-#   local KUBE_CURRENT_CONTEXT=$(kubectl  config current-context)
-#   local KUBE_CURRENT_NAMESPACE=$(kubectl config view --minify --output 'jsonpath={..namespace}')
-# 	KUBE_PROMPT="%B"$'\u2388'"%b %F{red}$(echo $KUBE_CURRENT_CONTEXT | cut -d '/' -f 2 | sed 's/eks-//g')%f:%F{blue}${KUBE_CURRENT_NAMESPACE}%f"
-# }
-# if [[ -f /usr/local/opt/kube-ps1/share/kube-ps1.sh ]]
-# then
-#   KUBE_PROMPT=$(kubectl  config current-context)
-#   function get_cluster_short() {
-#     echo "$1" | cut -d '/' -f 2 | sed 's/eks-//g'
-#   }
-#   KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
-#   # KUBE_PS1_SYMBOL_ENABLE=false
-#   KUBE_PS1_SYMBOL_USE_IMG=true
-
-#   source /usr/local/opt/kube-ps1/share/kube-ps1.sh
-#   KUBE_PROMPT='$(kube_ps1)'
-# fi
-
-#$RPROMPT
-
+#
 ### prompt ###
 setopt PROMPT_BANG
 setopt PROMPT_PERCENT
@@ -365,40 +376,17 @@ precmd() {
   PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)%# '
 }
 
-# colorized stderr
-# buggy with su & sudo so drop it for root
-# if [[ $UID != 0 && $EUID != 0 ]]; then
-# 	exec 2>>(
-# 		while read line; do
-# 			print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0';
-# 		done &
-# 	)
-# fi
-
-
-# second version
-#sm_color_red="$(  tput setaf 1)"
-#sm_color_reset="$(tput sgr0   )"
-#exec 2>>( awk '{print "'"$sm_color_red"'"$0"'"$sm_color_reset"'"}' >&2 & )
-#unset sm_color_reset
-#unset sm_color_red
-#exec 2>>(while read line; do
-#  print '\e[91m'${(q)line}'\e[0m' > /dev/tty; print -n $'\0'; done &)
-#exec 2>>( while read X; do print "\e[91m${X}\e[0m" > /dev/tty; done & )
-#[[ $hilite = "on" ]] || hilite="on" exec hilite zsh
-# end zsh specific stuff
-
-source ~/.sh/rc.sh
-
 source ~/.sh/osx.sh
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
 # asdf
-source ~/.asdf/asdf.sh
-source ~/.asdf/completions/asdf.bash
+# source ~/.asdf/asdf.sh
+# source ~/.asdf/completions/asdf.bash
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -x $(command -v "direnv") ]] && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
+
+zmodload zsh/zprof
