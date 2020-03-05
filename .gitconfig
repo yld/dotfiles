@@ -3,6 +3,7 @@
 [user]
 	name = Yves Le Douaron
 	email = yves.ledouaron@lunchr.co
+	signingkey = 17204EBC5C8E6E51
 [color]
 	ui = true
 [help]
