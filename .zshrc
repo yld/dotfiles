@@ -376,17 +376,15 @@ precmd() {
   PS1=$PS1$'%h %(!.%{\e[0;31m%}%n@%m%{\e[0m%}.%{\e[1;61m%}%n@%m%{\e[0m%}) %{\e[0;35m%}%~%{\e[0m%}%0(?..%{ \e[30;41m%}%?%{\e[0m%}) %1(j.%{\e[30;43m%}%j%{\e[0m%}.)%# '
 }
 
-source ~/.sh/osx.sh
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
 # asdf
-# source ~/.asdf/asdf.sh
-# source ~/.asdf/completions/asdf.bash
+# managed by plugin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [[ -x $(command -v "direnv") ]] && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
-zmodload zsh/zprof
+# zmodload zsh/zprof

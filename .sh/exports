@@ -54,8 +54,34 @@ export MANPAGER="$PAGER"
 export RSYNC_RSH=ssh
 
 [[ -z $HOSTNAME ]] && export HOSTNAME=`hostname`
-# use brew ctags
-[[ $OS = "OSX" ]] && export PATH="$PATH:/usr/local/bin"
+if [[ $OS = "OSX" ]] ; then
+  # use brew ctags
+  # export PATH="$PATH:/usr/local/bin"
+  # gettext
+  # export PATH="/usr/local/opt/gettext/bin:$PATH"
+  # export LDFLAGS="-L/usr/local/opt/gettext/lib"
+  # export CPPFLAGS="-I/usr/local/opt/gettext/include"
+
+  # unbound related
+  PATH="/usr/local/sbin:$PATH"
+  # GNU tar
+  PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+  # GNU coreutils without prefix
+  if [ -d /usr/local/opt/coreutils/libexec/gnubin ] ; then
+    PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+    MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+  fi
+
+  # GPG
+  if [ -d /usr/local/opt/gpg-agent/bin ] ; then
+    PATH="/usr/local/opt/gpg-agent/bin:$PATH"
+  fi
+
+  # postgresql 11
+  if [ -d /usr/local/opt/postgresql@11/bin ] ; then
+    PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+  fi
+fi
 
 # yarn path
 export PATH="$HOME/.yarn/bin:$PATH"
@@ -70,11 +96,16 @@ test -d ~/bin && export PATH="$HOME/bin:${PATH}"
 command -v overcommit && export GIT_TEMPLATE_DIR="$(overcommit --template-dir)"
 
 # terraform
-TERRAFORM_CACHE_DIR="$HOME/.terraform.d/plugins-cache"
-[[ ! -d "$TERRAFORM_CACHE_DIR" ]] && mkdir -p "$TERRAFORM_CACHE_DIR"
+if [ -x "$(command -v terraform)" ]; then
+  export TERRAFORM_CACHE_DIR="$HOME/.terraform.d/plugins-cache"
+  [[ ! -d "$TERRAFORM_CACHE_DIR" ]] && mkdir -p "$TERRAFORM_CACHE_DIR"
+fi
 
 # terragrunt
 if [ -x "$(command -v terragrunt)" ]; then
   export TERRAGRUNT_DOWNLOAD=~/.terragrunt-cache
   [[ ! -d "$TERRAGRUNT_DOWNLOAD" ]] && mkdir -p "$TERRAGRUNT_DOWNLOAD"
 fi
+
+export PATH
+export MANPATH

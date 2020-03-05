@@ -16,5 +16,6 @@ gem 'pry-theme'
 gem 'rails-env-switcher'
 gem 'terraform_landscape'
 gem 'aws-sdk', '~> 3'
-
+gem 'neovim'
 gem "overcommit", "~> 0.51.0"
+gem 'bundle-audit'

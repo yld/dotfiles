@@ -32,7 +32,6 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 " gc, gcap
 Plug 'tpope/vim-commentary'
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 
 " File browsing
 let g:netrw_liststyle = 3
@@ -101,7 +100,11 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'sheerun/vim-polyglot'
 " Documentation
 Plug 'rizzatti/dash.vim'
+" tags
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'ludovicchabant/vim-gutentags'
 " Initialize plugin system
+
 call plug#end()
 
 " begin plugins configuration
