@@ -7,7 +7,14 @@ OS="";
 case "$OSTYPE" in
   solaris*) OS="SOLARIS" ;;
   darwin*)  OS="OSX" ;;
-  linux*)   OS="LINUX" ;;
+  linux*)
+    OS="LINUX"
+    if [[ -r /etc/gentoo-release ]] ; then
+      LINUX_FLAVOR="DEBIAN"
+    elif [[ -r /etc/debian-release ]]; then
+      LINUX_FLAVOR="GENTOO"
+    fi
+  ;;
   bsd*)     OS="BSD" ;;
   msys*)    OS="WINDOWS" ;;
   *)        OS="UNKNOWN" ;;
@@ -18,9 +25,9 @@ export OS
 
 export GREP_OPTIONS='--color=auto'
 
-if [ -x $(command -v nvim) ]; then
+if command -v nvim &> /dev/null; then
   EDITOR=nvim
-elif [ -x $(command -v vim) ]; then
+elif command -v vim &> /dev/null; then
   EDITOR=vim
 else
   EDITOR=vi
@@ -96,16 +103,17 @@ test -d ~/bin && export PATH="$HOME/bin:${PATH}"
 command -v overcommit && export GIT_TEMPLATE_DIR="$(overcommit --template-dir)"
 
 # terraform
-if [ -x "$(command -v terraform)" ]; then
+if [ command -v terraform &> /dev/null ]; then
   export TERRAFORM_CACHE_DIR="$HOME/.terraform.d/plugins-cache"
   [[ ! -d "$TERRAFORM_CACHE_DIR" ]] && mkdir -p "$TERRAFORM_CACHE_DIR"
 fi
 
 # terragrunt
-if [ -x "$(command -v terragrunt)" ]; then
+if [ command -v terragrunt &> /dev/null ]; then
   export TERRAGRUNT_DOWNLOAD=~/.terragrunt-cache
   [[ ! -d "$TERRAGRUNT_DOWNLOAD" ]] && mkdir -p "$TERRAGRUNT_DOWNLOAD"
 fi
 
+[ command -v rg &> /dev/null ] && export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export PATH
 export MANPATH

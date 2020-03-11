@@ -127,3 +127,6 @@ yarn-debug.log*
 # Ignore uploaded files in development
 /storage/*
 !/storage/.keep
+
+# tags (neovim plugin)
+tags

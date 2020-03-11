@@ -1,0 +1,247 @@
+#!/bin/bash
+# vim: filetype=sh
+
+# set -u
+
+DOTFILES_DIR=${DOTFILES_DIR-"$HOME/Src/dotfiles.git/"}
+
+echo_wait() {
+  echo -n "${1}... "
+}
+
+echo_ok() {
+  echo -e "\033[0;32m${1-"done"}\033[0m"
+}
+
+echo_ko() {
+  echo -e "\033[0;31m${1-"failed"}\033[0m"
+}
+
+dotfiles_error() {
+  echo_ko "${1-"Unkwon error"}"
+  return "${2-0}"
+}
+
+dotfiles_help() {
+  echo "
+dotfiles install yld/dotfiles or manipulate its repository through git
+
+  - dotfiles install
+  - dotfiles update
+  - dotfiles help : display this help
+  - dotfiles * : forward to git
+
+ You may also tweak DOTFILES_DIR variable
+"
+}
+
+dotfiles_git_command() {
+  git --git-dir="${DOTFILES_DIR}" --work-tree="$HOME" "$@"
+}
+
+dotfiles_update() {
+  dotfiles_check_requirements
+
+  dotfiles_asdf
+  dotfiles_zplug
+  dotfiles_nvim
+  dotfiles_yarn
+}
+
+
+dotfiles_nvim () {
+  if [[ -x "$(command -v nvim)" ]] ; then
+    mkdir -p ~/.vim/{backup,swp}
+    PLUGGED_DIR=~/.local/share/nvim/plugged
+    echo_wait "Setting up nvim"
+    if [[ ! -d $PLUGGED_DIR ]] ; then
+      curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      mkdir -p $PLUGGED_DIR
+      nvim +PlugInstall! +qall
+    else
+      nvim +PlugUpdate! +qall
+    fi
+    echo_ok
+  fi
+}
+
+dotfiles_zplug () {
+  if [[ -x $(command -v zsh) ]] ; then
+    ZPLUGD=~/.zplugd
+    echo_wait "Installaing zplug"
+    if [[ ! -d $ZPLUGD ]] ; then
+      git clone https://github.com/zplug/zplug $ZPLUGD
+    fi
+
+    ZPLUG=~/.zplug
+    if [[ ! -d $ZPLUGD ]] ; then
+      mkdir "$ZPLUGD"
+      chown -R "$(id -u -n):$(id -g -n)" "$ZPLUG"
+      chmod -R g-w "$ZPLUG"
+    fi
+    echo_ok
+
+    # missing on OsX
+    if [[ -x $(command -v grc) ]]; then
+      if [[ -r  /etc/grc.zsh ]] ; then
+        ln -sf ~/.zsh/grc.zsh /etc/grc.conf
+      else
+        wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
+      fi
+    fi
+  fi
+}
+
+dotfiles_asdf () {
+  if [[ ! -d $HOME/.asdf ]] ; then
+    echo_wait "Installaing asdf"
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.6
+    # ZSH only
+    # shellcheck source=/dev/null
+    . $HOME/.asdf/asdf.sh
+    echo_ok
+  fi
+
+  echo_wait "Downloading/updating nodejs PGP keys"
+  # Node.js release team's OpenPGP keys
+  bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring &> /dev/null
+  echo_ok
+
+  echo_wait "Configuring npm common packages"
+  local DEFAULT_NODE_ASDF_PKG_FILE="${HOME}/.default-npm-packages"
+  touch "$DEFAULT_NODE_ASDF_PKG_FILE"
+  for PKG in css-lint sass-lint eslint typescript-eslint babel-eslint stylelint prettier jsonlint ember-template-lint neovim prettier; do
+    grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_NODE_ASDF_PKG_FILE"
+  done
+  echo_ok
+
+  echo_wait "Configuring python common packages"
+  local DEFAULT_PYTHON_ASDF_PKG_FILE="${HOME}/.default-python-packages"
+  touch "$DEFAULT_PYTHON_ASDF_PKG_FILE"
+  for PKG in yamlint autopep8 neovim; do
+    grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_PYTHON_ASDF_PKG_FILE"
+  done
+  echo_ok
+
+  echo_wait "Configuring ruby common packages"
+  local DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
+  touch "$DEFAULT_RUBY_ADSF_PKG_FILE"
+  for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist terraform_landscape; do
+    grep "^${PKG}$" "$DEFAULT_RUBY_ADSF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_RUBY_ADSF_PKG_FILE"
+  done
+  echo_ok
+
+  echo_wait "Installing asdf plugins"
+  awk '{print("asdf plugin-add "$1)}' ~/.tool-versions | sh &> /dev/null
+  echo_ok
+
+  echo_wait "Updating asdf plugins"
+  asdf plugin-update --all &> /dev/null
+  echo_ok
+
+  echo_wait "Installing asdf plugins versions"
+  awk '{print("asdf install "$1" "$2)}' ~/.tool-versions | sh 1> /dev/null || echo_ko
+  echo_ok
+
+  echo_wait "Reshim asdf"
+  awk '{print("asdf reshim "$1" "$2)}' ~/.tool-versions | sh || echo_ko
+  echo_ok
+}
+
+dotfiles_yarn() {
+  echo_wait "Running Yarn to install default global packages"
+  # yarn is installed through asdf
+  yarn global add sass-lint stylelint prettier jsonlint ember-template-lint neovim --check-files --dev &> /dev/null
+  echo_ok
+}
+apt_check_and_install() {
+  local TOOL=$1
+  if [[ ! $(dpkg -l  "$TOOL") ]]; then
+    apt-get install -y "$TOOL"
+  fi
+}
+
+brew_check_and_install() {
+  local TOOL=$1
+  if [[ ! $(brew ls --versions "$TOOL") ]]; then
+    brew install "$TOOL"
+  fi
+}
+
+dotfiles_check_tools() {
+  if [ -z "$OS" ]; then
+    local OS="";
+    case "$OSTYPE" in
+      solaris*) OS="SOLARIS" ;;
+      darwin*)  OS="OSX" ;;
+      linux*)   OS="LINUX" ;;
+      bsd*)     OS="BSD" ;;
+      msys*)    OS="WINDOWS" ;;
+      # *)        OS="UNKNOWN" ;;
+    esac
+  fi
+
+  echo_wait "Checking required system tools"
+  case $OS in
+    "OSX")
+    [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
+    for TOOL in gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf; do
+      brew_check_and_install "$TOOL"
+    done
+    ;;
+    "LINUX")
+    for TOOL in sed neovim ; do
+      # FIXME: handle something else than debian (ie. Gentoo & friends)
+      apt_check_and_install "$TOOL"
+    done
+    ;;
+    *)
+    echo "Continuing";
+    ;;
+  esac
+  echo_ok
+}
+
+dotfiles_check_requirements() {
+  [[ "$(find ~/.ssh/ -name '*.pub' | wc -l)" == "0" ]] && dotfiles_error "You must setup your SSH keys prior to any installation" 1
+  dotfiles_check_tools
+}
+
+dotfiles() {
+  if [ "$#" -lt 1 ] ; then
+    dotfiles_error "Missing first argument (action)"
+    dotfiles_help
+  else
+    case "$1" in
+      help)
+        dotfiles_help
+      ;;
+      install)
+        if [[ ! -d $DOTFILES_DIR ]] ; then
+          mkdir -p "$DOTFILES_DIR"
+          git clone --bare --recursive https://github.com/yld/dotfiles.git "$DOTFILES_DIR"
+          dotfiles_update
+
+          dotfiles_git_command remote remove origin
+          dotfiles_git_command remote add origin "git@github.com:yld/dotfiles.git"
+        else
+          echo_wait "It seems that dotfiles are already installed"
+          echo_ko "aborting"
+        fi
+      ;;
+      update)
+        if [[ "$(dotfiles_git_command status --porcelain | wc -l)" == "0" ]] ; then
+          dotfiles_git_command pull --rebase
+        else
+          echo_wait "You have some uncommitted changes in dotfiles files"
+          echo_ok "skipping update"
+        fi
+        dotfiles_update
+      ;;
+      *)
+        dotfiles_git_command "$@"
+      ;;
+    esac
+  fi
+}

@@ -1,3 +1,4 @@
+# universal aliases (bash and zsh)
 # https://github.com/creationix/nvm/issues/841
 alias sul='su -l'
 alias rm='rm -f'
@@ -41,16 +42,15 @@ alias R='chmod +r'
 # buggy typing
 alias :q='exit'
 
-if [ -x $(command -v nvim) ]; then
+if command -v nvim &> /dev/null; then
   alias vi=nvim
   alias v=nvim
-elif [ -x $(command -v vim) ]; then
+elif command -v vim &> /dev/null; then
   alias vi=vim
   alias v=vim
 fi
 
 alias gti='git'
-alias dotfiles='git --git-dir=$HOME/Src/dotfiles.git/ --work-tree=$HOME'
 
 if [[ -r /etc/gentoo-release ]] ; then
   . ~/.sh/aliases.gentoo

@@ -1,4 +1,6 @@
-#set -xv
+# set -v
+
+# zmodload zsh/zprof
 
 ### options ###
 setopt POSIX_BUILTINS
@@ -79,19 +81,19 @@ alias mv='nocorrect mv'
 alias -g L=' | less -R'
 alias -s log='less'
 
-test -x $(command -v ag) && alias -g A=' |ag '
+command -v ag &> /dev/null && alias -g A=' |ag '
 alias -g G=' | grep --color=auto'
 alias -g H=' | head '
 alias -g M=' | most '
 alias -g P=" | $PAGER "
 alias -g T=' | tail'
+alias suzsh='su -m -s /bin/zsh -- -u -i'
 # end zsh only aliases
 
 # common aliases
-[[ -x $(command -v grc) ]] && . ~/.zsh/grc.zsh
-test -r ~/.sh/aliases && source ~/.sh/aliases
+command -v grc &>/dev/null && . ~/.zsh/grc.zsh
+source ~/.sh/aliases
 
-alias suzsh='su -m -s /bin/zsh -- -u -i'
 
 
 # help stuff
@@ -116,48 +118,29 @@ alias help='run-help'
 # https://github.com/unixorn/awesome-zsh-plugins
 
 # hack, see https://github.com/zplug/zplug/issues/420
-OLD_LANG=$LANG
-OLD_LC_ALL=$LC_ALL
+
+# OLD_LANG=$LANG
+# OLD_LC_ALL=$LC_ALL
 export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 
-# if [[ ! -d ~/.zplug ]]; then
-#   echo "Cloning zplug"
-#   git clone https://github.com/zplug/zplug ~/.zplug
-#   source ~/.zplug/init.zsh && zplug update --self
-# else
-#   . ~/.zplug/init.zsh
-# fi
-# export ZPLUG_HOME=${HOME}/.zplug
-# git clone https://github.com/zplug/zplug $ZPLUG_HOME
 source ~/.zplugd/init.zsh
 touch $ZPLUG_LOADFILE
 
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
-#
-##commands
-zplug "flosell/iam-policy-json-to-terraform" # FIXME, from:gh-r, as:command, rename-to:iam-policy-json-to-terraform
-zplug "johanhaleby/kubetail", as:command, use:'kubetail'
-zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
-zplug "rupa/z", use:"*.sh"
-zplug "raylee/tldr", as:command, use:tldr
-# zplug "Mic92/pry.py", as:command, use:pry.py, rename-to:pypry
-# k -> l
-zplug "supercrabtree/k", rename-to:l
-# zplug "kubernetes-sigs/aws-iam-authenticator", from:gh-r, rename-to:aws-iam-authenticator, use:"aws-iam-authenticator_*_darwin_amd64 "
-# gi
-zplug "voronkovich/gitignore.plugin.zsh"
-#
-## completions
-zplug "git/git", use:"contrib/completion/git-completion.zsh", defer:2
+[ "$OS" != "LINUX" ] && zplug "plugins/gnu-utils", from:oh-my-zsh, defer:2
 
-zplug "zchee/zsh-completions", use:'src/go/_go'
-zplug "zsh-users/zsh-completions", use:'src/_git-flow', defer:2
-zplug "zsh-users/zsh-completions", use:'src/_golang', defer:2
-zplug "ggreer/the_silver_searcher", use:'_the_silver_searcher', defer:2
-zplug "plugins/heroku", from:oh-my-zsh, defer:2
+
+zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku, defer:3
+zplug "RobertAudi/tsm"
+zplug "b4b4r07/zsh-vimode-visual", defer:3
+zplug "flosell/iam-policy-json-to-terraform" # FIXME, from:gh-r, as:command, rename-to:iam-policy-json-to-terraform
+# zplug "ggreer/the_silver_searcher", use:'_the_silver_searcher', defer:2
+zplug "git/git", use:"contrib/completion/git-completion.zsh", defer:2
+zplug "gusaiani/elixir-oh-my-zsh"
+zplug "johanhaleby/kubetail", as:command, use:'kubetail'
+zplug "plugins/alias-finder", from:oh-my-zsh, defer:3
 zplug "plugins/asdf", from:oh-my-zsh, defer:2
 zplug "plugins/autopep8", from:oh-my-zsh, defer:2
-zplug "plugins/aws", from:oh-my-zsh, defer:2
 zplug "plugins/brew", from:oh-my-zsh, defer:2
 zplug "plugins/bundler", from:oh-my-zsh, defer:2
 zplug "plugins/codeclimate", from:oh-my-zsh
@@ -166,26 +149,27 @@ zplug "plugins/docker", from:oh-my-zsh, defer:2
 zplug "plugins/gem", from:oh-my-zsh, defer:2
 zplug "plugins/git", from:oh-my-zsh, defer:2
 zplug "plugins/gpg-agent", from:oh-my-zsh, defer:2
-[ "$OS" != "LINUX" ] && zplug "plugins/gnu-utils", from:oh-my-zsh, defer:2
 zplug "plugins/helm", from:oh-my-zsh, defer:2
+zplug "plugins/heroku", from:oh-my-zsh, defer:2
 zplug "plugins/kubectl", from:oh-my-zsh
 zplug "plugins/npm", from:oh-my-zsh, defer:2
-zplug "plugins/rails", from:oh-my-zsh, defer:2
 zplug "plugins/pip", from:oh-my-zsh, defer:2
 zplug "plugins/python", from:oh-my-zsh, defer:2
-
-# others
-zplug "unixorn/git-extra-commands"
-zplug "RobertAudi/tsm"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "b4b4r07/zsh-vimode-visual", defer:3
+zplug "plugins/rails", from:oh-my-zsh, defer:2
 zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/alias-finder", from:oh-my-zsh, defer:3
-zplug "gusaiani/elixir-oh-my-zsh"
-zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
-zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku, defer:3
-zplug "FinalCAD/devops_tools", as:command, use:"manage-aws-env/manage-aws-env", rename-to:manage-aws-env, defer:3
 zplug "plugins/zsh_reload", from:oh-my-zsh, defer:3
+# zplug "raylee/tldr", as:command, use:tldr
+zplug "rupa/z", use:"*.sh"
+zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
+# zplug "supercrabtree/k", rename-to:l
+zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
+zplug "unixorn/git-extra-commands"
+zplug "voronkovich/gitignore.plugin.zsh"
+zplug "zchee/zsh-completions", use:'src/go/_go'
+# zplug "zsh-users/zsh-completions", use:'src/_git-flow', defer:2
+# zplug "zsh-users/zsh-completions", use:'src/_golang', defer:2
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions", defer:2
 
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
@@ -197,23 +181,16 @@ if ! zplug check --verbose; then
 fi
 
 zplug load #--verbose
-# zplug check || (zplug install && zplug update)
-# zplug load
 
-if zplug check plugins/alias-finder;
-then
-  export ZSH_ALIAS_FINDER_AUTOMATIC=true
-fi
-
-if zplug check djui/alias-tips;
-then
-  export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
-fi
+# zplug check plugins/alias-finder;
+export ZSH_ALIAS_FINDER_AUTOMATIC=true
+# zplug check djui/alias-tips;
+export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
 
 # hack, see https://github.com/zplug/zplug/issues/420
-export LC_ALL=$OLD_LC_ALL && export LANG=$OLD_LANG
+# export LC_ALL=$OLD_LC_ALL && export LANG=$OLD_LANG
 
-if zplug check tj/burl; then
+if [ command -v burl &> /dev/null ] ; then
   # burl aliases
   alias GET='burl GET'
   alias HEAD='burl -I'
@@ -276,6 +253,7 @@ zstyle ':completion:*' squeeze-slashes true
 
 zstyle :compinstall filename '/home/yves/.zshrc'
 
+type brew &>/dev/null && FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
 
@@ -288,7 +266,7 @@ compinit -C
 #
 # End of lines added by compinstall
 
-[[ -x $(command -v kops) ]] && source <(kops completion zsh)
+command -v kops &> /dev/null && source <(kops completion zsh)
 ### end completion
 
 autoload -U colors && colors
@@ -354,7 +332,6 @@ function +vi-git-st() {
     fi
 }
 
-# kubectl prompt
 autoload -U colors; colors
 #
 ### prompt ###
@@ -383,8 +360,10 @@ source ~/.sh/iterm2_shell_integration.zsh
 # managed by plugin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[[ -x $(command -v "direnv") ]] && eval "$(direnv hook zsh)"
+command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
+source ~/.sh/dotfiles
 
 # zmodload zsh/zprof
+source "/Users/yves/Src/swile/lunchr-docker/tools/lunchr.sh"  # This loads lunchr

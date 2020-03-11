@@ -111,6 +111,10 @@ call plug#end()
 
 nmap <F8> :TagbarToggle<CR>
 nmap <F7> :NERDTreeToggle<CR>
+"
+" fzf mappings
+nnoremap <C-f> :Files<Cr>
+let g:fzf_buffers_jump = 1
 
 " airline
 if !exists('g:airline_symbols')
