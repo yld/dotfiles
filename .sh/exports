@@ -88,6 +88,9 @@ if [[ $OS = "OSX" ]] ; then
   if [ -d /usr/local/opt/postgresql@11/bin ] ; then
     PATH="/usr/local/opt/postgresql@11/bin:$PATH"
   fi
+
+  # ruby (asdf/rubybuild/readline)
+  export RUBY_CONFIGURE_OPTS=-–with-readline-dir=”$(brew –-prefix readline)”
 fi
 
 # yarn path
