@@ -4,3 +4,4 @@
 \timing
 \set HISTSIZE 2000
 \set VERBOSITY verbose
+\setenv PAGER 'less -S'

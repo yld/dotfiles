@@ -160,7 +160,7 @@ zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/zsh_reload", from:oh-my-zsh, defer:3
 # zplug "raylee/tldr", as:command, use:tldr
 zplug "rupa/z", use:"*.sh"
-zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
+# zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
 # zplug "supercrabtree/k", rename-to:l
 zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
 zplug "unixorn/git-extra-commands"
@@ -342,10 +342,10 @@ precmd() {
   vcs_info
 	# kube_prompt
   PS1=$''
-  if [[ -n ${KUBE_PROMPT} ]] then
-    PS1=$PS1"${KUBE_PROMPT}
-"
-  fi
+  # if [[ -n ${KUBE_PROMPT} ]] then
+  #   PS1=$PS1"${KUBE_PROMPT}
+# "
+  # fi
   if [[ -n ${vcs_info_msg_0_} ]] then
     PS1=$PS1"${vcs_info_msg_0_}
 "

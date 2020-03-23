@@ -118,7 +118,7 @@ dotfiles_asdf () {
   echo_wait "Configuring python common packages"
   local DEFAULT_PYTHON_ASDF_PKG_FILE="${HOME}/.default-python-packages"
   touch "$DEFAULT_PYTHON_ASDF_PKG_FILE"
-  for PKG in yamlint autopep8 neovim; do
+  for PKG in yamlint autopep8 neovim grip; do
     grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_PYTHON_ASDF_PKG_FILE"
   done
   echo_ok
@@ -201,6 +201,7 @@ dotfiles_check_tools() {
     ;;
   esac
   echo_ok
+  source ~/.sh/exports
 }
 
 dotfiles_check_requirements() {

@@ -7,6 +7,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
+" markdown preview
+Plug 'JamshedVesuna/vim-markdown-preview'
 " dispatch
 Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
@@ -16,7 +18,6 @@ Plug 'kassio/neoterm'
 Plug 'vimlab/split-term.vim'
 
 " theme
-" Plug 'lifepillar/vim-solarized8'
 Plug 'dracula/vim'
 
 Plug 'tmhedberg/matchit'
@@ -103,8 +104,8 @@ Plug 'rizzatti/dash.vim'
 " tags
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'ludovicchabant/vim-gutentags'
-" Initialize plugin system
 
+" Initialize plugin system
 call plug#end()
 
 " begin plugins configuration
@@ -242,7 +243,7 @@ let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \}
 let g:ale_ruby_rubocop_options='-a'
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 
 " the silver searcher through Ack command
 if executable('ag')
@@ -346,6 +347,7 @@ compiler ruby
 " tooggle hlsearch
 noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
+" set mouse=a
 
 " files syntax
 syntax on
