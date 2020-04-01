@@ -170,6 +170,7 @@ zplug "zchee/zsh-completions", use:'src/go/_go'
 # zplug "zsh-users/zsh-completions", use:'src/_golang', defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions", defer:2
+zplug "gruntwork-io/fetch", from:gh-r, as:command, rename-to:fetch, use:"*darwin*amd64*"
 
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh

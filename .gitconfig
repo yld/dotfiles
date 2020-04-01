@@ -16,12 +16,23 @@
 [merge]
 	tool = vimdiff
 [man]
-	viewer = most
+	viewer = less
 [alias]
 	st = status
 	co = checkout
 	br = branch
 	ci = commit
+  wadd = "!f() { \
+    if git -c submodule.recurse=0 worktree add $@ && pushd $1 &> /dev/null && git submodule update --init && popd &> /dev/null ; then \
+      for ENV_FILE in $(find . -maxdepth 2  -name '.env') ; \
+      do \
+        echo \"copying ${ENV_FILE} to realpath ${1}/${ENV_FILE} \"; \
+        cp ${ENV_FILE} ${1}/${ENV_FILE} ; \
+      done ; \
+    fi \
+    } ; f"
+  wls = worktree list
+  wrm = worktree remove  --force
   unstage = reset HEAD
 	last = log -1 HEAD
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative

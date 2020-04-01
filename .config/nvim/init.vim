@@ -230,6 +230,12 @@ let g:disable_key_mappings = 1
 set splitbelow
 set splitright
 
+" deoplete
+" if has("python3")
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"   let g:deoplete#enable_at_startup = 1
+" endif
+
 " ale
 let g:ale_lint_on_enter = 1
 let g:airline#extensions#ale#enabled = 1
@@ -239,8 +245,9 @@ let g:ale_ruby_brakeman_options = ' -A'
 let g:ale_ruby_reek_show_wiki_link = 0
 
 let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop'],
-\   'javascript': ['eslint'],
+\   'javascript': ['prettier', 'eslint'],
 \}
 let g:ale_ruby_rubocop_options='-a'
 let g:ale_fix_on_save = 0
@@ -414,6 +421,14 @@ map <leader>et :tabe %%
 " :hi TabLineFill ctermfg=LightGreen ctermbg=DarkGreen
 " :hi TabLine ctermfg=Blue ctermbg=Yellow
 :hi TabLineSel ctermfg=White ctermbg=214
+"
+" Tab navigation like Firefox.
+nnoremap <C-S-tab> :tabprevious<CR>
+nnoremap <C-tab>   :tabnext<CR>
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+inoremap <C-tab>   <Esc>:tabnext<CR>i
+inoremap <C-t>     <Esc>:tabnew<CR>
 
 " folding
 " +" set foldmethod=syntax
