@@ -16,6 +16,8 @@ Plug 'radenling/vim-dispatch-neovim'
 " REPL/term
 Plug 'kassio/neoterm'
 Plug 'vimlab/split-term.vim'
+Plug 'janko/vim-test'
+let test#strategy = "dispatch"
 
 " theme
 Plug 'dracula/vim'
@@ -47,7 +49,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter', { 'on':  'GitGutterToggle' }
 " Plug 'ryanoasis/vim-devicons'
@@ -118,13 +120,15 @@ nnoremap <C-f> :Files<Cr>
 let g:fzf_buffers_jump = 1
 
 " airline
+let g:airline_powerline_fonts=1
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 
-let g:airline_left_sep = '⮀'
+" let g:airline_left_sep = '▶'
 let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
+" let g:airline_right_sep = '◀' "⮂'
 let g:airline_right_alt_sep = '⮃'
 let g:airline_symbols.branch = '⭠'
 let g:airline_symbols.readonly = '⭤'
@@ -132,10 +136,13 @@ let g:airline_symbols.linenr = '⭡'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.whitespace = 'Ξ'
 
-let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#branch#empty_message = '?'
 
 let g:airline#extensions#syntastic#enabled = 0
+
+let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#bookmark#enabled = 1
 
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline#extensions#tagbar#flags = 's'
@@ -159,15 +166,12 @@ let g:airline#extensions#tabline#tab_min_count = 0
 let g:airline#extensions#tabline#left_sep = '⮀'
 let g:airlinetheme = 'dracula'
 
-let g:airline#extensions#ale#enabled = 1
-
 " gitgutter
 nnoremap <F5> :GitGutterToggle<CR>
 let g:gitgutter_enabled = 0
 let g:gitgutter_diff_args='-w'
 let g:gitgutter_escape_grep=1
 let g:gitgutter_highlight_lines = 1
-let g:airline_powerline_fonts=1
 set ttimeoutlen=50
 
 " javascript
@@ -238,7 +242,6 @@ set splitright
 
 " ale
 let g:ale_lint_on_enter = 1
-let g:airline#extensions#ale#enabled = 1
 let g:ale_echo_msg_format = '%linter%%s'
 
 let g:ale_ruby_brakeman_options = ' -A'
@@ -446,7 +449,7 @@ if has('termguicolors') && $COLORTERM ==# 'truecolor'
 endif
 
 set background=dark
-" colorscheme solarized8_high
+colorscheme dracula
 " TMUX issue?
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"

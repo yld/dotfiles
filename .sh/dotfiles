@@ -67,28 +67,17 @@ dotfiles_nvim () {
 
 dotfiles_zplug () {
   if [[ -x $(command -v zsh) ]] ; then
-    ZPLUGD=~/.zplugd
-    echo_wait "Installaing zplug"
-    if [[ ! -d $ZPLUGD ]] ; then
-      git clone https://github.com/zplug/zplug $ZPLUGD
-    fi
-
-    ZPLUG=~/.zplug
-    if [[ ! -d $ZPLUGD ]] ; then
-      mkdir "$ZPLUGD"
-      chown -R "$(id -u -n):$(id -g -n)" "$ZPLUG"
-      chmod -R g-w "$ZPLUG"
+    export ZPLUG_HOME=~/.zplug
+    if [[ ! -d $ZPLUG_HOME ]] ; then
+      git clone https://github.com/zplug/zplug "$ZPLUG_HOME"
+      ZPLUG_CACHE="$ZPLUG_HOME/cache"
+      [[ ! -d $ZPLUG_CACHE ]] && mkdir "$ZPLUG_CACHE"
+      # avoid compinit warnings
+      chown -R "$(id -u -n):$(id -g -n)" "$ZPLUG_HOME"
+      chmod -R g-w "$ZPLUG_HOME"
     fi
     echo_ok
 
-    # missing on OsX
-    if [[ -x $(command -v grc) ]]; then
-      if [[ -r  /etc/grc.zsh ]] ; then
-        ln -sf ~/.zsh/grc.zsh /etc/grc.conf
-      else
-        wget https://raw.githubusercontent.com/garabik/grc/master/grc.zsh -O ~/.zsh/grc.zsh --quiet
-      fi
-    fi
   fi
 }
 
@@ -163,9 +152,11 @@ apt_check_and_install() {
 
 brew_check_and_install() {
   local TOOL=$1
+  echo_wait "Checking $TOOL presence"
   if [[ ! $(brew ls --versions "$TOOL") ]]; then
     brew install "$TOOL"
   fi
+  echo_ok
 }
 
 dotfiles_check_tools() {
@@ -186,12 +177,12 @@ dotfiles_check_tools() {
     "OSX")
     [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
-    for TOOL in gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf; do
+    for TOOL in gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf; do
       brew_check_and_install "$TOOL"
     done
     ;;
     "LINUX")
-    for TOOL in sed neovim ; do
+    for TOOL in sed neovim awk git ; do
       # FIXME: handle something else than debian (ie. Gentoo & friends)
       apt_check_and_install "$TOOL"
     done

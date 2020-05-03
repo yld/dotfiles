@@ -91,25 +91,26 @@ alias suzsh='su -m -s /bin/zsh -- -u -i'
 # end zsh only aliases
 
 # common aliases
-command -v grc &>/dev/null && . ~/.zsh/grc.zsh
 source ~/.sh/aliases
 
-
-
 # help stuff
-export HELPDIR=~/.zsh_help
-if [[ ! -d $HELPDIR ]]; then
-  mkdir $HELPDIR ;
-  cd $HELPDIR
-  perl /usr/share/zsh/${ZSH_VERSION}/Util/helpfiles zshbuiltins .
-fi
-
-autoload -U run-help
-autoload run-help-openssl
-autoload run-help-git
-autoload run-help-svn
-autoload run-help-sudo
+# see, see http://zsh.sourceforge.net/Doc/Release/User-Contributions.html#Accessing-On_002dLine-Help
 unalias run-help
+autoload run-help
+[ "$OS" = "OSX" ] && HELPDIR=/usr/local/share/zsh/help
+
+# export HELPDIR=~/.zsh_help
+# if [[ ! -d $HELPDIR ]]; then
+#   mkdir $HELPDIR ;
+#   cd $HELPDIR
+#   perl /usr/share/zsh/${ZSH_VERSION}/Util/helpfiles zshbuiltins .
+# fi
+
+# autoload run-help-openssl
+# autoload run-help-git
+# autoload run-help-svn
+# autoload run-help-sudo
+# unalias run-help
 alias help='run-help'
 # end help stuff
 
@@ -123,54 +124,10 @@ alias help='run-help'
 # OLD_LC_ALL=$LC_ALL
 export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 
-source ~/.zplugd/init.zsh
-touch $ZPLUG_LOADFILE
+source ~/.sh/dotfiles
+export ZPLUG_LOADFILE=~/.zsh/zplug_packages.zsh
+source ~/.zplug/init.zsh
 
-zplug "zplug/zplug", hook-build:"zplug --self-manage"
-[ "$OS" != "LINUX" ] && zplug "plugins/gnu-utils", from:oh-my-zsh, defer:2
-
-
-zplug "FinalCAD/devops_tools", as:command, use:"dheroku/dheroku.sh", rename-to:dheroku, defer:3
-zplug "RobertAudi/tsm"
-zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug "flosell/iam-policy-json-to-terraform" # FIXME, from:gh-r, as:command, rename-to:iam-policy-json-to-terraform
-# zplug "ggreer/the_silver_searcher", use:'_the_silver_searcher', defer:2
-zplug "git/git", use:"contrib/completion/git-completion.zsh", defer:2
-zplug "gusaiani/elixir-oh-my-zsh"
-zplug "johanhaleby/kubetail", as:command, use:'kubetail'
-zplug "plugins/alias-finder", from:oh-my-zsh, defer:3
-zplug "plugins/asdf", from:oh-my-zsh, defer:2
-zplug "plugins/autopep8", from:oh-my-zsh, defer:2
-zplug "plugins/brew", from:oh-my-zsh, defer:2
-zplug "plugins/bundler", from:oh-my-zsh, defer:2
-zplug "plugins/codeclimate", from:oh-my-zsh
-zplug "plugins/colored-man-pages", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh, defer:2
-zplug "plugins/gem", from:oh-my-zsh, defer:2
-zplug "plugins/git", from:oh-my-zsh, defer:2
-zplug "plugins/gpg-agent", from:oh-my-zsh, defer:2
-zplug "plugins/helm", from:oh-my-zsh, defer:2
-zplug "plugins/heroku", from:oh-my-zsh, defer:2
-zplug "plugins/kubectl", from:oh-my-zsh
-zplug "plugins/npm", from:oh-my-zsh, defer:2
-zplug "plugins/pip", from:oh-my-zsh, defer:2
-zplug "plugins/python", from:oh-my-zsh, defer:2
-zplug "plugins/rails", from:oh-my-zsh, defer:2
-zplug "plugins/tmux", from:oh-my-zsh
-zplug "plugins/zsh_reload", from:oh-my-zsh, defer:3
-# zplug "raylee/tldr", as:command, use:tldr
-zplug "rupa/z", use:"*.sh"
-# zplug "superbrothers/zsh-kubectl-prompt", use:"kubectl.zsh"
-# zplug "supercrabtree/k", rename-to:l
-zplug "tj/burl", as:command, rename-to:burl, use:"*bin/burl"
-zplug "unixorn/git-extra-commands"
-zplug "voronkovich/gitignore.plugin.zsh"
-zplug "zchee/zsh-completions", use:'src/go/_go'
-# zplug "zsh-users/zsh-completions", use:'src/_git-flow', defer:2
-# zplug "zsh-users/zsh-completions", use:'src/_golang', defer:2
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-autosuggestions", defer:2
-zplug "gruntwork-io/fetch", from:gh-r, as:command, rename-to:fetch, use:"*darwin*amd64*"
 
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
@@ -183,10 +140,8 @@ fi
 
 zplug load #--verbose
 
-# zplug check plugins/alias-finder;
-export ZSH_ALIAS_FINDER_AUTOMATIC=true
-# zplug check djui/alias-tips;
-export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
+zplug check plugins/alias-finder && export ZSH_ALIAS_FINDER_AUTOMATIC=true
+zplug check djui/alias-tips && export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
 
 # hack, see https://github.com/zplug/zplug/issues/420
 # export LC_ALL=$OLD_LC_ALL && export LANG=$OLD_LANG
@@ -292,8 +247,6 @@ zstyle ':vcs_info:*' enable git # cvs svn
 zstyle ':vcs_info:*' max-exports 1
 zstyle ':vcs_info:git' get-revision true
 zstyle ':vcs_info:*' check-for-changes true
-# zstyle ':vcs_info:*' stagedstr $'%{\e[0;33m%}●%{\e[0m%}'
-# zstyle ':vcs_info:*' unstagedstr $'%{\e[0;31m%}◼%{\e[0m%}'
 zstyle ':vcs_info:git*' formats "%{$fg_bold[orange]%}%s %{$reset_color%}%{$fg_bold[white]%}%r%{$reset_color%}%{$fg_bold[yellow]%}[%{$fg_bold[blue]%}%b%{$fg_bold[yellow]%}]%{$reset_color%} %{$fg[magenta]%}%S%{$reset_color%} %m"
 zstyle ':vcs_info:*' branchformat '(%b:%r)' # bzr, svn, svk and hg
 zstyle ':vcs_info:git*' actionformats "(%s|%{$fg[white]%}(%a)%{$fg_bold[black]%}) %12.12i %c%u %b%m"
@@ -364,7 +317,6 @@ source ~/.sh/iterm2_shell_integration.zsh
 command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
-source ~/.sh/dotfiles
 
 # zmodload zsh/zprof
 source "/Users/yves/Src/swile/lunchr-docker/tools/lunchr.sh"  # This loads lunchr
