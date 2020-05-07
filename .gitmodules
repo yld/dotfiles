@@ -1,6 +1,3 @@
-[submodule ".config/awesome/treesome"]
-	path = .config/awesome/treesome
-	url = https://github.com/RobSis/treesome.git
 [submodule ".vim/bundle/vundle"]
 	path = .vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
