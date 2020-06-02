@@ -319,4 +319,3 @@ command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
 # zmodload zsh/zprof
-source "/Users/yves/Src/swile/lunchr-docker/tools/lunchr.sh"  # This loads lunchr
