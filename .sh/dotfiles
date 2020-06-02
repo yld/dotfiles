@@ -177,7 +177,7 @@ dotfiles_check_tools() {
     "OSX")
     [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
-    for TOOL in gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf; do
+    for TOOL in gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf terminal-notifier; do
       brew_check_and_install "$TOOL"
     done
     ;;
