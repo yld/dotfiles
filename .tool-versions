@@ -10,7 +10,10 @@ packer 1.3.1
 python 3.6.5
 ruby 2.6.5
 shellcheck 0.7.0
-terraform 0.12.20
+terraform 0.12.2
 terraform-docs v0.8.0
 terragrunt 0.21.11
 yarn 1.22.4
+kubectx 0.9.0
+kubectl 1.18.5
+kops v1.16.3
