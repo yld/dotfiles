@@ -86,10 +86,10 @@ dotfiles_asdf () {
     echo_wait "Installaing asdf"
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.7.6
     # ZSH only
-    # shellcheck source=/dev/null
     echo_ok
   fi
 
+  # shellcheck source=/dev/null
   . $HOME/.asdf/asdf.sh
 
   echo_wait "Downloading/updating nodejs PGP keys"
@@ -108,7 +108,7 @@ dotfiles_asdf () {
   echo_wait "Configuring python common packages"
   local DEFAULT_PYTHON_ASDF_PKG_FILE="${HOME}/.default-python-packages"
   touch "$DEFAULT_PYTHON_ASDF_PKG_FILE"
-  for PKG in yamlint autopep8 neovim grip; do
+  for PKG in yamlint autopep8 neovim grip ansible pynvim virtualenv; do
     grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_PYTHON_ASDF_PKG_FILE"
   done
   echo_ok
