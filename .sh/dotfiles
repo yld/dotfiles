@@ -108,7 +108,7 @@ dotfiles_asdf () {
   echo_wait "Configuring python common packages"
   local DEFAULT_PYTHON_ASDF_PKG_FILE="${HOME}/.default-python-packages"
   touch "$DEFAULT_PYTHON_ASDF_PKG_FILE"
-  for PKG in yamlint autopep8 neovim grip ansible pynvim virtualenv; do
+  for PKG in yamlint autopep8 neovim grip ansible pynvim virtualenv virtualenvwrapper virtualenv-clone; do
     grep "^${PKG}$" "$DEFAULT_NODE_ASDF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_PYTHON_ASDF_PKG_FILE"
   done
   echo_ok
@@ -178,12 +178,15 @@ dotfiles_check_tools() {
     "OSX")
     [[ ! -x $(command -v "brew") ]] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     [[ ! -L ~/Fonts  ]] && ln -sf ~/.fonts ~/Fonts;
-    for TOOL in gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf terminal-notifier; do
+    echo_wait 'Force xcode install (you must maybe wait)'
+    xcode-select --install &> /dev/null
+    echo_ok
+    for TOOL in htop gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf terminal-notifier; do
       brew_check_and_install "$TOOL"
     done
     ;;
     "LINUX")
-    for TOOL in sed neovim awk git ; do
+    for TOOL in htop sed neovim awk git ; do
       # FIXME: handle something else than debian (ie. Gentoo & friends)
       apt_check_and_install "$TOOL"
     done
@@ -221,6 +224,7 @@ dotfiles() {
 
           dotfiles_git_command remote remove origin
           dotfiles_git_command remote add origin "git@github.com:yld/dotfiles"
+          dotfiles_git_command branch --set-upstream-to=origin/master master
         else
           echo_wait "It seems that dotfiles are already installed"
           echo_ko "aborting"
