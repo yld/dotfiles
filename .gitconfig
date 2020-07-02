@@ -2,7 +2,7 @@
   default = current
 [user]
 	name = Yves Le Douaron
-	email = yves.ledouaron@lunchr.co
+	email = yle-douaron.externe@bedrockstreaming.com
 	signingkey = 17204EBC5C8E6E51
 [color]
 	ui = true
