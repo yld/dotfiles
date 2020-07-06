@@ -35,6 +35,11 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 " gc, gcap
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-projectionist'
+
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " File browsing
 let g:netrw_liststyle = 3
@@ -235,10 +240,9 @@ set splitbelow
 set splitright
 
 " deoplete
-" if has("python3")
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"   let g:deoplete#enable_at_startup = 1
-" endif
+if has("python3")
+  let g:deoplete#enable_at_startup = 1
+endif
 
 " ale
 let g:ale_lint_on_enter = 1
@@ -247,13 +251,27 @@ let g:ale_echo_msg_format = '%linter%%s'
 let g:ale_ruby_brakeman_options = ' -A'
 let g:ale_ruby_reek_show_wiki_link = 0
 
+let g:ale_elixir_credo_strict = 0
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop'],
+\   'typescript': ['prettier'],
 \   'javascript': ['prettier', 'eslint'],
+\   'elixir': ['mix_format', 'credo'],
+\   'vue': ['eslint'],
+\   'scss': ['prettier'],
+\   'html': ['prettier']
 \}
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'typescript': ['tsserver', 'tslint'],
+\   'vue': ['eslint']
+\}
+
 let g:ale_ruby_rubocop_options='-a'
-let g:ale_fix_on_save = 0
+let g:ale_fix_on_save = 1
 
 " the silver searcher through Ack command
 if executable('ag')
@@ -453,4 +471,3 @@ colorscheme dracula
 " TMUX issue?
 " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-
