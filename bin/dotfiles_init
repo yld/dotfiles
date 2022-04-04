@@ -137,22 +137,22 @@ echo "Reshim asdf"
 awk '{print("asdf reshim "$1" "$2)}' ~/.tool-versions | sh
 
 # go
-go get -u golang.org/x/tools/cmd/goimports
-go get -u golang.org/x/tools/cmd/godoc
-go get -u github.com/cweill/gotests
+#go get -u golang.org/x/tools/cmd/goimports
+#go get -u golang.org/x/tools/cmd/godoc
+#go get -u github.com/cweill/gotests
 
 # nvim
-if [[ -x $(command -v nvim) ]] ; then
-  PLUGGED_DIR=~/.local/share/nvim/plugged
-  echo "Setting up nvim"
-  if [[ ! -d $PLUGGED_DIR ]] ; then
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    mkdir -p $PLUGGED_DIR
-    nvim +PlugInstall! +qall
-  else
-    nvim +PlugUpdate! +qall
-  fi
-fi
+#if [[ -x $(command -v nvim) ]] ; then
+#  PLUGGED_DIR=~/.local/share/nvim/plugged
+#  echo "Setting up nvim"
+#  if [[ ! -d $PLUGGED_DIR ]] ; then
+#    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+#    mkdir -p $PLUGGED_DIR
+#    nvim +PlugInstall! +qall
+#  else
+#    nvim +PlugUpdate! +qall
+#  fi
+#fi
 
 echo "Running Yarn"
 # yarn is installed through asdf
