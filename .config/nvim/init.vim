@@ -3,6 +3,9 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 
 call plug#begin('~/.vim/plugged')
+" react and typescript
+" Plug 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plug 'neovim/nvim-lspconfig'
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -50,6 +53,7 @@ let g:netrw_banner = 0
 Plug 'tpope/vim-vinegar'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'bogado/file-line'
 
 
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -93,9 +97,11 @@ Plug 'jgdavey/vim-blockle'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-bundler'
+Plug 'thoughtbot/vim-rspec'
+
 " Plug 'tpope/vim-git'
 " <Leader>; or <Leader>,
-Plug 'renderedtext/vim-bdd'
+" Plug 'renderedtext/vim-bdd'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'guns/xterm-color-table.vim', { 'on': 'XtermColorTable' }
 Plug 'godlygeek/tabular'
@@ -106,11 +112,29 @@ Plug 'Townk/vim-autoclose'
 Plug 'edkolev/tmuxline.vim'
 " Global syntax files (cucumber, eleixir, ruby...)
 Plug 'sheerun/vim-polyglot'
+Plug 'joker1007/vim-ruby-heredoc-syntax'
 " Documentation
 Plug 'rizzatti/dash.vim'
 " tags
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'ludovicchabant/vim-gutentags'
+
+" scratch window
+" gs or :Scratch "
+Plug 'mtth/scratch.vim'
+
+" Slime
+" C-c, C-c       --- the same as slime -> REPL (Neovim)
+" C-c, v | :SlimeConfig
+Plug 'jpalardy/vim-slime'
+
+"
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 1
+
+Plug 'wincent/command-t', {
+    \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
+    \ }
 
 " Initialize plugin system
 call plug#end()
@@ -256,7 +280,7 @@ let g:ale_elixir_credo_strict = 0
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'ruby': ['rubocop'],
-\   'typescript': ['prettier'],
+\   'typescript': ['prettier', 'eslint'],
 \   'javascript': ['prettier', 'eslint'],
 \   'elixir': ['mix_format', 'credo'],
 \   'vue': ['eslint'],

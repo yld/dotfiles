@@ -125,38 +125,27 @@ alias help='run-help'
 export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 
 source ~/.sh/dotfiles
-export ZPLUG_LOADFILE=~/.zsh/zplug_packages.zsh
-source ~/.zplug/init.zsh
+# export ZPLUG_LOADFILE=~/.zsh/zplug_packages.zsh
+# source ~/.zplug/init.zsh
 
 
 # zplug "yld/bc684e4de94a8d830e04c0db13ca7814", from:gist, as:command, use:'dheroku.sh', rename-to:'dheroku'
 # zplug "plugins/mix", from:oh-my-zsh
-if ! zplug check --verbose; then
-    printf "Install zplug plugins ? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
+# if ! zplug check --verbose; then
+#     printf "Install zplug plugins ? [y/N]: "
+#     if read -q; then
+#         echo; zplug install
+#     fi
+# fi
 
-zplug load #--verbose
+# zplug load #--verbose
 
-zplug check plugins/alias-finder && export ZSH_ALIAS_FINDER_AUTOMATIC=true
-zplug check djui/alias-tips && export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
+# zplug check plugins/alias-finder && export ZSH_ALIAS_FINDER_AUTOMATIC=true
+# zplug check djui/alias-tips && export ZSH_PLUGINS_ALIAS_TIPS_TEXT="Alias: "
 
 # hack, see https://github.com/zplug/zplug/issues/420
 # export LC_ALL=$OLD_LC_ALL && export LANG=$OLD_LANG
 
-if [ command -v burl &> /dev/null ] ; then
-  # burl aliases
-  alias GET='burl GET'
-  alias HEAD='burl -I'
-  alias POST='burl POST'
-  alias PUT='burl PUT'
-  alias PATCH='burl PATCH'
-  alias DELETE='burl DELETE'
-  alias OPTIONS='burl OPTIONS'
-  export PATH="$PATH:$ZPLUG_BIN"
-fi
 # zplug end
 
 autoload -U pick-web-browser
@@ -193,7 +182,7 @@ WATCHFMT='%n %a %l from %m at %t.'
 . ~/.zsh/functions.d/*
 
 ### completion
-fpath=(~/.zsh/completion.d $fpath)
+# fpath=(~/.zsh/completion.d $fpath)
 
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
@@ -210,15 +199,6 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle :compinstall filename '/home/yves/.zshrc'
 
 type brew &>/dev/null && FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
-autoload -Uz compinit
-autoload -U +X bashcompinit && bashcompinit
-
-# https://gist.github.com/ctechols/ca1035271ad134841284
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-
-compinit -C
 #
 # End of lines added by compinstall
 
@@ -314,8 +294,124 @@ source ~/.sh/iterm2_shell_integration.zsh
 # managed by plugin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 # added by travis gem
 [ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
 # zmodload zsh/zprof
+
+# # tabtab source for serverless package
+# # uninstall by removing these lines or running `tabtab uninstall serverless`
+# [[ -f /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# # tabtab source for sls package
+# # uninstall by removing these lines or running `tabtab uninstall sls`
+# [[ -f /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# # tabtab source for slss package
+# # uninstall by removing these lines or running `tabtab uninstall slss`
+# [[ -f /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+# zinit ice wait
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+# asdf
+zinit ice src="asdf.sh" atinit'zpcompinit; zpcdreplay' nocd
+zinit light asdf-vm/asdf
+
+# direnv
+zinit ice from"gh-r" as"program" mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' pick"direnv" src"zhook.zsh"
+zinit light direnv/direnv
+command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
+
+zinit ice from"gh-r" as"program" mv"fetch* -> fetch"
+zinit light "gruntwork-io/fetch"
+
+zinit ice from"gh-r" as"program" mv"fetch* -> fetch"
+zinit light "gruntwork-io/fetch"
+
+zinit lucid has'docker' for \
+  as'completion' is-snippet \
+  'https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker' \
+  \
+  as'completion' is-snippet \
+  'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose' \
+
+zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
+  OMZ::plugins/alias-finder/alias-finder.plugin.zsh \
+  OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
+  OMZ::plugins/gpg-agent/gpg-agent.plugin.zsh \
+  OMZP::brew \
+  OMZP::bundler \
+  OMZP::helm \
+  OMZP::git \
+  OMZP::rails \
+  OMZP::terraform
+
+  # OMZP::asdf \
+  # OMZ::autopep8 \
+  # OMZP::gem \
+  # OMZP::heroku \
+  # OMZP::kubectl \
+  # OMZP::npm \
+  # OMZP::pip \
+  # OMZP::python \
+  # OMZP::postgres \
+  # OMZP::tmux \
+  # OMZP::zsh_reload \
+
+zinit wait lucid for \
+  RobertAudi/tsm \
+  b4b4r07/zsh-vimode-visual \
+  gusaiani/elixir-oh-my-zsh \
+  johanhaleby/kubetail \
+  agkozak/zsh-z \
+  tj/burl \
+  voronkovich/gitignore.plugin.zsh
+
+export ZSH_ALIAS_FINDER_AUTOMATIC=true
+
+# burl shortcuts
+if [ command -v burl &> /dev/null ] ; then
+  # burl aliases
+  alias GET='burl GET'
+  alias HEAD='burl -I'
+  alias POST='burl POST'
+  alias PUT='burl PUT'
+  alias PATCH='burl PATCH'
+  alias DELETE='burl DELETE'
+  alias OPTIONS='burl OPTIONS'
+  export PATH="$PATH:$ZPLUG_BIN"
+fi
+
+
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
+
+zinit cdclear -q
+
+autoload -Uz compinit
+autoload -U +X bashcompinit && bashcompinit
+compinit
+zinit cdreplay -q # <- execute compdefs provided by rest of plugins
+# zinit cdlist # look at gathered compdefs
+
+# # https://gist.github.com/ctechols/ca1035271ad134841284
+# for dump in ~/.zcompdump(N.mh+24); do
+#   compinit
+# done
+
+complete -o nospace -C /Users/yves/.asdf/installs/terraform/1.0.4/bin/terraform terraform

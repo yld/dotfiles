@@ -17,7 +17,7 @@ begin
   # Use Pry everywhere
   require 'pry'
 rescue LoadError
-  put 'please gem install pry'
+  puts 'please gem install pry'
 end
 
 if defined? Pry

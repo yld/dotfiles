@@ -119,7 +119,7 @@ bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 echo "Configuring ruby common packages"
 DEFAULT_RUBY_ADSF_PKG_FILE="${HOME}/.default-gems"
 touch "$DEFAULT_RUBY_ADSF_PKG_FILE"
-for PKG in gem-ctags gem-browse awesome_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist terraform_landscape; do
+for PKG in gem-ctags gem-browse amazing_print pry bundler rubocop haml_lint brakeman rubocop-rspec rails_best_practices sqlint erubi mdl neovim gist terraform_landscape overcommit solargraph; do
   grep "^${PKG}$" "$DEFAULT_RUBY_ADSF_PKG_FILE" > /dev/null || echo "$PKG" >> "$DEFAULT_RUBY_ADSF_PKG_FILE"
 done
 
