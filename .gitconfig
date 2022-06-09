@@ -1,8 +1,8 @@
 [push]
   default = current
 [user]
-	name = Yves Le Douaron
-	email = yves@okarito.io
+	name = (yld) Yves Le Douaron
+	email = yves@purchasely.com
 	signingkey = 17204EBC5C8E6E51
 [color]
 	ui = true

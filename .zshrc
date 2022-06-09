@@ -115,13 +115,6 @@ alias help='run-help'
 # end help stuff
 
 
-# zplug begin
-# https://github.com/unixorn/awesome-zsh-plugins
-
-# hack, see https://github.com/zplug/zplug/issues/420
-
-# OLD_LANG=$LANG
-# OLD_LC_ALL=$LC_ALL
 export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 
 source ~/.sh/dotfiles
@@ -295,7 +288,10 @@ source ~/.sh/iterm2_shell_integration.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # added by travis gem
-[ -f /Users/yves/.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
+[ -f $:$$$$
+
+
+/:checkhealth provider.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
 # zmodload zsh/zprof
 
@@ -309,43 +305,52 @@ source ~/.sh/iterm2_shell_integration.zsh
 # # uninstall by removing these lines or running `tabtab uninstall slss`
 # [[ -f /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
 
-source "$HOME/.zinit/bin/zinit.zsh"
-# zinit ice wait
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+. $HOME/.asdf/asdf.sh
+
+# ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+# if [[ ! -d "$ZINIT_HOME" ]] ; then
+#   mkdir -p "$(dirname $ZINIT_HOME)"
+#   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+# fi
+
+# source "${ZINIT_HOME}/zinit.zsh"
+
+ZI_HOME="${HOME}/.zi"
+if [[ ! -d "${ZI_HOME}" ]] ; then
+  mkdir -p $ZI_HOME
+  git clone https://github.com/z-shell/zi.git "${zi_home}/bin"
+fi
+source "${ZI_HOME}/bin/zi.zsh"
+
+
+autoload -Uz _zi
+(( ${+_comps} )) && _comps[zi]=_zi
 ### End of Zinit's installer chunk
 
 # asdf
-zinit ice src="asdf.sh" atinit'zpcompinit; zpcdreplay' nocd
-zinit light asdf-vm/asdf
+# zinit ice src="asdf.sh" atinit'zpcompinit; zpcdreplay' nocd
+# zinit light asdf-vm/asdf
 
 # direnv
-zinit ice from"gh-r" as"program" mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' pick"direnv" src"zhook.zsh"
-zinit light direnv/direnv
+zi ice from"gh-r" as"program" mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' pick"direnv" src"zhook.zsh"
+zi light direnv/direnv
 command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 
-zinit ice from"gh-r" as"program" mv"fetch* -> fetch"
-zinit light "gruntwork-io/fetch"
+zi ice from"gh-r" as"program" mv"fetch* -> fetch"
+zi light "gruntwork-io/fetch"
 
-zinit ice from"gh-r" as"program" mv"fetch* -> fetch"
-zinit light "gruntwork-io/fetch"
+zi ice from"gh-r" as"program" mv"fetch* -> fetch"
+zi light "gruntwork-io/fetch"
 
-zinit lucid has'docker' for \
+zi lucid has'docker' for \
   as'completion' is-snippet \
   'https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker' \
   \
   as'completion' is-snippet \
   'https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose' \
 
-zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
+zi wait lucid atload"zicompinit; zicdreplay" blockf for \
   OMZ::plugins/alias-finder/alias-finder.plugin.zsh \
   OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh \
   OMZ::plugins/gpg-agent/gpg-agent.plugin.zsh \
@@ -368,7 +373,7 @@ zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
   # OMZP::tmux \
   # OMZP::zsh_reload \
 
-zinit wait lucid for \
+zi wait lucid for \
   RobertAudi/tsm \
   b4b4r07/zsh-vimode-visual \
   gusaiani/elixir-oh-my-zsh \
@@ -376,6 +381,8 @@ zinit wait lucid for \
   agkozak/zsh-z \
   tj/burl \
   voronkovich/gitignore.plugin.zsh
+
+zi light-mode for z-shell/z-a-meta-plugins @annexes @ext-git
 
 export ZSH_ALIAS_FINDER_AUTOMATIC=true
 
@@ -393,25 +400,23 @@ if [ command -v burl &> /dev/null ] ; then
 fi
 
 
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+zi wait lucid for \
+ atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
     zdharma/fast-syntax-highlighting \
  blockf \
     zsh-users/zsh-completions \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-zinit cdclear -q
+zi cdclear -q
 
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
 compinit
-zinit cdreplay -q # <- execute compdefs provided by rest of plugins
+zi cdreplay -q # <- execute compdefs provided by rest of plugins
 # zinit cdlist # look at gathered compdefs
 
 # # https://gist.github.com/ctechols/ca1035271ad134841284
 # for dump in ~/.zcompdump(N.mh+24); do
 #   compinit
 # done
-
-complete -o nospace -C /Users/yves/.asdf/installs/terraform/1.0.4/bin/terraform terraform

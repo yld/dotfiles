@@ -43,7 +43,7 @@ dotfiles_update() {
   dotfiles_check_requirements
 
   dotfiles_asdf
-  dotfiles_zplug
+  # dotfiles_zplug
   dotfiles_nvim
   dotfiles_yarn
 }
@@ -65,21 +65,21 @@ dotfiles_nvim () {
   fi
 }
 
-dotfiles_zplug () {
-  if [[ -x $(command -v zsh) ]] ; then
-    export ZPLUG_HOME=~/.zplug
-    if [[ ! -d $ZPLUG_HOME ]] ; then
-      git clone https://github.com/zplug/zplug "$ZPLUG_HOME"
-      ZPLUG_CACHE="$ZPLUG_HOME/cache"
-      [[ ! -d $ZPLUG_CACHE ]] && mkdir "$ZPLUG_CACHE"
-      # avoid compinit warnings
-      chown -R "$(id -u -n):$(id -g -n)" "$ZPLUG_HOME"
-      chmod -R g-w "$ZPLUG_HOME"
-    fi
-    echo_ok
+# dotfiles_zplug () {
+#   if [[ -x $(command -v zsh) ]] ; then
+#     export ZPLUG_HOME=~/.zplug
+#     if [[ ! -d $ZPLUG_HOME ]] ; then
+#       git clone https://github.com/zplug/zplug "$ZPLUG_HOME"
+#       ZPLUG_CACHE="$ZPLUG_HOME/cache"
+#       [[ ! -d $ZPLUG_CACHE ]] && mkdir "$ZPLUG_CACHE"
+#       # avoid compinit warnings
+#       chown -R "$(id -u -n):$(id -g -n)" "$ZPLUG_HOME"
+#       chmod -R g-w "$ZPLUG_HOME"
+#     fi
+#     echo_ok
 
-  fi
-}
+#   fi
+# }
 
 dotfiles_asdf () {
   if [[ ! -d $HOME/.asdf ]] ; then
@@ -181,7 +181,7 @@ dotfiles_check_tools() {
     echo_wait 'Force xcode install (you must maybe wait)'
     xcode-select --install &> /dev/null
     echo_ok
-    for TOOL in htop gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf terminal-notifier; do
+    for TOOL in htop gawk gnu-sed wxmac neovim tree wget tmux pwgen shellcheck jq keychain gpg autoconf gnu-tar the_silver_searcher coreutils sqlite3 xz zlib fzf terminal-notifier ctags pyvim; do
       brew_check_and_install "$TOOL"
     done
     ;;

@@ -1,5 +1,4 @@
 direnv 2.20.0
-dotnet-core 2.2.100
 elixir 1.12.0-otp-24
 erlang 24.0.1
 golang 1.13.8

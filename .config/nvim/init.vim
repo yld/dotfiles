@@ -59,6 +59,7 @@ Plug 'bogado/file-line'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'mileszs/ack.vim'
 Plug 'dense-analysis/ale'
+Plug 'rhysd/vim-lsp-ale'
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter', { 'on':  'GitGutterToggle' }
 " Plug 'ryanoasis/vim-devicons'
