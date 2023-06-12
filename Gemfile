@@ -16,6 +16,7 @@ gem 'pry-theme'
 gem 'rails-env-switcher'
 gem 'terraform_landscape'
 gem 'aws-sdk', '~> 3'
+gem "memory_profiler"
 gem 'neovim'
 gem 'bundle-audit'
 gem 'rubocop'

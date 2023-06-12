@@ -1,0 +1,15 @@
+#!/bin/bash
+
+CURRENT_BRANCH="$(git branch --show-current)"
+RELEASE_BRANCH="release/${USER}"
+
+if [ `git rev-parse --verify main 2>/dev/null` ] ;
+then
+  git branch -d "${RELEASE_BRANCH}"
+  git push origin --delete "${RELEASE_BRANCH}"
+fi
+
+git switch  "${RELEASE_BRANCH}"
+git merge "${CURRENT_BRANCH}"
+
+git switch  "${CURRENT_BRANCH}"

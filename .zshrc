@@ -283,15 +283,7 @@ precmd() {
 source ~/.sh/keychain.sh
 source ~/.sh/iterm2_shell_integration.zsh
 
-# asdf
-# managed by plugin
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# added by travis gem
-[ -f $:$$$$
-
-
-/:checkhealth provider.travis/travis.sh ] && source /Users/yves/.travis/travis.sh
 
 # zmodload zsh/zprof
 
@@ -420,3 +412,9 @@ zi cdreplay -q # <- execute compdefs provided by rest of plugins
 # for dump in ~/.zcompdump(N.mh+24); do
 #   compinit
 # done
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/yves/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/yves/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/yves/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yves/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

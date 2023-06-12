@@ -31,7 +31,7 @@ else
     puts 'please gem install awesome_print'
   end
 
-  if defined? r(RAILS_ENV) && RAILS_ENV == 'test'
+  if defined?(RAILS_ENV) && RAILS_ENV == 'test'
     begin
       require 'factory_bot'
       FactoryBot.find_definitions
