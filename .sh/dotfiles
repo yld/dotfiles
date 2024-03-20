@@ -90,7 +90,7 @@ dotfiles_asdf () {
   fi
 
   # shellcheck source=/dev/null
-  . $HOME/.asdf/asdf.sh
+  . "$HOME/.asdf/asdf.sh"
 
   echo_wait "Downloading/updating nodejs PGP keys"
   # Node.js release team's OpenPGP keys
@@ -144,6 +144,7 @@ dotfiles_yarn() {
   yarn global add sass-lint stylelint prettier jsonlint ember-template-lint neovim --check-files --dev &> /dev/null
   echo_ok
 }
+
 apt_check_and_install() {
   local TOOL=$1
   if [[ ! $(dpkg -l  "$TOOL") ]]; then

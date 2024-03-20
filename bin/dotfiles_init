@@ -53,6 +53,7 @@ apt_check_and_install() {
   fi
 
 }
+
 brew_check_and_install() {
   local TOOL=$1
   if [[ ! $(brew ls --versions "$TOOL") ]]; then
@@ -132,6 +133,7 @@ asdf plugin-update --all > /dev/null
 # install versions
 echo "Installing asdf plugins versions"
 awk '{print("asdf install "$1" "$2)}' ~/.tool-versions | sh > /dev/null
+
 echo "Reshim asdf"
 # reshim to avoid problems
 awk '{print("asdf reshim "$1" "$2)}' ~/.tool-versions | sh

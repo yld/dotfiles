@@ -33,6 +33,7 @@ else
   EDITOR=vi
 fi
 
+# editor
 export EDITOR
 export ECTO_EDITOR=$EDITOR
 export CVSEDITOR=$EDITOR
@@ -120,3 +121,6 @@ fi
 [ command -v rg &> /dev/null ] && export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export PATH
 export MANPATH
+
+export KERL_BUILD_DOCS=yes
+export KERL_CONFIGURE_OPTIONS="--without-wx"

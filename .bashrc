@@ -15,3 +15,9 @@ fi
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/yves/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+source /Users/yves/.docker/init-bash.sh || true # Added by Docker Desktop

@@ -58,17 +58,15 @@ elif [[ -r /etc/debian-release ]]; then
   . ~/.sh/aliases.debian
 fi
 
-alias zg='zeus g'
-alias zd='zeus d'
-alias zrake='zeus rake'
-alias zcucumber='zeus cucumber'
-alias zrspec='zeus rspec'
-alias zserver='zeus server'
-alias zk='zeus sidekiq'
-alias zdbconsole='zeus dbconsole'
+if command -v "direnv"; then
+  alias zrails='zeus rails'
+  alias zrake='zeus rake'
+  alias zcucumber='zeus cucumber'
+  alias zrspec='zeus rspec'
+  alias zserver='zeus server'
+  alias zsidekiq='zeus sidekiq'
+fi
 
 alias tml="tmux list-sessions"
 alias tmk="tmux kill-sesion -t"
 alias tma="tmux -2 attach -t"
-
-

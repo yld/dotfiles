@@ -2,10 +2,5 @@
 # vim: filetype=sh
 
 fix-compinit() {
-	for f in $(compaudit)
-	do
-		sudo chown -R $(whoami):root $f
-		sudo chmod -R 755 $f
-	done
+	compaudit | xargs chmod g-w
 }
-

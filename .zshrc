@@ -118,6 +118,9 @@ alias help='run-help'
 export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
 
 source ~/.sh/dotfiles
+. $HOME/.asdf/asdf.sh
+fpath=(${ASDF_DIR}/completions $fpath)
+
 # export ZPLUG_LOADFILE=~/.zsh/zplug_packages.zsh
 # source ~/.zplug/init.zsh
 
@@ -298,7 +301,9 @@ source ~/.sh/iterm2_shell_integration.zsh
 # [[ -f /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/yves/.asdf/installs/nodejs/12.13.0/.npm/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
 ### Added by Zinit's installer
 
-. $HOME/.asdf/asdf.sh
+# [ -f ~/.asdf/plugins/java/set-java-home.zsh  ] && . ~/.asdf/plugins/java/set-java-home.zsh
+
+
 
 # ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 # if [[ ! -d "$ZINIT_HOME" ]] ; then
@@ -325,8 +330,12 @@ autoload -Uz _zi
 # zinit light asdf-vm/asdf
 
 # direnv
-zi ice from"gh-r" as"program" mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' pick"direnv" src"zhook.zsh"
-zi light direnv/direnv
+# zi ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+#   atpull'%atclone' src"zhook.zsh"
+# zi light direnv/direnv
+
+# zi ice from"gh-r" as"program" mv"direnv* -> direnv" atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' pick"direnv" src"zhook.zsh"
+# zi light direnv/direnv
 command -v "direnv" &> /dev/null && eval "$(direnv hook zsh)"
 
 zi ice from"gh-r" as"program" mv"fetch* -> fetch"
@@ -348,7 +357,6 @@ zi wait lucid atload"zicompinit; zicdreplay" blockf for \
   OMZ::plugins/gpg-agent/gpg-agent.plugin.zsh \
   OMZP::brew \
   OMZP::bundler \
-  OMZP::helm \
   OMZP::git \
   OMZP::rails \
   OMZP::terraform
@@ -405,6 +413,7 @@ zi cdclear -q
 autoload -Uz compinit
 autoload -U +X bashcompinit && bashcompinit
 compinit
+
 zi cdreplay -q # <- execute compdefs provided by rest of plugins
 # zinit cdlist # look at gathered compdefs
 
@@ -418,3 +427,9 @@ if [ -f '/Users/yves/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/yves/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/yves/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/yves/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+source /Users/yves/.docker/init-zsh.sh || true # Added by Docker Desktop
+export PATH=$PATH:$HOME/.maestro/bin

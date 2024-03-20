@@ -10,7 +10,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 
-" markdown preview
+" markdown pr:checkhealtheview
 Plug 'JamshedVesuna/vim-markdown-preview'
 " dispatch
 Plug 'tpope/vim-dispatch'
@@ -41,7 +41,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-projectionist'
 
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " File browsing
@@ -136,6 +136,7 @@ let g:rainbow_active = 1
 Plug 'wincent/command-t', {
     \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
     \ }
+let g:CommandTPreferredImplementation='lua'
 
 " Initialize plugin system
 call plug#end()
@@ -271,7 +272,7 @@ endif
 
 " ale
 let g:ale_lint_on_enter = 1
-let g:ale_echo_msg_format = '%linter%%s'
+let g:ale_echo_msg_format = '%linter% %s %...code...% '
 
 let g:ale_ruby_brakeman_options = ' -A'
 let g:ale_ruby_reek_show_wiki_link = 0
@@ -292,7 +293,8 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'typescript': ['tsserver', 'tslint'],
-\   'vue': ['eslint']
+\   'vue': ['eslint'],
+\   'ruby': ['brakeman', 'cspell', 'debride', 'reek', 'rubocop', 'ruby', 'solargraph', 'sorbet']
 \}
 
 let g:ale_ruby_rubocop_options='-a'
@@ -313,8 +315,8 @@ set t_8b=^[[48;2;%lu;%lu;%lum
 
 
 if has("autocmd")
-  " strip trailing white spaces on save
-  autocmd BufWritePre * :%s/\s\+$//e
+  " strip trailing white spaces iand non printable characters on save
+  autocmd BufWritePre * :%s/[[:cntrl:]]|\s\+$//e
 
   " restore cursor position
   autocmd BufReadPost *
@@ -400,7 +402,7 @@ compiler ruby
 " tooggle hlsearch
 noremap <F4> :set hlsearch! hlsearch?<CR>
 set mousehide
-" set mouse=a
+set mouse=
 
 " files syntax
 syntax on
